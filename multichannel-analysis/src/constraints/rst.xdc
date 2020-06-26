@@ -5,5 +5,5 @@
 ###############################################################################
 # RESET active in Low
 ###############################################################################
-set_property IOSTANDARD LVCMOS33 [get_ports {rst_i}]
-set_property PACKAGE_PIN M11 [get_ports {rst_i}]
+set_property IOSTANDARD LVCMOS33 [get_ports {nrst_i}]
+set_property PACKAGE_PIN M11 [get_ports {nrst_i}]

@@ -17,7 +17,6 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param synth.incrementalSynthesisCache ./.Xil/Vivado-3609-wpc/incrSyn
 set_param xicom.use_bs_reader 1
 set_param chipscope.maxJobs 2
 set_msg_config -id {Synth 8-256} -limit 10000
@@ -35,6 +34,7 @@ set_property ip_output_repo /home/wykys/projects/upol-ma105msps10b-fpga/multicha
 set_property ip_cache_permissions {read write} [current_project]
 read_vhdl -library xil_defaultlib {
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/led_driver.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl
 }
 # Mark all dcp files as not used in implementation to prevent them from being

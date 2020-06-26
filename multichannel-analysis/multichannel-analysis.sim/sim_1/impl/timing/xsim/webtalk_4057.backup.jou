@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Fri Jun 26 18:44:31 2020
+# Process ID: 4057
+# Current directory: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/impl/timing/xsim
+# Command line: wbtcv -mode batch -source /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/impl/timing/xsim/xsim.dir/spi_driver_tb_time_impl/webtalk/xsim_webtalk.tcl -notrace
+# Log file: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/impl/timing/xsim/webtalk.log
+# Journal file: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/impl/timing/xsim/webtalk.jou
+#-----------------------------------------------------------
+source /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/impl/timing/xsim/xsim.dir/spi_driver_tb_time_impl/webtalk/xsim_webtalk.tcl -notrace
