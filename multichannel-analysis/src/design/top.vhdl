@@ -34,6 +34,13 @@ end entity top;
 architecture rtl of top is
     signal clk : std_logic;
     signal rst : std_logic;
+
+    signal data_rx       : std_logic_vector(7 downto 0) := (others => '1');
+    signal data_tx       : std_logic_vector(7 downto 0) := (others => '1');
+    signal data_rx_valid : std_logic;
+    signal data_tx_valid : std_logic := '0';
+    signal ready         : std_logic;
+    signal first         : std_logic;
 begin
 
     clk <= clk_i;
@@ -53,11 +60,27 @@ begin
             sck_i      => sck_i,
             mosi_i     => mosi_i,
             miso_o     => miso_o,
-            data_i     => x"AA",
-            data_o     => open,
-            data_vld_i => '1',
-            data_vld_o => open,
-            ready_o    => open
+            data_i     => data_tx,
+            data_o     => data_rx,
+            data_vld_i => data_tx_valid,
+            data_vld_o => data_rx_valid,
+            ready_o    => ready,
+            first_o    => first
         );
+
+    process (clk)
+    begin
+        if rising_edge(clk) then
+            if data_rx_valid = '1' then
+                data_tx       <= data_rx;
+                data_tx_valid <= '1';
+            end if;
+
+            if ready = '0' then
+                data_tx_valid <= '0';
+            end if;
+
+        end if;
+    end process;
 
 end architecture rtl;

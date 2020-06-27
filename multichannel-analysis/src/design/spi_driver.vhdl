@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- SPI driver
+-- SPI driver - CPOL=0, CPHA=0
 -- wykys 2020
 -------------------------------------------------------------------------------
 
@@ -27,39 +27,36 @@ entity spi_driver is
         -----------------------------------------------------------------------
         -- USER interface -----------------------------------------------------
         -----------------------------------------------------------------------
-        data_i     : in std_logic_vector(7 downto 0);  -- input data
-        data_o     : out std_logic_vector(7 downto 0); -- output data
-        data_vld_i : in std_logic;                     -- input data are valid
-        data_vld_o : out std_logic;                    -- output data are valid
-        ready_o    : out std_logic;                    -- validi nput data are accept
-        first_o    : out std_logic                     -- flag of the first byte of the frame
+        data_i     : in std_logic_vector(7 downto 0);  -- Data co budou vysílána.
+        data_o     : out std_logic_vector(7 downto 0); -- Přijatá data.
+        data_vld_i : in std_logic;                     -- Vstupní data jsou validní.
+        data_vld_o : out std_logic;                    -- Výstupní data jsou validní.
+        ready_o    : out std_logic;                    -- Vstupní data byla přesunuta do bufferu.
+        first_o    : out std_logic                     -- Příznak prvního bytu v rámci.
     );
 end entity spi_driver;
 
 architecture rtl of spi_driver is
-    type spi_slave_opcode_t is (
-        SPI_RESET,
-        SPI_READY,
-        SPI_RTX,
-        SPI_COMPLETE
-    );
-
-    signal opcode : spi_slave_opcode_t := SPI_RESET;
-
-    signal sck_old : std_logic := '0';
-
-    signal index : natural range 0 to 7 := 7;
-
-    signal data_rx : std_logic_vector(7 downto 0);
-    signal data_tx : std_logic_vector(7 downto 0);
-
-    signal start_frame_en : std_logic;
-
     signal mosi : std_logic;
     signal miso : std_logic;
-    signal sck  : std_logic;
     signal nss  : std_logic;
+    signal sck  : std_logic;
 
+    signal sck_old     : std_logic := '0';
+    signal sck_posedge : std_logic;
+    signal sck_negedge : std_logic;
+
+    signal nss_old     : std_logic := '1';
+    signal nss_negedge : std_logic;
+
+    signal bit_cnt   : unsigned(2 downto 0);
+    signal buffer_tx : std_logic_vector(7 downto 0);
+    signal data_rx   : std_logic_vector(7 downto 0);
+    signal data_tx   : std_logic_vector(7 downto 0);
+
+    signal tx_empty     : std_logic;
+    signal tx_empty_old : std_logic := '0';
+    signal tx_ready     : std_logic;
 begin
     ---------------------------------------------------------------------------
     -- Synchronizace vstupních signálů.
@@ -80,118 +77,131 @@ begin
         'Z';
 
     ---------------------------------------------------------------------------
-    -- Stavový automat SPI.
+    -- Získání dat k odeslání.
     ---------------------------------------------------------------------------
     process (clk_i)
-        variable sck_posedge_en : std_logic;
-        variable sck_negedge_en : std_logic;
     begin
         if rising_edge(clk_i) then
             if rst_i = '1' then
-                opcode  <= SPI_RESET;
-                sck_old <= '0';
-
+                tx_empty_old <= '0';
             else
-                ---------------------------------------------------------------
-                -- Detekce hran SCK.
-                ---------------------------------------------------------------
-                sck_old <= sck;
-                sck_posedge_en := sck and not sck_old;
-                sck_negedge_en := not sck and sck_old;
-                ---------------------------------------------------------------
-                -- SPI SLAVE stavový automat.
-                ---------------------------------------------------------------
-                case opcode is
-                    when SPI_RESET =>
-                        ready_o    <= '1';
-                        data_vld_o <= '0';
-                        opcode     <= SPI_READY;
+                tx_empty_old <= tx_empty;
+            end if;
 
-                    when SPI_READY =>
-                        -------------------------------------------------------
-                        -- Čekání na data k vysílání a výběr slave.
-                        -------------------------------------------------------
-                        start_frame_en <= '1';
-                        index          <= 7;
-                        data_vld_o     <= '0';
+            if tx_empty = '1' and tx_empty_old = '0' then
+                tx_ready <= '1';
+            end if;
 
-                        if nss = '1' then
-                            ---------------------------------------------------
-                            -- Slave je deaktivován.
-                            ---------------------------------------------------
-                            null;
-
-                        else
-                            ---------------------------------------------------
-                            -- Pokud je aktivován slave.
-                            ---------------------------------------------------
-                            if data_vld_i = '1' then
-                                -----------------------------------------------
-                                -- Pokud jsou na vsupu data tak je použiju.
-                                -----------------------------------------------
-                                data_tx <= data_i;
-                                miso    <= data_i(index);
-                                ready_o <= '0';
-                            else
-                                -----------------------------------------------
-                                -- Jinak odesílám nuly.
-                                -----------------------------------------------
-                                data_tx <= (others => '0');
-                            end if;
-                            opcode <= SPI_RTX;
-                        end if;
-
-                    when SPI_RTX =>
-                        -------------------------------------------------------
-                        -- Vysílání a příjem dat.
-                        -------------------------------------------------------
-                        ready_o <= '0';
-
-                        if nss = '1' then
-                            ---------------------------------------------------
-                            -- Chyba NSS je v H před dokončením rámce.
-                            ---------------------------------------------------
-                            opcode <= SPI_RESET;
-
-                        elsif sck_posedge_en = '1' then
-                            ---------------------------------------------------
-                            -- Na nástupnou hranu čtu data s MOSI.
-                            ---------------------------------------------------
-                            data_rx(index) <= mosi;
-
-                            if index /= 0 then
-                                index <= index - 1;
-                            else
-                                opcode <= SPI_COMPLETE;
-
-                            end if;
-
-                        elsif sck_negedge_en = '1' or start_frame_en = '1' then
-                            ---------------------------------------------------
-                            -- Data k vasílání musí být připravena na
-                            -- sestupnou hranu SCK.
-                            ---------------------------------------------------
-                            miso           <= data_tx(index);
-                            start_frame_en <= '0';
-                        end if;
-
-                    when SPI_COMPLETE =>
-                        -------------------------------------------------------
-                        -- Dokončení přenosu.
-                        -------------------------------------------------------
-                        ready_o    <= '1';
-                        data_o     <= data_rx;
-                        data_vld_o <= '1';
-                        opcode     <= SPI_READY;
-
-                    when others =>
-                        -------------------------------------------------------
-                        -- Ostatní stavy kvůli varování syntetizéru.
-                        -------------------------------------------------------
-                        null;
-                end case;
+            if tx_ready = '1' then
+                if data_vld_i = '1' then
+                    buffer_tx <= data_i;
+                    tx_ready  <= '0';
+                else
+                    buffer_tx <= (others => '0');
+                end if;
             end if;
         end if;
     end process;
+    ready_o <= tx_ready;
 
+    ---------------------------------------------------------------
+    -- Detekce hran SCK.
+    ---------------------------------------------------------------
+    process (clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if rst_i = '1' then
+                sck_old <= '0';
+            else
+                sck_old <= sck;
+            end if;
+        end if;
+    end process;
+    sck_posedge <= sck and not sck_old;
+    sck_negedge <= not sck and sck_old;
+
+    ---------------------------------------------------------------
+    -- Detekce hran NSS.
+    ---------------------------------------------------------------
+    process (clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if rst_i = '1' then
+                nss_old <= '1';
+            else
+                nss_old <= nss;
+            end if;
+        end if;
+    end process;
+    nss_negedge <= not nss and nss_old;
+
+    ---------------------------------------------------------------
+    -- Signalizace prvního bajtu v rámci.
+    ---------------------------------------------------------------
+    process (clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if rst_i = '1' then
+                first_o <= '0';
+            elsif nss_negedge = '1' then
+                first_o <= '1';
+            elsif sck_negedge = '1' and bit_cnt = "000" then
+                first_o <= '0';
+            end if;
+        end if;
+    end process;
+    nss_negedge <= not nss and nss_old;
+
+    ---------------------------------------------------------------------------
+    -- Přenos dat.
+    ---------------------------------------------------------------------------
+    process (clk_i)
+    begin
+        if rising_edge(clk_i) then
+            data_vld_o <= '0';
+            tx_empty   <= '0';
+            if rst_i = '1' or nss = '1' then
+                ---------------------------------------------------------------
+                -- Čekání na aktivování slave.
+                -- Příprava dat MSB prvního bajtu v rámci.
+                ---------------------------------------------------------------
+                bit_cnt  <= (others => '0');
+                miso     <= buffer_tx(7);
+                data_tx  <= buffer_tx(6 downto 0) & '0';
+                tx_empty <= '1';
+
+            else
+                ---------------------------------------------------------------
+                -- Přenos.
+                ---------------------------------------------------------------
+                if sck_posedge = '1' then
+                    -----------------------------------------------------------
+                    -- Na nástupnou hranu data čtu.
+                    -----------------------------------------------------------
+                    data_rx <= data_rx(6 downto 0) & mosi;
+                    bit_cnt <= bit_cnt + 1;
+                    if bit_cnt = "111" then
+                        data_vld_o <= '1';
+                    end if;
+
+                elsif sck_negedge = '1' then
+                    -----------------------------------------------------------
+                    -- Na sestupnou hranu data zapisuji.
+                    -----------------------------------------------------------
+                    miso    <= data_tx(7);
+                    data_tx <= data_tx(6 downto 0) & '0';
+
+                    if bit_cnt = "000" then
+                        -------------------------------------------------------
+                        -- Příprava nových dat k vysílání.
+                        -------------------------------------------------------
+                        miso     <= buffer_tx(7);
+                        data_tx  <= buffer_tx(6 downto 0) & '0';
+                        tx_empty <= '1';
+                    end if;
+                end if;
+            end if;
+        end if;
+    end process;
+    data_o <= data_rx;
 end architecture rtl;

@@ -29,8 +29,8 @@ architecture behavioral of spi_driver_tb is
     ---------------------------------------------------------------------------
     -- SPI interface ----------------------------------------------------------
     ---------------------------------------------------------------------------
-    signal nss : std_logic := '0';
-    signal sck : std_logic;
+    signal nss  : std_logic := '0';
+    signal sck  : std_logic;
     signal miso : std_logic;
     signal mosi : std_logic := '1';
     ---------------------------------------------------------------------------
@@ -43,8 +43,7 @@ architecture behavioral of spi_driver_tb is
     signal data_out : std_logic_vector(7 downto 0);
 
     signal ready : std_logic;
-
-
+    signal first : std_logic;
 begin
 
     dut : entity work.spi_driver
@@ -59,7 +58,8 @@ begin
             data_o     => data_out,
             data_vld_i => data_in_valid,
             data_vld_o => data_out_valid,
-            ready_o    => ready
+            ready_o    => ready,
+            first_o    => first
         );
 
     stim_clk : process begin
@@ -70,19 +70,20 @@ begin
     end process stim_clk;
 
     stim_sck : process begin
+        wait for CLK_HALF_PERIOD * 15;
         for i in 0 to 100 loop
             sck <= '0';
-            wait for CLK_HALF_PERIOD*10;
+            wait for CLK_HALF_PERIOD * 10;
             sck <= '1';
-            wait for CLK_HALF_PERIOD*10;
+            wait for CLK_HALF_PERIOD * 10;
         end loop;
     end process stim_sck;
 
     stim_nss : process begin
         nss <= '1';
-        wait for CLK_HALF_PERIOD*10*8*2;
+        wait for CLK_HALF_PERIOD * 10 * 8 * 2;
         nss <= '0';
-        wait for CLK_HALF_PERIOD*10*8*2*42;
+        wait for CLK_HALF_PERIOD * 10 * 8 * 2 * 2;
     end process stim_nss;
 
 end architecture behavioral;

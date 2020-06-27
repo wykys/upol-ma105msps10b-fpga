@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Fri Jun 26 20:40:00 2020
+| Date         : Sun Jun 28 00:21:21 2020
 | Host         : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command      : report_timing_summary -max_paths 10 -file top_timing_summary_routed.rpt -pb top_timing_summary_routed.pb -rpx top_timing_summary_routed.rpx -warn_on_violation
 | Design       : top
@@ -75,7 +75,7 @@ Table of Contents
 
 5. checking no_input_delay
 --------------------------
- There are 3 input ports with no input delay specified. (HIGH)
+ There are 4 input ports with no input delay specified. (HIGH)
 
  There are 0 input ports with no input delay but user has a false path constraint.
 
@@ -127,7 +127,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      2.722        0.000                      0                   45        0.228        0.000                      0                   45        4.500        0.000                       0                    44  
+      2.360        0.000                      0                  111        0.180        0.000                      0                  111        4.500        0.000                       0                    76  
 
 
 All user specified timing constraints are met.
@@ -150,7 +150,7 @@ clk_i  {0.000 5.000}      10.000          100.000
 
 Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----             -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-clk_i               2.722        0.000                      0                   45        0.228        0.000                      0                   45        4.500        0.000                       0                    44  
+clk_i               2.360        0.000                      0                  111        0.180        0.000                      0                  111        4.500        0.000                       0                    76  
 
 
 ------------------------------------------------------------------------------------------------
@@ -181,24 +181,81 @@ Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing 
 From Clock:  clk_i
   To Clock:  clk_i
 
-Setup :            0  Failing Endpoints,  Worst Slack        2.722ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.228ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        2.360ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.180ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             2.722ns  (required time - arrival time)
+Slack (MET) :             2.360ns  (required time - arrival time)
   Source:                 spi_driver_intance/nss_reg/C
                             (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/index_reg[0]/D
+  Destination:            spi_driver_intance/tx_empty_reg/D
                             (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_i
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        2.248ns  (logic 0.707ns (31.444%)  route 1.541ns (68.556%))
-  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Data Path Delay:        2.614ns  (logic 0.971ns (37.150%)  route 1.643ns (62.850%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.277ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.786    12.352    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X0Y40          LUT6 (Prop_lut6_I5_O)        0.355    12.707 r  spi_driver_intance/tx_empty_i_1/O
+                         net (fo=1, routed)           0.000    12.707    spi_driver_intance/tx_empty_i_1_n_0
+    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/tx_empty_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/tx_empty_reg/C
+                         clock pessimism              0.277    15.071    
+                         clock uncertainty           -0.035    15.036    
+    SLICE_X0Y40          FDRE (Setup_fdre_C_D)        0.031    15.067    spi_driver_intance/tx_empty_reg
+  -------------------------------------------------------------------
+                         required time                         15.067    
+                         arrival time                         -12.707    
+  -------------------------------------------------------------------
+                         slack                                  2.360    
+
+Slack (MET) :             2.439ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.532ns  (logic 0.971ns (38.342%)  route 1.561ns (61.658%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
   Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
     Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
@@ -217,16 +274,16 @@ Slack (MET) :             2.722ns  (required time - arrival time)
     G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
                          net (fo=1, routed)           1.927     8.360    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
     SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
   -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/nss_reg/Q
-                         net (fo=7, routed)           0.853    11.405    spi_driver_intance/nss
-    SLICE_X1Y39          LUT6 (Prop_lut6_I5_O)        0.124    11.529 r  spi_driver_intance/index[2]_i_3/O
-                         net (fo=3, routed)           0.689    12.218    spi_driver_intance/index[2]_i_3_n_0
-    SLICE_X1Y39          LUT5 (Prop_lut5_I2_O)        0.124    12.342 r  spi_driver_intance/index[0]_i_1/O
-                         net (fo=1, routed)           0.000    12.342    spi_driver_intance/index[0]_i_1_n_0
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[0]/D
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.705    12.271    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X3Y39          LUT6 (Prop_lut6_I0_O)        0.355    12.626 r  spi_driver_intance/data_tx[7]_i_2/O
+                         net (fo=1, routed)           0.000    12.626    spi_driver_intance/data_tx[7]_i_2_n_0
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[7]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_i rise edge)     10.000    10.000 r  
@@ -235,481 +292,84 @@ Slack (MET) :             2.722ns  (required time - arrival time)
     G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           1.824    13.186    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[0]/C
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[7]/C
                          clock pessimism              0.274    15.068    
                          clock uncertainty           -0.035    15.033    
-    SLICE_X1Y39          FDRE (Setup_fdre_C_D)        0.031    15.064    spi_driver_intance/index_reg[0]
+    SLICE_X3Y39          FDRE (Setup_fdre_C_D)        0.032    15.065    spi_driver_intance/data_tx_reg[7]
+  -------------------------------------------------------------------
+                         required time                         15.065    
+                         arrival time                         -12.626    
+  -------------------------------------------------------------------
+                         slack                                  2.439    
+
+Slack (MET) :             2.441ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.529ns  (logic 0.971ns (38.387%)  route 1.558ns (61.613%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.702    12.268    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X3Y39          LUT6 (Prop_lut6_I0_O)        0.355    12.623 r  spi_driver_intance/data_tx[6]_i_1/O
+                         net (fo=1, routed)           0.000    12.623    spi_driver_intance/data_tx[6]_i_1_n_0
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[6]/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X3Y39          FDRE (Setup_fdre_C_D)        0.031    15.064    spi_driver_intance/data_tx_reg[6]
   -------------------------------------------------------------------
                          required time                         15.064    
-                         arrival time                         -12.342    
+                         arrival time                         -12.623    
   -------------------------------------------------------------------
-                         slack                                  2.722    
+                         slack                                  2.441    
 
-Slack (MET) :             2.722ns  (required time - arrival time)
+Slack (MET) :             2.519ns  (required time - arrival time)
   Source:                 spi_driver_intance/nss_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/index_reg[2]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        2.246ns  (logic 0.707ns (31.472%)  route 1.539ns (68.528%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.274ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/nss_reg/Q
-                         net (fo=7, routed)           0.853    11.405    spi_driver_intance/nss
-    SLICE_X1Y39          LUT6 (Prop_lut6_I5_O)        0.124    11.529 r  spi_driver_intance/index[2]_i_3/O
-                         net (fo=3, routed)           0.687    12.216    spi_driver_intance/index[2]_i_3_n_0
-    SLICE_X1Y39          LUT6 (Prop_lut6_I3_O)        0.124    12.340 r  spi_driver_intance/index[2]_i_1/O
-                         net (fo=1, routed)           0.000    12.340    spi_driver_intance/index[2]_i_1_n_0
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[2]/C
-                         clock pessimism              0.274    15.068    
-                         clock uncertainty           -0.035    15.033    
-    SLICE_X1Y39          FDRE (Setup_fdre_C_D)        0.029    15.062    spi_driver_intance/index_reg[2]
-  -------------------------------------------------------------------
-                         required time                         15.062    
-                         arrival time                         -12.340    
-  -------------------------------------------------------------------
-                         slack                                  2.722    
-
-Slack (MET) :             2.738ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[3]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.939ns  (logic 0.613ns (31.608%)  route 1.326ns (68.393%))
-  Logic Levels:           1  (LUT4=1)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.277ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.855    11.407    spi_driver_intance/sck
-    SLICE_X0Y39          LUT4 (Prop_lut4_I1_O)        0.154    11.561 r  spi_driver_intance/FSM_onehot_opcode[3]_i_3/O
-                         net (fo=1, routed)           0.472    12.033    spi_driver_intance/FSM_onehot_opcode[3]_i_3_n_0
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[3]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[3]/C
-                         clock pessimism              0.277    15.071    
-                         clock uncertainty           -0.035    15.036    
-    SLICE_X0Y40          FDRE (Setup_fdre_C_D)       -0.265    14.771    spi_driver_intance/FSM_onehot_opcode_reg[3]
-  -------------------------------------------------------------------
-                         required time                         14.771    
-                         arrival time                         -12.033    
-  -------------------------------------------------------------------
-                         slack                                  2.738    
-
-Slack (MET) :             2.855ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[0]/CE
-                            (rising edge-triggered cell FDSE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.883ns  (logic 0.707ns (37.550%)  route 1.176ns (62.450%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.277ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.686    11.239    spi_driver_intance/sck
-    SLICE_X0Y39          LUT6 (Prop_lut6_I4_O)        0.124    11.363 r  spi_driver_intance/FSM_onehot_opcode[3]_i_4/O
-                         net (fo=1, routed)           0.299    11.662    spi_driver_intance/FSM_onehot_opcode[3]_i_4_n_0
-    SLICE_X0Y40          LUT6 (Prop_lut6_I3_O)        0.124    11.786 r  spi_driver_intance/FSM_onehot_opcode[3]_i_2/O
-                         net (fo=4, routed)           0.190    11.976    spi_driver_intance/FSM_onehot_opcode[3]_i_2_n_0
-    SLICE_X0Y40          FDSE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[0]/CE
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDSE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[0]/C
-                         clock pessimism              0.277    15.071    
-                         clock uncertainty           -0.035    15.036    
-    SLICE_X0Y40          FDSE (Setup_fdse_C_CE)      -0.205    14.831    spi_driver_intance/FSM_onehot_opcode_reg[0]
-  -------------------------------------------------------------------
-                         required time                         14.831    
-                         arrival time                         -11.976    
-  -------------------------------------------------------------------
-                         slack                                  2.855    
-
-Slack (MET) :             2.855ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[1]/CE
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.883ns  (logic 0.707ns (37.550%)  route 1.176ns (62.450%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.277ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.686    11.239    spi_driver_intance/sck
-    SLICE_X0Y39          LUT6 (Prop_lut6_I4_O)        0.124    11.363 r  spi_driver_intance/FSM_onehot_opcode[3]_i_4/O
-                         net (fo=1, routed)           0.299    11.662    spi_driver_intance/FSM_onehot_opcode[3]_i_4_n_0
-    SLICE_X0Y40          LUT6 (Prop_lut6_I3_O)        0.124    11.786 r  spi_driver_intance/FSM_onehot_opcode[3]_i_2/O
-                         net (fo=4, routed)           0.190    11.976    spi_driver_intance/FSM_onehot_opcode[3]_i_2_n_0
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[1]/CE
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[1]/C
-                         clock pessimism              0.277    15.071    
-                         clock uncertainty           -0.035    15.036    
-    SLICE_X0Y40          FDRE (Setup_fdre_C_CE)      -0.205    14.831    spi_driver_intance/FSM_onehot_opcode_reg[1]
-  -------------------------------------------------------------------
-                         required time                         14.831    
-                         arrival time                         -11.976    
-  -------------------------------------------------------------------
-                         slack                                  2.855    
-
-Slack (MET) :             2.855ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[2]/CE
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.883ns  (logic 0.707ns (37.550%)  route 1.176ns (62.450%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.277ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.686    11.239    spi_driver_intance/sck
-    SLICE_X0Y39          LUT6 (Prop_lut6_I4_O)        0.124    11.363 r  spi_driver_intance/FSM_onehot_opcode[3]_i_4/O
-                         net (fo=1, routed)           0.299    11.662    spi_driver_intance/FSM_onehot_opcode[3]_i_4_n_0
-    SLICE_X0Y40          LUT6 (Prop_lut6_I3_O)        0.124    11.786 r  spi_driver_intance/FSM_onehot_opcode[3]_i_2/O
-                         net (fo=4, routed)           0.190    11.976    spi_driver_intance/FSM_onehot_opcode[3]_i_2_n_0
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[2]/CE
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[2]/C
-                         clock pessimism              0.277    15.071    
-                         clock uncertainty           -0.035    15.036    
-    SLICE_X0Y40          FDRE (Setup_fdre_C_CE)      -0.205    14.831    spi_driver_intance/FSM_onehot_opcode_reg[2]
-  -------------------------------------------------------------------
-                         required time                         14.831    
-                         arrival time                         -11.976    
-  -------------------------------------------------------------------
-                         slack                                  2.855    
-
-Slack (MET) :             2.855ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[3]/CE
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.883ns  (logic 0.707ns (37.550%)  route 1.176ns (62.450%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.277ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.686    11.239    spi_driver_intance/sck
-    SLICE_X0Y39          LUT6 (Prop_lut6_I4_O)        0.124    11.363 r  spi_driver_intance/FSM_onehot_opcode[3]_i_4/O
-                         net (fo=1, routed)           0.299    11.662    spi_driver_intance/FSM_onehot_opcode[3]_i_4_n_0
-    SLICE_X0Y40          LUT6 (Prop_lut6_I3_O)        0.124    11.786 r  spi_driver_intance/FSM_onehot_opcode[3]_i_2/O
-                         net (fo=4, routed)           0.190    11.976    spi_driver_intance/FSM_onehot_opcode[3]_i_2_n_0
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[3]/CE
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[3]/C
-                         clock pessimism              0.277    15.071    
-                         clock uncertainty           -0.035    15.036    
-    SLICE_X0Y40          FDRE (Setup_fdre_C_CE)      -0.205    14.831    spi_driver_intance/FSM_onehot_opcode_reg[3]
-  -------------------------------------------------------------------
-                         required time                         14.831    
-                         arrival time                         -11.976    
-  -------------------------------------------------------------------
-                         slack                                  2.855    
-
-Slack (MET) :             3.015ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/start_frame_en_reg/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.999ns  (logic 0.702ns (35.110%)  route 1.297ns (64.890%))
-  Logic Levels:           2  (LUT4=1 LUT5=1)
-  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.274ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.855    11.407    spi_driver_intance/sck
-    SLICE_X0Y39          LUT5 (Prop_lut5_I3_O)        0.124    11.531 f  spi_driver_intance/start_frame_en_i_2/O
-                         net (fo=2, routed)           0.443    11.974    spi_driver_intance/start_frame_en_i_2_n_0
-    SLICE_X0Y39          LUT4 (Prop_lut4_I1_O)        0.119    12.093 r  spi_driver_intance/start_frame_en_i_1/O
-                         net (fo=1, routed)           0.000    12.093    spi_driver_intance/start_frame_en_i_1_n_0
-    SLICE_X0Y39          FDRE                                         r  spi_driver_intance/start_frame_en_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y39          FDRE                                         r  spi_driver_intance/start_frame_en_reg/C
-                         clock pessimism              0.274    15.068    
-                         clock uncertainty           -0.035    15.033    
-    SLICE_X0Y39          FDRE (Setup_fdre_C_D)        0.075    15.108    spi_driver_intance/start_frame_en_reg
-  -------------------------------------------------------------------
-                         required time                         15.108    
-                         arrival time                         -12.093    
-  -------------------------------------------------------------------
-                         slack                                  3.015    
-
-Slack (MET) :             3.090ns  (required time - arrival time)
-  Source:                 spi_driver_intance/sck_reg/C
                             (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
   Destination:            spi_driver_intance/miso_reg/D
                             (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_i
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.879ns  (logic 0.707ns (37.622%)  route 1.172ns (62.378%))
-  Logic Levels:           2  (LUT5=1 LUT6=1)
-  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    4.796ns = ( 14.796 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.274ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i fall edge)      5.000     5.000 f  
-    G11                                               0.000     5.000 f  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
-  -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/sck_reg/Q
-                         net (fo=6, routed)           0.855    11.407    spi_driver_intance/sck
-    SLICE_X0Y39          LUT5 (Prop_lut5_I3_O)        0.124    11.531 r  spi_driver_intance/start_frame_en_i_2/O
-                         net (fo=2, routed)           0.317    11.848    spi_driver_intance/start_frame_en_i_2_n_0
-    SLICE_X0Y41          LUT6 (Prop_lut6_I1_O)        0.124    11.972 r  spi_driver_intance/miso_i_1/O
-                         net (fo=1, routed)           0.000    11.972    spi_driver_intance/miso_i_1_n_0
-    SLICE_X0Y41          FDRE                                         r  spi_driver_intance/miso_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)     10.000    10.000 r  
-    G11                                               0.000    10.000 r  clk_i (IN)
-                         net (fo=0)                   0.000    10.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.518    14.796    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y41          FDRE                                         r  spi_driver_intance/miso_reg/C
-                         clock pessimism              0.274    15.069    
-                         clock uncertainty           -0.035    15.034    
-    SLICE_X0Y41          FDRE (Setup_fdre_C_D)        0.029    15.063    spi_driver_intance/miso_reg
-  -------------------------------------------------------------------
-                         required time                         15.063    
-                         arrival time                         -11.972    
-  -------------------------------------------------------------------
-                         slack                                  3.090    
-
-Slack (MET) :             3.126ns  (required time - arrival time)
-  Source:                 spi_driver_intance/nss_reg/C
-                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/index_reg[1]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
-  Data Path Delay:        1.844ns  (logic 0.707ns (38.331%)  route 1.137ns (61.668%))
-  Logic Levels:           2  (LUT6=2)
+  Data Path Delay:        2.500ns  (logic 0.971ns (38.839%)  route 1.529ns (61.161%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
   Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
     Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
@@ -728,16 +388,16 @@ Slack (MET) :             3.126ns  (required time - arrival time)
     G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
                          net (fo=1, routed)           1.927     8.360    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
     SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
   -------------------------------------------------------------------    -------------------
-    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/nss_reg/Q
-                         net (fo=7, routed)           0.853    11.405    spi_driver_intance/nss
-    SLICE_X1Y39          LUT6 (Prop_lut6_I5_O)        0.124    11.529 r  spi_driver_intance/index[2]_i_3/O
-                         net (fo=3, routed)           0.285    11.814    spi_driver_intance/index[2]_i_3_n_0
-    SLICE_X1Y39          LUT6 (Prop_lut6_I3_O)        0.124    11.938 r  spi_driver_intance/index[1]_i_1/O
-                         net (fo=1, routed)           0.000    11.938    spi_driver_intance/index[1]_i_1_n_0
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[1]/D
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.672    12.238    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X2Y40          LUT6 (Prop_lut6_I3_O)        0.355    12.593 r  spi_driver_intance/miso_i_1/O
+                         net (fo=1, routed)           0.000    12.593    spi_driver_intance/miso_i_1_n_0
+    SLICE_X2Y40          FDRE                                         r  spi_driver_intance/miso_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_i rise edge)     10.000    10.000 r  
@@ -746,16 +406,354 @@ Slack (MET) :             3.126ns  (required time - arrival time)
     G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           1.824    13.186    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[1]/C
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y40          FDRE                                         r  spi_driver_intance/miso_reg/C
                          clock pessimism              0.274    15.068    
                          clock uncertainty           -0.035    15.033    
-    SLICE_X1Y39          FDRE (Setup_fdre_C_D)        0.031    15.064    spi_driver_intance/index_reg[1]
+    SLICE_X2Y40          FDRE (Setup_fdre_C_D)        0.079    15.112    spi_driver_intance/miso_reg
   -------------------------------------------------------------------
-                         required time                         15.064    
-                         arrival time                         -11.938    
+                         required time                         15.112    
+                         arrival time                         -12.593    
   -------------------------------------------------------------------
-                         slack                                  3.126    
+                         slack                                  2.519    
+
+Slack (MET) :             2.536ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_vld_o_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.484ns  (logic 0.971ns (39.086%)  route 1.513ns (60.914%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 f  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.657    12.222    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X2Y40          LUT6 (Prop_lut6_I5_O)        0.355    12.577 r  spi_driver_intance/data_vld_o_i_1/O
+                         net (fo=1, routed)           0.000    12.577    spi_driver_intance/data_vld_o_i_1_n_0
+    SLICE_X2Y40          FDRE                                         r  spi_driver_intance/data_vld_o_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y40          FDRE                                         r  spi_driver_intance/data_vld_o_reg/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X2Y40          FDRE (Setup_fdre_C_D)        0.081    15.114    spi_driver_intance/data_vld_o_reg
+  -------------------------------------------------------------------
+                         required time                         15.114    
+                         arrival time                         -12.577    
+  -------------------------------------------------------------------
+                         slack                                  2.536    
+
+Slack (MET) :             2.634ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/bit_cnt_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.338ns  (logic 0.971ns (41.536%)  route 1.367ns (58.464%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.277ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 f  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.510    12.076    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X0Y40          LUT6 (Prop_lut6_I5_O)        0.355    12.431 r  spi_driver_intance/bit_cnt[2]_i_1/O
+                         net (fo=1, routed)           0.000    12.431    spi_driver_intance/bit_cnt[2]_i_1_n_0
+    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/bit_cnt_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/bit_cnt_reg[2]/C
+                         clock pessimism              0.277    15.071    
+                         clock uncertainty           -0.035    15.036    
+    SLICE_X0Y40          FDRE (Setup_fdre_C_D)        0.029    15.065    spi_driver_intance/bit_cnt_reg[2]
+  -------------------------------------------------------------------
+                         required time                         15.065    
+                         arrival time                         -12.431    
+  -------------------------------------------------------------------
+                         slack                                  2.634    
+
+Slack (MET) :             2.689ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.328ns  (logic 0.971ns (41.717%)  route 1.357ns (58.283%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.500    12.066    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X2Y39          LUT6 (Prop_lut6_I0_O)        0.355    12.421 r  spi_driver_intance/data_tx[2]_i_1/O
+                         net (fo=1, routed)           0.000    12.421    spi_driver_intance/data_tx[2]_i_1_n_0
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[2]/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X2Y39          FDRE (Setup_fdre_C_D)        0.077    15.110    spi_driver_intance/data_tx_reg[2]
+  -------------------------------------------------------------------
+                         required time                         15.110    
+                         arrival time                         -12.421    
+  -------------------------------------------------------------------
+                         slack                                  2.689    
+
+Slack (MET) :             2.696ns  (required time - arrival time)
+  Source:                 spi_driver_intance/nss_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[3]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.325ns  (logic 0.971ns (41.771%)  route 1.354ns (58.229%))
+  Logic Levels:           2  (LUT2=1 LUT6=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/nss_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 r  spi_driver_intance/nss_reg/Q
+                         net (fo=6, routed)           0.857    11.409    spi_driver_intance/nss
+    SLICE_X2Y39          LUT2 (Prop_lut2_I0_O)        0.157    11.566 r  spi_driver_intance/bit_cnt[2]_i_2/O
+                         net (fo=10, routed)          0.497    12.063    spi_driver_intance/bit_cnt[2]_i_2_n_0
+    SLICE_X2Y39          LUT6 (Prop_lut6_I0_O)        0.355    12.418 r  spi_driver_intance/data_tx[3]_i_1/O
+                         net (fo=1, routed)           0.000    12.418    spi_driver_intance/data_tx[3]_i_1_n_0
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[3]/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X2Y39          FDRE (Setup_fdre_C_D)        0.081    15.114    spi_driver_intance/data_tx_reg[3]
+  -------------------------------------------------------------------
+                         required time                         15.114    
+                         arrival time                         -12.418    
+  -------------------------------------------------------------------
+                         slack                                  2.696    
+
+Slack (MET) :             2.700ns  (required time - arrival time)
+  Source:                 spi_driver_intance/sck_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[4]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.035ns  (logic 0.583ns (28.655%)  route 1.452ns (71.345%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/sck_reg/Q
+                         net (fo=9, routed)           0.924    11.476    spi_driver_intance/sck
+    SLICE_X1Y40          LUT4 (Prop_lut4_I3_O)        0.124    11.600 r  spi_driver_intance/data_tx[7]_i_1/O
+                         net (fo=7, routed)           0.528    12.128    spi_driver_intance/data_tx0_in[7]
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[4]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[4]/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X3Y39          FDRE (Setup_fdre_C_CE)      -0.205    14.828    spi_driver_intance/data_tx_reg[4]
+  -------------------------------------------------------------------
+                         required time                         14.828    
+                         arrival time                         -12.128    
+  -------------------------------------------------------------------
+                         slack                                  2.700    
+
+Slack (MET) :             2.700ns  (required time - arrival time)
+  Source:                 spi_driver_intance/sck_reg/C
+                            (falling edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[5]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            5.000ns  (clk_i rise@10.000ns - clk_i fall@5.000ns)
+  Data Path Delay:        2.035ns  (logic 0.583ns (28.655%)  route 1.452ns (71.345%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.025ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.795ns = ( 14.795 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.093ns = ( 10.093 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.274ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i fall edge)      5.000     5.000 f  
+    G11                                               0.000     5.000 f  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.432     6.432 f  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.927     8.360    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     8.456 f  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.637    10.093    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y40          FDRE                                         r  spi_driver_intance/sck_reg/C  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y40          FDRE (Prop_fdre_C_Q)         0.459    10.552 f  spi_driver_intance/sck_reg/Q
+                         net (fo=9, routed)           0.924    11.476    spi_driver_intance/sck
+    SLICE_X1Y40          LUT4 (Prop_lut4_I3_O)        0.124    11.600 r  spi_driver_intance/data_tx[7]_i_1/O
+                         net (fo=7, routed)           0.528    12.128    spi_driver_intance/data_tx0_in[7]
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[5]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)     10.000    10.000 r  
+    G11                                               0.000    10.000 r  clk_i (IN)
+                         net (fo=0)                   0.000    10.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         1.362    11.362 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           1.824    13.186    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    13.277 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          1.517    14.795    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[5]/C
+                         clock pessimism              0.274    15.068    
+                         clock uncertainty           -0.035    15.033    
+    SLICE_X3Y39          FDRE (Setup_fdre_C_CE)      -0.205    14.828    spi_driver_intance/data_tx_reg[5]
+  -------------------------------------------------------------------
+                         required time                         14.828    
+                         arrival time                         -12.128    
+  -------------------------------------------------------------------
+                         slack                                  2.700    
 
 
 
@@ -763,20 +761,20 @@ Slack (MET) :             3.126ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.228ns  (arrival time - required time)
-  Source:                 spi_driver_intance/FSM_onehot_opcode_reg[2]/C
+Slack (MET) :             0.180ns  (arrival time - required time)
+  Source:                 data_tx_reg[7]/C
                             (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/FSM_onehot_opcode_reg[0]/D
-                            (rising edge-triggered cell FDSE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/buffer_tx_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_i
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.319ns  (logic 0.227ns (71.172%)  route 0.092ns (28.828%))
-  Logic Levels:           1  (LUT4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+  Data Path Delay:        0.274ns  (logic 0.164ns (59.853%)  route 0.110ns (40.147%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
     Destination Clock Delay (DCD):    1.914ns
     Source Clock Delay      (SCD):    1.402ns
-    Clock Pessimism Removal (CPR):    0.512ns
+    Clock Pessimism Removal (CPR):    0.496ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -786,14 +784,12 @@ Slack (MET) :             0.228ns  (arrival time - required time)
     G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           0.607     0.808    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[2]/C
+                         net (fo=75, routed)          0.569     1.402    clk_i_IBUF_BUFG
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[7]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X0Y40          FDRE (Prop_fdre_C_Q)         0.128     1.530 r  spi_driver_intance/FSM_onehot_opcode_reg[2]/Q
-                         net (fo=8, routed)           0.092     1.622    spi_driver_intance/FSM_onehot_opcode_reg_n_0_[2]
-    SLICE_X0Y40          LUT4 (Prop_lut4_I3_O)        0.099     1.721 r  spi_driver_intance/FSM_onehot_opcode[0]_i_1/O
-                         net (fo=1, routed)           0.000     1.721    spi_driver_intance/FSM_onehot_opcode[0]_i_1_n_0
-    SLICE_X0Y40          FDSE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[0]/D
+    SLICE_X2Y41          FDRE (Prop_fdre_C_Q)         0.164     1.566 r  data_tx_reg[7]/Q
+                         net (fo=1, routed)           0.110     1.676    spi_driver_intance/buffer_tx_reg[7]_0[7]
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[7]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_i rise edge)      0.000     0.000 r  
@@ -802,30 +798,408 @@ Slack (MET) :             0.228ns  (arrival time - required time)
     G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           0.660     1.048    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.838     1.914    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X0Y40          FDSE                                         r  spi_driver_intance/FSM_onehot_opcode_reg[0]/C
-                         clock pessimism             -0.512     1.402    
-    SLICE_X0Y40          FDSE (Hold_fdse_C_D)         0.091     1.493    spi_driver_intance/FSM_onehot_opcode_reg[0]
+                         net (fo=75, routed)          0.838     1.914    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[7]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X3Y40          FDRE (Hold_fdre_C_D)         0.078     1.496    spi_driver_intance/buffer_tx_reg[7]
   -------------------------------------------------------------------
-                         required time                         -1.493    
-                         arrival time                           1.721    
+                         required time                         -1.496    
+                         arrival time                           1.676    
+  -------------------------------------------------------------------
+                         slack                                  0.180    
+
+Slack (MET) :             0.182ns  (arrival time - required time)
+  Source:                 data_tx_reg[6]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/buffer_tx_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.274ns  (logic 0.164ns (59.853%)  route 0.110ns (40.147%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    clk_i_IBUF_BUFG
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X2Y41          FDRE (Prop_fdre_C_Q)         0.164     1.566 r  data_tx_reg[6]/Q
+                         net (fo=1, routed)           0.110     1.676    spi_driver_intance/buffer_tx_reg[7]_0[6]
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[6]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X3Y40          FDRE (Hold_fdre_C_D)         0.076     1.494    spi_driver_intance/buffer_tx_reg[6]
+  -------------------------------------------------------------------
+                         required time                         -1.494    
+                         arrival time                           1.676    
+  -------------------------------------------------------------------
+                         slack                                  0.182    
+
+Slack (MET) :             0.185ns  (arrival time - required time)
+  Source:                 data_tx_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/buffer_tx_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.248ns  (logic 0.141ns (56.815%)  route 0.107ns (43.185%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    clk_i_IBUF_BUFG
+    SLICE_X3Y41          FDRE                                         r  data_tx_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X3Y41          FDRE (Prop_fdre_C_Q)         0.141     1.543 r  data_tx_reg[1]/Q
+                         net (fo=1, routed)           0.107     1.650    spi_driver_intance/buffer_tx_reg[7]_0[1]
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[1]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X3Y40          FDRE (Hold_fdre_C_D)         0.047     1.465    spi_driver_intance/buffer_tx_reg[1]
+  -------------------------------------------------------------------
+                         required time                         -1.465    
+                         arrival time                           1.650    
+  -------------------------------------------------------------------
+                         slack                                  0.185    
+
+Slack (MET) :             0.187ns  (arrival time - required time)
+  Source:                 data_tx_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/buffer_tx_reg[5]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.274ns  (logic 0.164ns (59.853%)  route 0.110ns (40.147%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    clk_i_IBUF_BUFG
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X2Y41          FDRE (Prop_fdre_C_Q)         0.164     1.566 r  data_tx_reg[5]/Q
+                         net (fo=1, routed)           0.110     1.676    spi_driver_intance/buffer_tx_reg[7]_0[5]
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[5]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X3Y40          FDRE (Hold_fdre_C_D)         0.071     1.489    spi_driver_intance/buffer_tx_reg[5]
+  -------------------------------------------------------------------
+                         required time                         -1.489    
+                         arrival time                           1.676    
+  -------------------------------------------------------------------
+                         slack                                  0.187    
+
+Slack (MET) :             0.206ns  (arrival time - required time)
+  Source:                 led_driver_intance/cnt_reg[25]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            led_driver_intance/led_o_reg[3]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.286ns  (logic 0.164ns (57.302%)  route 0.122ns (42.698%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.936ns
+    Source Clock Delay      (SCD):    1.424ns
+    Clock Pessimism Removal (CPR):    0.498ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.591     1.424    led_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X38Y38         FDRE                                         r  led_driver_intance/cnt_reg[25]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X38Y38         FDRE (Prop_fdre_C_Q)         0.164     1.588 r  led_driver_intance/cnt_reg[25]/Q
+                         net (fo=2, routed)           0.122     1.710    led_driver_intance/cnt_reg[25]
+    SLICE_X39Y37         FDRE                                         r  led_driver_intance/led_o_reg[3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.860     1.936    led_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X39Y37         FDRE                                         r  led_driver_intance/led_o_reg[3]/C
+                         clock pessimism             -0.498     1.438    
+    SLICE_X39Y37         FDRE (Hold_fdre_C_D)         0.066     1.504    led_driver_intance/led_o_reg[3]
+  -------------------------------------------------------------------
+                         required time                         -1.504    
+                         arrival time                           1.710    
+  -------------------------------------------------------------------
+                         slack                                  0.206    
+
+Slack (MET) :             0.216ns  (arrival time - required time)
+  Source:                 spi_driver_intance/data_rx_reg[7]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            data_tx_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.295ns  (logic 0.141ns (47.774%)  route 0.154ns (52.226%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y41          FDRE                                         r  spi_driver_intance/data_rx_reg[7]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y41          FDRE (Prop_fdre_C_Q)         0.141     1.543 r  spi_driver_intance/data_rx_reg[7]/Q
+                         net (fo=1, routed)           0.154     1.697    data_rx[7]
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[7]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    clk_i_IBUF_BUFG
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[7]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X2Y41          FDRE (Hold_fdre_C_D)         0.063     1.481    data_tx_reg[7]
+  -------------------------------------------------------------------
+                         required time                         -1.481    
+                         arrival time                           1.697    
+  -------------------------------------------------------------------
+                         slack                                  0.216    
+
+Slack (MET) :             0.221ns  (arrival time - required time)
+  Source:                 spi_driver_intance/buffer_tx_reg[1]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            spi_driver_intance/data_tx_reg[2]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.356ns  (logic 0.186ns (52.176%)  route 0.170ns (47.824%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.913ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X3Y40          FDRE                                         r  spi_driver_intance/buffer_tx_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X3Y40          FDRE (Prop_fdre_C_Q)         0.141     1.543 r  spi_driver_intance/buffer_tx_reg[1]/Q
+                         net (fo=1, routed)           0.170     1.714    spi_driver_intance/buffer_tx_reg_n_0_[1]
+    SLICE_X2Y39          LUT6 (Prop_lut6_I5_O)        0.045     1.759 r  spi_driver_intance/data_tx[2]_i_1/O
+                         net (fo=1, routed)           0.000     1.759    spi_driver_intance/data_tx[2]_i_1_n_0
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[2]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.837     1.913    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[2]/C
+                         clock pessimism             -0.496     1.417    
+    SLICE_X2Y39          FDRE (Hold_fdre_C_D)         0.120     1.537    spi_driver_intance/data_tx_reg[2]
+  -------------------------------------------------------------------
+                         required time                         -1.537    
+                         arrival time                           1.759    
+  -------------------------------------------------------------------
+                         slack                                  0.221    
+
+Slack (MET) :             0.222ns  (arrival time - required time)
+  Source:                 spi_driver_intance/data_rx_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            data_tx_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.308ns  (logic 0.141ns (45.832%)  route 0.167ns (54.168%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X0Y41          FDRE                                         r  spi_driver_intance/data_rx_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X0Y41          FDRE (Prop_fdre_C_Q)         0.141     1.543 r  spi_driver_intance/data_rx_reg[0]/Q
+                         net (fo=2, routed)           0.167     1.710    data_rx[0]
+    SLICE_X3Y41          FDRE                                         r  data_tx_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    clk_i_IBUF_BUFG
+    SLICE_X3Y41          FDRE                                         r  data_tx_reg[0]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X3Y41          FDRE (Hold_fdre_C_D)         0.070     1.488    data_tx_reg[0]
+  -------------------------------------------------------------------
+                         required time                         -1.488    
+                         arrival time                           1.710    
+  -------------------------------------------------------------------
+                         slack                                  0.222    
+
+Slack (MET) :             0.228ns  (arrival time - required time)
+  Source:                 spi_driver_intance/data_rx_reg[6]/C
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            data_tx_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_i
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
+  Data Path Delay:        0.307ns  (logic 0.141ns (45.926%)  route 0.166ns (54.074%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.016ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    1.914ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X1Y41          FDRE                                         r  spi_driver_intance/data_rx_reg[6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X1Y41          FDRE (Prop_fdre_C_Q)         0.141     1.543 r  spi_driver_intance/data_rx_reg[6]/Q
+                         net (fo=2, routed)           0.166     1.709    data_rx[6]
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_i rise edge)      0.000     0.000 r  
+    G11                                               0.000     0.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     0.000    clk_i
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
+                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
+                         net (fo=75, routed)          0.838     1.914    clk_i_IBUF_BUFG
+    SLICE_X2Y41          FDRE                                         r  data_tx_reg[6]/C
+                         clock pessimism             -0.496     1.418    
+    SLICE_X2Y41          FDRE (Hold_fdre_C_D)         0.063     1.481    data_tx_reg[6]
+  -------------------------------------------------------------------
+                         required time                         -1.481    
+                         arrival time                           1.709    
   -------------------------------------------------------------------
                          slack                                  0.228    
 
-Slack (MET) :             0.237ns  (arrival time - required time)
-  Source:                 spi_driver_intance/index_reg[1]/C
+Slack (MET) :             0.231ns  (arrival time - required time)
+  Source:                 spi_driver_intance/bit_cnt_reg[1]/C
                             (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            spi_driver_intance/index_reg[1]/D
+  Destination:            spi_driver_intance/data_tx_reg[1]/D
                             (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk_i
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.329ns  (logic 0.186ns (56.458%)  route 0.143ns (43.542%))
+  Data Path Delay:        0.367ns  (logic 0.186ns (50.625%)  route 0.181ns (49.375%))
   Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
     Destination Clock Delay (DCD):    1.913ns
-    Source Clock Delay      (SCD):    1.401ns
-    Clock Pessimism Removal (CPR):    0.512ns
+    Source Clock Delay      (SCD):    1.402ns
+    Clock Pessimism Removal (CPR):    0.496ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -835,61 +1209,14 @@ Slack (MET) :             0.237ns  (arrival time - required time)
     G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           0.607     0.808    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.568     1.401    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[1]/C
+                         net (fo=75, routed)          0.569     1.402    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X0Y40          FDRE                                         r  spi_driver_intance/bit_cnt_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X1Y39          FDRE (Prop_fdre_C_Q)         0.141     1.542 r  spi_driver_intance/index_reg[1]/Q
-                         net (fo=4, routed)           0.143     1.686    spi_driver_intance/index_reg_n_0_[1]
-    SLICE_X1Y39          LUT6 (Prop_lut6_I0_O)        0.045     1.731 r  spi_driver_intance/index[1]_i_1/O
-                         net (fo=1, routed)           0.000     1.731    spi_driver_intance/index[1]_i_1_n_0
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[1]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.837     1.913    spi_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X1Y39          FDRE                                         r  spi_driver_intance/index_reg[1]/C
-                         clock pessimism             -0.512     1.401    
-    SLICE_X1Y39          FDRE (Hold_fdre_C_D)         0.092     1.493    spi_driver_intance/index_reg[1]
-  -------------------------------------------------------------------
-                         required time                         -1.493    
-                         arrival time                           1.731    
-  -------------------------------------------------------------------
-                         slack                                  0.237    
-
-Slack (MET) :             0.247ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[23]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/led_o_reg[1]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.323ns  (logic 0.141ns (43.598%)  route 0.182ns (56.402%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.017ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.938ns
-    Source Clock Delay      (SCD):    1.423ns
-    Clock Pessimism Removal (CPR):    0.498ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.590     1.423    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y37         FDRE                                         r  led_driver_intance/cnt_reg[23]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y37         FDRE (Prop_fdre_C_Q)         0.141     1.564 r  led_driver_intance/cnt_reg[23]/Q
-                         net (fo=2, routed)           0.182     1.747    led_driver_intance/cnt_reg[23]
-    SLICE_X38Y38         FDRE                                         r  led_driver_intance/led_o_reg[1]/D
+    SLICE_X0Y40          FDRE (Prop_fdre_C_Q)         0.141     1.543 f  spi_driver_intance/bit_cnt_reg[1]/Q
+                         net (fo=12, routed)          0.181     1.725    spi_driver_intance/bit_cnt[1]
+    SLICE_X2Y39          LUT6 (Prop_lut6_I5_O)        0.045     1.770 r  spi_driver_intance/data_tx[1]_i_1/O
+                         net (fo=1, routed)           0.000     1.770    spi_driver_intance/data_tx[1]_i_1_n_0
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_i rise edge)      0.000     0.000 r  
@@ -898,359 +1225,15 @@ Slack (MET) :             0.247ns  (arrival time - required time)
     G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
                          net (fo=1, routed)           0.660     1.048    clk_i_IBUF
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.862     1.938    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X38Y38         FDRE                                         r  led_driver_intance/led_o_reg[1]/C
-                         clock pessimism             -0.498     1.440    
-    SLICE_X38Y38         FDRE (Hold_fdre_C_D)         0.059     1.499    led_driver_intance/led_o_reg[1]
+                         net (fo=75, routed)          0.837     1.913    spi_driver_intance/clk_i_IBUF_BUFG
+    SLICE_X2Y39          FDRE                                         r  spi_driver_intance/data_tx_reg[1]/C
+                         clock pessimism             -0.496     1.417    
+    SLICE_X2Y39          FDRE (Hold_fdre_C_D)         0.121     1.538    spi_driver_intance/data_tx_reg[1]
   -------------------------------------------------------------------
-                         required time                         -1.499    
-                         arrival time                           1.747    
+                         required time                         -1.538    
+                         arrival time                           1.770    
   -------------------------------------------------------------------
-                         slack                                  0.247    
-
-Slack (MET) :             0.252ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[11]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/cnt_reg[11]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.249ns (69.714%)  route 0.108ns (30.286%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.934ns
-    Source Clock Delay      (SCD):    1.422ns
-    Clock Pessimism Removal (CPR):    0.512ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.589     1.422    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y34         FDRE                                         r  led_driver_intance/cnt_reg[11]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y34         FDRE (Prop_fdre_C_Q)         0.141     1.563 r  led_driver_intance/cnt_reg[11]/Q
-                         net (fo=1, routed)           0.108     1.671    led_driver_intance/cnt_reg_n_0_[11]
-    SLICE_X39Y34         CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108     1.779 r  led_driver_intance/cnt_reg[8]_i_1/O[3]
-                         net (fo=1, routed)           0.000     1.779    led_driver_intance/cnt_reg[8]_i_1_n_4
-    SLICE_X39Y34         FDRE                                         r  led_driver_intance/cnt_reg[11]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.858     1.934    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y34         FDRE                                         r  led_driver_intance/cnt_reg[11]/C
-                         clock pessimism             -0.512     1.422    
-    SLICE_X39Y34         FDRE (Hold_fdre_C_D)         0.105     1.527    led_driver_intance/cnt_reg[11]
-  -------------------------------------------------------------------
-                         required time                         -1.527    
-                         arrival time                           1.779    
-  -------------------------------------------------------------------
-                         slack                                  0.252    
-
-Slack (MET) :             0.252ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[15]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/cnt_reg[15]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.249ns (69.714%)  route 0.108ns (30.286%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.935ns
-    Source Clock Delay      (SCD):    1.422ns
-    Clock Pessimism Removal (CPR):    0.513ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.589     1.422    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y35         FDRE                                         r  led_driver_intance/cnt_reg[15]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y35         FDRE (Prop_fdre_C_Q)         0.141     1.563 r  led_driver_intance/cnt_reg[15]/Q
-                         net (fo=1, routed)           0.108     1.671    led_driver_intance/cnt_reg_n_0_[15]
-    SLICE_X39Y35         CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108     1.779 r  led_driver_intance/cnt_reg[12]_i_1/O[3]
-                         net (fo=1, routed)           0.000     1.779    led_driver_intance/cnt_reg[12]_i_1_n_4
-    SLICE_X39Y35         FDRE                                         r  led_driver_intance/cnt_reg[15]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.859     1.935    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y35         FDRE                                         r  led_driver_intance/cnt_reg[15]/C
-                         clock pessimism             -0.513     1.422    
-    SLICE_X39Y35         FDRE (Hold_fdre_C_D)         0.105     1.527    led_driver_intance/cnt_reg[15]
-  -------------------------------------------------------------------
-                         required time                         -1.527    
-                         arrival time                           1.779    
-  -------------------------------------------------------------------
-                         slack                                  0.252    
-
-Slack (MET) :             0.252ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[19]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/cnt_reg[19]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.249ns (69.714%)  route 0.108ns (30.286%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.935ns
-    Source Clock Delay      (SCD):    1.422ns
-    Clock Pessimism Removal (CPR):    0.513ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.589     1.422    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y36         FDRE                                         r  led_driver_intance/cnt_reg[19]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y36         FDRE (Prop_fdre_C_Q)         0.141     1.563 r  led_driver_intance/cnt_reg[19]/Q
-                         net (fo=1, routed)           0.108     1.671    led_driver_intance/cnt_reg_n_0_[19]
-    SLICE_X39Y36         CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108     1.779 r  led_driver_intance/cnt_reg[16]_i_1/O[3]
-                         net (fo=1, routed)           0.000     1.779    led_driver_intance/cnt_reg[16]_i_1_n_4
-    SLICE_X39Y36         FDRE                                         r  led_driver_intance/cnt_reg[19]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.859     1.935    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y36         FDRE                                         r  led_driver_intance/cnt_reg[19]/C
-                         clock pessimism             -0.513     1.422    
-    SLICE_X39Y36         FDRE (Hold_fdre_C_D)         0.105     1.527    led_driver_intance/cnt_reg[19]
-  -------------------------------------------------------------------
-                         required time                         -1.527    
-                         arrival time                           1.779    
-  -------------------------------------------------------------------
-                         slack                                  0.252    
-
-Slack (MET) :             0.252ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[7]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/cnt_reg[7]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.249ns (69.714%)  route 0.108ns (30.286%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.933ns
-    Source Clock Delay      (SCD):    1.421ns
-    Clock Pessimism Removal (CPR):    0.512ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.588     1.421    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y33         FDRE                                         r  led_driver_intance/cnt_reg[7]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y33         FDRE (Prop_fdre_C_Q)         0.141     1.562 r  led_driver_intance/cnt_reg[7]/Q
-                         net (fo=1, routed)           0.108     1.670    led_driver_intance/cnt_reg_n_0_[7]
-    SLICE_X39Y33         CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108     1.778 r  led_driver_intance/cnt_reg[4]_i_1/O[3]
-                         net (fo=1, routed)           0.000     1.778    led_driver_intance/cnt_reg[4]_i_1_n_4
-    SLICE_X39Y33         FDRE                                         r  led_driver_intance/cnt_reg[7]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.857     1.933    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y33         FDRE                                         r  led_driver_intance/cnt_reg[7]/C
-                         clock pessimism             -0.512     1.421    
-    SLICE_X39Y33         FDRE (Hold_fdre_C_D)         0.105     1.526    led_driver_intance/cnt_reg[7]
-  -------------------------------------------------------------------
-                         required time                         -1.526    
-                         arrival time                           1.778    
-  -------------------------------------------------------------------
-                         slack                                  0.252    
-
-Slack (MET) :             0.252ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[3]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/cnt_reg[3]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.357ns  (logic 0.249ns (69.714%)  route 0.108ns (30.286%))
-  Logic Levels:           1  (CARRY4=1)
-  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.932ns
-    Source Clock Delay      (SCD):    1.420ns
-    Clock Pessimism Removal (CPR):    0.512ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.587     1.420    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y32         FDRE                                         r  led_driver_intance/cnt_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y32         FDRE (Prop_fdre_C_Q)         0.141     1.561 r  led_driver_intance/cnt_reg[3]/Q
-                         net (fo=1, routed)           0.108     1.669    led_driver_intance/cnt_reg_n_0_[3]
-    SLICE_X39Y32         CARRY4 (Prop_carry4_S[3]_O[3])
-                                                      0.108     1.777 r  led_driver_intance/cnt_reg[0]_i_1/O[3]
-                         net (fo=1, routed)           0.000     1.777    led_driver_intance/cnt_reg[0]_i_1_n_4
-    SLICE_X39Y32         FDRE                                         r  led_driver_intance/cnt_reg[3]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.856     1.932    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y32         FDRE                                         r  led_driver_intance/cnt_reg[3]/C
-                         clock pessimism             -0.512     1.420    
-    SLICE_X39Y32         FDRE (Hold_fdre_C_D)         0.105     1.525    led_driver_intance/cnt_reg[3]
-  -------------------------------------------------------------------
-                         required time                         -1.525    
-                         arrival time                           1.777    
-  -------------------------------------------------------------------
-                         slack                                  0.252    
-
-Slack (MET) :             0.255ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[24]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/led_o_reg[2]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.320ns  (logic 0.141ns (44.020%)  route 0.179ns (55.980%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.938ns
-    Source Clock Delay      (SCD):    1.424ns
-    Clock Pessimism Removal (CPR):    0.501ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.591     1.424    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y38         FDRE                                         r  led_driver_intance/cnt_reg[24]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y38         FDRE (Prop_fdre_C_Q)         0.141     1.565 r  led_driver_intance/cnt_reg[24]/Q
-                         net (fo=2, routed)           0.179     1.745    led_driver_intance/cnt_reg[24]
-    SLICE_X38Y38         FDRE                                         r  led_driver_intance/led_o_reg[2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.862     1.938    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X38Y38         FDRE                                         r  led_driver_intance/led_o_reg[2]/C
-                         clock pessimism             -0.501     1.437    
-    SLICE_X38Y38         FDRE (Hold_fdre_C_D)         0.052     1.489    led_driver_intance/led_o_reg[2]
-  -------------------------------------------------------------------
-                         required time                         -1.489    
-                         arrival time                           1.745    
-  -------------------------------------------------------------------
-                         slack                                  0.255    
-
-Slack (MET) :             0.255ns  (arrival time - required time)
-  Source:                 led_driver_intance/cnt_reg[26]/C
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            led_driver_intance/led_o_reg[4]/D
-                            (rising edge-triggered cell FDRE clocked by clk_i  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk_i
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_i rise@0.000ns - clk_i rise@0.000ns)
-  Data Path Delay:        0.327ns  (logic 0.141ns (43.065%)  route 0.186ns (56.935%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    1.935ns
-    Source Clock Delay      (SCD):    1.424ns
-    Clock Pessimism Removal (CPR):    0.498ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     0.201 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.607     0.808    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     0.834 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.591     1.424    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X39Y38         FDRE                                         r  led_driver_intance/cnt_reg[26]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X39Y38         FDRE (Prop_fdre_C_Q)         0.141     1.565 r  led_driver_intance/cnt_reg[26]/Q
-                         net (fo=2, routed)           0.186     1.752    led_driver_intance/cnt_reg[26]
-    SLICE_X38Y36         FDRE                                         r  led_driver_intance/led_o_reg[4]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_i rise edge)      0.000     0.000 r  
-    G11                                               0.000     0.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     0.000    clk_i
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     0.388 r  clk_i_IBUF_inst/O
-                         net (fo=1, routed)           0.660     1.048    clk_i_IBUF
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     1.077 r  clk_i_IBUF_BUFG_inst/O
-                         net (fo=43, routed)          0.859     1.935    led_driver_intance/clk_i_IBUF_BUFG
-    SLICE_X38Y36         FDRE                                         r  led_driver_intance/led_o_reg[4]/C
-                         clock pessimism             -0.498     1.437    
-    SLICE_X38Y36         FDRE (Hold_fdre_C_D)         0.059     1.496    led_driver_intance/led_o_reg[4]
-  -------------------------------------------------------------------
-                         required time                         -1.496    
-                         arrival time                           1.752    
-  -------------------------------------------------------------------
-                         slack                                  0.255    
+                         slack                                  0.231    
 
 
 
@@ -1265,35 +1248,35 @@ Sources:            { clk_i }
 
 Check Type        Corner  Lib Pin  Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location       Pin
 Min Period        n/a     BUFG/I   n/a            2.155         10.000      7.845      BUFGCTRL_X0Y0  clk_i_IBUF_BUFG_inst/I
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y32   led_driver_intance/cnt_reg[0]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y34   led_driver_intance/cnt_reg[10]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y34   led_driver_intance/cnt_reg[11]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y35   led_driver_intance/cnt_reg[12]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y35   led_driver_intance/cnt_reg[13]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y35   led_driver_intance/cnt_reg[14]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y35   led_driver_intance/cnt_reg[15]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y36   led_driver_intance/cnt_reg[16]/C
-Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X39Y36   led_driver_intance/cnt_reg[17]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[0]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[1]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[2]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[3]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y34   led_driver_intance/cnt_reg[10]/C
-Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y34   led_driver_intance/cnt_reg[11]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y35   led_driver_intance/cnt_reg[12]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y35   led_driver_intance/cnt_reg[13]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y35   led_driver_intance/cnt_reg[14]/C
-Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y35   led_driver_intance/cnt_reg[15]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y37   led_driver_intance/cnt_reg[20]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y37   led_driver_intance/cnt_reg[21]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y37   led_driver_intance/cnt_reg[22]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y37   led_driver_intance/cnt_reg[23]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y37   led_driver_intance/led_o_reg[3]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X0Y41    spi_driver_intance/miso_reg/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[0]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y34   led_driver_intance/cnt_reg[10]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y34   led_driver_intance/cnt_reg[11]/C
-High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X39Y32   led_driver_intance/cnt_reg[1]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X3Y41    data_tx_reg[0]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X3Y41    data_tx_reg[1]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X3Y41    data_tx_reg[2]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X3Y41    data_tx_reg[3]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X2Y41    data_tx_reg[4]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X2Y41    data_tx_reg[5]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X2Y41    data_tx_reg[6]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X2Y41    data_tx_reg[7]/C
+Min Period        n/a     FDRE/C   n/a            1.000         10.000      9.000      SLICE_X2Y40    data_tx_valid_reg/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y32   led_driver_intance/cnt_reg[0]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y32   led_driver_intance/cnt_reg[1]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y32   led_driver_intance/cnt_reg[2]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y32   led_driver_intance/cnt_reg[3]/C
+Low Pulse Width   Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X0Y43    spi_driver_intance/mosi_reg/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X0Y43    spi_driver_intance/mosi_reg/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[0]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[1]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[2]/C
+Low Pulse Width   Fast    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[3]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[0]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[1]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[2]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X3Y41    data_tx_reg[3]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X2Y41    data_tx_reg[4]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X2Y41    data_tx_reg[5]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X2Y41    data_tx_reg[6]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X2Y41    data_tx_reg[7]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y37   led_driver_intance/cnt_reg[20]/C
+High Pulse Width  Slow    FDRE/C   n/a            0.500         5.000       4.500      SLICE_X38Y37   led_driver_intance/cnt_reg[21]/C
 
 
 
