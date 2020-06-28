@@ -5,15 +5,15 @@
 ###############################################################################
 # BRIDGE SPI - FPGA - slave mode
 ###############################################################################
-set_property IOSTANDARD LVCMOS33 [get_ports {nss_i}]
-set_property IOSTANDARD LVCMOS33 [get_ports {sck_i}]
-set_property IOSTANDARD LVCMOS33 [get_ports {mosi_i}]
-set_property IOSTANDARD LVCMOS33 [get_ports {miso_o}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_nss_i}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_sck_i}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_mosi_i}]
+set_property IOSTANDARD LVCMOS33 [get_ports {spi_miso_o}]
 
-set_property PACKAGE_PIN A12 [get_ports {nss_i}]
-set_property PACKAGE_PIN A13 [get_ports {sck_i}]
-set_property PACKAGE_PIN A10 [get_ports {mosi_i}]
-set_property PACKAGE_PIN B13 [get_ports {miso_o}]
+set_property PACKAGE_PIN A12 [get_ports {spi_nss_i}]
+set_property PACKAGE_PIN A13 [get_ports {spi_sck_i}]
+set_property PACKAGE_PIN A10 [get_ports {spi_mosi_i}]
+set_property PACKAGE_PIN B13 [get_ports {spi_miso_o}]
 
 ###############################################################################
 # BRIDGE Not use (reserved pins)
