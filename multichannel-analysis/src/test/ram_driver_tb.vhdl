@@ -25,14 +25,15 @@ architecture behavioral of ram_driver_tb is
     -- CLOCK ------------------------------------------------------------------
     ---------------------------------------------------------------------------
     signal clk : std_logic;
-    ---------------------------------------------------------------------------
-    -- CONTROL ----------------------------------------------------------------
-    ---------------------------------------------------------------------------
-    signal control_read       : std_logic;
-    signal control_write      : std_logic;
-    signal control_address    : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
-    signal control_data_write : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
-    signal control_data_read  : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
+    -----------------------------------------------------------------------
+    -- USER interface -----------------------------------------------------
+    -----------------------------------------------------------------------
+    signal address        : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
+    signal data_read      : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
+    signal data_write     : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
+    signal data_vld_read  : std_logic;
+    signal data_vld_write : std_logic;
+    signal ready          : std_logic;
     ---------------------------------------------------------------------------
     -- RAM --------------------------------------------------------------------
     ---------------------------------------------------------------------------
@@ -60,61 +61,47 @@ begin
 
     dut : entity work.ram_driver
         port map(
-            clk_i                => clk,
-            control_read_i       => control_read,
-            control_write_i      => control_write,
-            control_address_i    => control_address,
-            control_data_write_i => control_data_write,
-            control_data_read_o  => control_data_read,
-            ram_ce_n_o           => ram_ce_n,
-            ram_oe_n_o           => ram_oe_n,
-            ram_we_n_o           => ram_we_n,
-            ram_lb_n_o           => ram_lb_n,
-            ram_ub_n_o           => ram_ub_n,
-            ram_address_o        => ram_address,
-            ram_data_io          => ram_data_io
+            clk_i         => clk,
+            address_i     => address,
+            data_i        => data_write,
+            data_o        => data_read,
+            data_vld_i    => data_vld_write,
+            data_vld_o    => data_vld_read,
+            ready_o       => ready,
+            ram_ce_n_o    => ram_ce_n,
+            ram_oe_n_o    => ram_oe_n,
+            ram_we_n_o    => ram_we_n,
+            ram_lb_n_o    => ram_lb_n,
+            ram_ub_n_o    => ram_ub_n,
+            ram_address_o => ram_address,
+            ram_data_io   => ram_data_io
         );
 
+    clock : process begin
+        clk <= '0';
+        wait for CLK_HALF_PERIOD;
+        clk <= '1';
+        wait for CLK_HALF_PERIOD;
+    end process clock;
+
     stim : process begin
-        clk                <= '0';
-        control_read       <= '0';
-        control_write      <= '0';
-        control_address    <= (others => '0');
-        control_data_write <= (others => '0');
+        data_vld_write <= '0';
+        address        <= (others => '0');
+        data_write     <= (others => '0');
 
-        wait for 1 ns;
+        wait until ready = '1';
 
-        for i in 0 to 10 loop
-            clk <= '0';
-            wait for CLK_HALF_PERIOD;
-
-            control_address    <= std_logic_vector(to_unsigned(i, control_address'length));
-            control_data_write <= std_logic_vector(to_unsigned(i + 51, control_data_write'length));
-
-            if i = 2 then
-                control_write <= '1';
-            elsif i = 9 then
-                control_write <= '0';
-            end if;
-
-            clk <= '1';
-            wait for CLK_HALF_PERIOD;
+        for i in 0 to 5 loop
+            address        <= std_logic_vector(to_unsigned(i, address'length));
+            data_write     <= std_logic_vector(to_unsigned(i, data_write'length));
+            data_vld_write <= '1';
+            wait until ready = '1';
         end loop;
+        data_vld_write <= '0';
 
-        for i in 0 to 10 loop
-            clk <= '0';
-            wait for CLK_HALF_PERIOD;
-
-            control_address <= std_logic_vector(to_unsigned(i, control_address'length));
-
-            if i = 2 then
-                control_read <= '1';
-            elsif i = 9 then
-                control_read <= '0';
-            end if;
-
-            clk <= '1';
-            wait for CLK_HALF_PERIOD;
+        for i in 0 to 5 loop
+            address <= std_logic_vector(to_unsigned(i, address'length));
+            wait until ready = '1';
         end loop;
 
         finish(0);
