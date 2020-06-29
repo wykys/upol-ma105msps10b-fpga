@@ -99,10 +99,15 @@ begin
         end loop;
         data_vld_write <= '0';
 
+        wait for CLK_HALF_PERIOD * 10;
+
         for i in 0 to 5 loop
             address <= std_logic_vector(to_unsigned(i, address'length));
-            wait until ready = '1';
+            wait until data_vld_read = '1';
         end loop;
+
+        wait until ready = '1';
+        wait for 1 ns;
 
         finish(0);
     end process stim;

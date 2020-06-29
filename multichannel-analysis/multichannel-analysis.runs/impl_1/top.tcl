@@ -73,7 +73,9 @@ set rc [catch {
   set_property parent.project_path /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.xpr [current_project]
   set_property ip_output_repo /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
+  set_property XPM_LIBRARIES XPM_CDC [current_project]
   add_files -quiet /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/top.dcp
+  read_ip -quiet /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
   read_xdc /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/constraints/adc.xdc
   read_xdc /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/constraints/bridge.xdc
   read_xdc /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/constraints/clk.xdc
@@ -161,6 +163,7 @@ start_step write_bitstream
 set ACTIVE_STEP write_bitstream
 set rc [catch {
   create_msg_db write_bitstream.pb
+  set_property XPM_LIBRARIES XPM_CDC [current_project]
   catch { write_mem_info -force top.mmi }
   write_bitstream -force top.bit 
   catch {write_debug_probes -quiet -force top}

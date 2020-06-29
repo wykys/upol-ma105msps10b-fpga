@@ -20,14 +20,37 @@ entity top is
         -----------------------------------------------------------------------
         -- SPI ----------------------------------------------------------------
         -----------------------------------------------------------------------
-        nss_i  : in std_logic;
-        sck_i  : in std_logic;
-        mosi_i : in std_logic;
-        miso_o : out std_logic;
+        spi_nss_i  : in std_logic;
+        spi_sck_i  : in std_logic;
+        spi_mosi_i : in std_logic;
+        spi_miso_o : out std_logic;
         -----------------------------------------------------------------------
-        -- LED OUTPUT ---------------------------------------------------------
+        -- RESERVED IO beetwen MCU and FPGA -----------------------------------
         -----------------------------------------------------------------------
-        led_o : out std_logic_vector(1 to 4) := (others => '0')
+        nu_io : inout std_logic_vector(3 downto 0);
+        -----------------------------------------------------------------------
+        -- ADC ----------------------------------------------------------------
+        -----------------------------------------------------------------------
+        adc_data_i  : std_logic_vector(9 downto 0);
+        adc_ovrng_i : std_logic;
+        -----------------------------------------------------------------------
+        -- SRAM ---------------------------------------------------------------
+        -----------------------------------------------------------------------
+        sram_data_io   : inout std_logic_vector(15 downto 0);
+        sram_address_o : out std_logic_vector(16 downto 0);
+        sram_ce_n_o    : out std_logic;
+        sram_oe_n_o    : out std_logic;
+        sram_we_n_o    : out std_logic;
+        sram_lb_n_o    : out std_logic;
+        sram_ub_n_o    : out std_logic;
+        -----------------------------------------------------------------------
+        -- LED ----------------------------------------------------------------
+        -----------------------------------------------------------------------
+        led_o : out std_logic_vector(1 to 4) := (others => '0');
+        -----------------------------------------------------------------------
+        -- GPIO for DEBUG -----------------------------------------------------
+        -----------------------------------------------------------------------
+        gpio_io : inout std_logic_vector(3 downto 0)
     );
 end entity top;
 
@@ -35,52 +58,102 @@ architecture rtl of top is
     signal clk : std_logic;
     signal rst : std_logic;
 
-    signal data_rx       : std_logic_vector(7 downto 0) := (others => '1');
-    signal data_tx       : std_logic_vector(7 downto 0) := (others => '1');
-    signal data_rx_valid : std_logic;
-    signal data_tx_valid : std_logic := '0';
-    signal ready         : std_logic;
-    signal first         : std_logic;
+    signal spi_data_rx       : std_logic_vector(7 downto 0) := (others => '1');
+    signal spi_data_tx       : std_logic_vector(7 downto 0) := (others => '1');
+    signal spi_data_rx_valid : std_logic;
+    signal spi_data_tx_valid : std_logic := '0';
+    signal spi_ready         : std_logic;
+    signal spi_first         : std_logic;
+
+    signal sram_address        : std_logic_vector(16 downto 0) := (others => '0');
+    signal sram_data_write     : std_logic_vector(15 downto 0);
+    signal sram_data_read      : std_logic_vector(15 downto 0);
+    signal sram_data_vld_write : std_logic := '1';
+    signal sram_data_vld_read  : std_logic;
+    signal sram_ready          : std_logic;
 begin
 
-    clk <= clk_i;
-    rst <= not nrst_i;
+    ---------------------------------------------------------------------------
+    -- Resetovací obvod.
+    ---------------------------------------------------------------------------
+    rst_driver_inst : entity work.rst_driver
+        port map
+        (
+            clk_i  => clk_i,
+            nrst_i => nrst_i,
+            rst_o  => rst
+        );
 
-    led_driver_intance : entity work.led_driver
+    ---------------------------------------------------------------------------
+    -- Posunutí hodin z důvodu korektního časování čtení z ADC.
+    ---------------------------------------------------------------------------
+    clk_wiz_0_inst : entity work.clk_wiz_0
+        port map
+        (
+            reset   => rst,
+            clk_in  => clk_i,
+            clk_out => clk
+        );
+
+    ---------------------------------------------------------------------------
+    -- LED driver.
+    ---------------------------------------------------------------------------
+    led_driver_inst : entity work.led_driver
         port map(
             clk_i => clk,
             led_o => led_o
         );
 
-    spi_driver_intance : entity work.spi_driver
+    ---------------------------------------------------------------------------
+    -- HW rozhranní pro SPI.
+    ---------------------------------------------------------------------------
+    spi_driver_inst : entity work.spi_driver
         port map(
             clk_i      => clk,
             rst_i      => rst,
-            nss_i      => nss_i,
-            sck_i      => sck_i,
-            mosi_i     => mosi_i,
-            miso_o     => miso_o,
-            data_i     => data_tx,
-            data_o     => data_rx,
-            data_vld_i => data_tx_valid,
-            data_vld_o => data_rx_valid,
-            ready_o    => ready,
-            first_o    => first
+            nss_i      => spi_nss_i,
+            sck_i      => spi_sck_i,
+            mosi_i     => spi_mosi_i,
+            miso_o     => spi_miso_o,
+            data_i     => spi_data_tx,
+            data_o     => spi_data_rx,
+            data_vld_i => spi_data_tx_valid,
+            data_vld_o => spi_data_rx_valid,
+            ready_o    => spi_ready,
+            first_o    => spi_first
         );
 
-    process (clk)
-    begin
-        if rising_edge(clk) then
-            if data_rx_valid = '1' then
-                data_tx       <= data_rx;
-                data_tx_valid <= '1';
-            end if;
+    ---------------------------------------------------------------------------
+    -- HW rozhranní pro ADC.
+    ---------------------------------------------------------------------------
+    adc_driver_inst : entity work.adc_driver
+        port map(
+            clk_i       => clk,
+            adc_ovrng_i => adc_ovrng_i,
+            adc_data_i  => adc_data_i,
+            ovrng_o     => open,
+            sample_o    => open
+        );
 
-            if ready = '0' then
-                data_tx_valid <= '0';
-            end if;
-
-        end if;
-    end process;
+    ---------------------------------------------------------------------------
+    -- HW rozhranní pro SRAM.
+    ---------------------------------------------------------------------------
+    ram_driver_inst : entity work.ram_driver
+        port map(
+            clk_i         => clk,
+            address_i     => sram_address,
+            data_i        => sram_data_write,
+            data_o        => sram_data_read,
+            data_vld_i    => sram_data_vld_write,
+            data_vld_o    => sram_data_vld_read,
+            ready_o       => sram_ready,
+            ram_ce_n_o    => sram_ce_n_o,
+            ram_oe_n_o    => sram_oe_n_o,
+            ram_we_n_o    => sram_we_n_o,
+            ram_lb_n_o    => sram_lb_n_o,
+            ram_ub_n_o    => sram_ub_n_o,
+            ram_address_o => sram_address_o,
+            ram_data_io   => sram_data_io
+        );
 
 end architecture rtl;

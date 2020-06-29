@@ -50,6 +50,7 @@ architecture rtl of ram_driver is
     );
 
     signal opcode      : ram_opcode_t := WAIT_FOR_CMD;
+    signal opcode_old  : ram_opcode_t := WAIT_FOR_CMD;
     signal address_old : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
 
 begin
@@ -61,6 +62,7 @@ begin
     process (clk_i)
     begin
         if rising_edge(clk_i) then
+            opcode_old <= opcode;
             case opcode is
                 when WAIT_FOR_CMD =>
                     -----------------------------------------------------------
@@ -83,9 +85,10 @@ begin
                         ram_data_io <= data_i;
                         data_vld_o  <= '0';
 
-                    elsif address_old /= address_i then
+                    elsif address_old /= address_i or opcode_old = WRITE_DATA then
                         -------------------------------------------------------
-                        -- Změna adresy, chci číst obsah RAM.
+                        -- Změna adresy, nebo předcházející zápis,
+                        -- tedy chci číst obsah RAM.
                         -------------------------------------------------------
                         opcode     <= READ_DATA;
                         ready_o    <= '0';
@@ -108,7 +111,6 @@ begin
                     opcode     <= WAIT_FOR_CMD;
                     data_o     <= ram_data_io;
                     data_vld_o <= '1';
-                    ready_o    <= '1';
 
                 when others =>
                     null;

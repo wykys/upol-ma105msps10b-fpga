@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Sun Jun 28 00:21:21 2020
+| Date         : Mon Jun 29 12:15:18 2020
 | Host         : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command      : report_methodology -file top_methodology_drc_routed.rpt -pb top_methodology_drc_routed.pb -rpx top_methodology_drc_routed.rpx
 | Design       : top
@@ -23,58 +23,67 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 9
-+-----------+----------+-------------------------------+------------+
-| Rule      | Severity | Description                   | Violations |
-+-----------+----------+-------------------------------+------------+
-| TIMING-18 | Warning  | Missing input or output delay | 9          |
-+-----------+----------+-------------------------------+------------+
+             Violations found: 10
++-----------+------------------+------------------------------------------------------------------+------------+
+| Rule      | Severity         | Description                                                      | Violations |
++-----------+------------------+------------------------------------------------------------------+------------+
+| TIMING-4  | Critical Warning | Invalid primary clock redefinition on a clock tree               | 1          |
+| TIMING-27 | Critical Warning | Invalid primary clock on hierarchical pin                        | 1          |
+| CKLD-2    | Warning          | Clock Net has IO Driver, not a Clock Buf, and/or non-Clock loads | 1          |
+| LUTAR-1   | Warning          | LUT drives async reset alert                                     | 1          |
+| TIMING-18 | Warning          | Missing input or output delay                                    | 6          |
++-----------+------------------+------------------------------------------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
-TIMING-18#1 Warning
-Missing input or output delay  
-An input delay is missing on mosi_i relative to clock(s) clk_i
+TIMING-4#1 Critical Warning
+Invalid primary clock redefinition on a clock tree  
+Invalid clock redefinition on a clock tree. The primary clock clk_wiz_0_inst/inst/clk_in is defined downstream of clock clk_i and overrides its insertion delay and/or waveform definition
 Related violations: <none>
 
-TIMING-18#2 Warning
+TIMING-27#1 Critical Warning
+Invalid primary clock on hierarchical pin  
+A primary clock clk_wiz_0_inst/inst/clk_in is created on an inappropriate internal pin clk_wiz_0_inst/inst/clk_in. It is not recommended to create a primary clock on a hierarchical pin when its driver pin has a fanout connected to multiple clock pins
+Related violations: <none>
+
+CKLD-2#1 Warning
+Clock Net has IO Driver, not a Clock Buf, and/or non-Clock loads  
+Clock net clk_i_IBUF is directly driven by an IO rather than a Clock Buffer or may be an IO driving a mix of Clock Buffer and non-Clock loads. This connectivity should be reviewed and corrected as appropriate. Driver(s): clk_i_IBUF_inst/O, rst_driver_inst/clk_i, clk_wiz_0_inst/clk_in
+Related violations: <none>
+
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell rst_driver_inst/clk_wiz_0_inst_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) clk_wiz_0_inst/inst/mmcm_adv_inst/RST. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+TIMING-18#1 Warning
 Missing input or output delay  
 An input delay is missing on nrst_i relative to clock(s) clk_i
 Related violations: <none>
 
+TIMING-18#2 Warning
+Missing input or output delay  
+An output delay is missing on led_o[1] relative to clock(s) clk_wiz_0_inst/inst/clk_in
+Related violations: <none>
+
 TIMING-18#3 Warning
 Missing input or output delay  
-An input delay is missing on nss_i relative to clock(s) clk_i
+An output delay is missing on led_o[2] relative to clock(s) clk_wiz_0_inst/inst/clk_in
 Related violations: <none>
 
 TIMING-18#4 Warning
 Missing input or output delay  
-An input delay is missing on sck_i relative to clock(s) clk_i
+An output delay is missing on led_o[3] relative to clock(s) clk_wiz_0_inst/inst/clk_in
 Related violations: <none>
 
 TIMING-18#5 Warning
 Missing input or output delay  
-An output delay is missing on led_o[1] relative to clock(s) clk_i
+An output delay is missing on led_o[4] relative to clock(s) clk_wiz_0_inst/inst/clk_in
 Related violations: <none>
 
 TIMING-18#6 Warning
 Missing input or output delay  
-An output delay is missing on led_o[2] relative to clock(s) clk_i
-Related violations: <none>
-
-TIMING-18#7 Warning
-Missing input or output delay  
-An output delay is missing on led_o[3] relative to clock(s) clk_i
-Related violations: <none>
-
-TIMING-18#8 Warning
-Missing input or output delay  
-An output delay is missing on led_o[4] relative to clock(s) clk_i
-Related violations: <none>
-
-TIMING-18#9 Warning
-Missing input or output delay  
-An output delay is missing on miso_o relative to clock(s) clk_i
+An output delay is missing on sram_we_n_o relative to clock(s) clk_wiz_0_inst/inst/clk_in
 Related violations: <none>
 
 

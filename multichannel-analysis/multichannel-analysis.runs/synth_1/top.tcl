@@ -22,17 +22,27 @@ create_project -in_memory -part xc7s15ftgb196-1IL
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
+set_msg_config -source 4 -id {IP_Flow 19-2162} -severity warning -new_severity info
 set_property webtalk.parent_dir /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.cache/wt [current_project]
 set_property parent.project_path /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.xpr [current_project]
+set_property XPM_LIBRARIES XPM_CDC [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
 set_property ip_output_repo /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_vhdl -library xil_defaultlib {
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/led_driver.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/ram_driver.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl
 }
+read_ip -quiet /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci
+set_property used_in_implementation false [get_files -all /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_board.xdc]
+set_property used_in_implementation false [get_files -all /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc]
+set_property used_in_implementation false [get_files -all /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0_ooc.xdc]
+
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
 # design are intentionally left as such for best results. Dcp files will be
