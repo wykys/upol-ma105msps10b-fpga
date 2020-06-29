@@ -6,6 +6,7 @@
 # ADC - data
 ###############################################################################
 set_property IOSTANDARD LVCMOS33 [get_ports {adc_data_i[*]}]
+set_property PULLTYPE PULLDOWN [get_ports {adc_data_i[*]}]
 
 set_property PACKAGE_PIN F14 [get_ports {adc_data_i[0]}]
 set_property PACKAGE_PIN G14 [get_ports {adc_data_i[1]}]
@@ -22,5 +23,5 @@ set_property PACKAGE_PIN M13 [get_ports {adc_data_i[9]}]
 # ADC - overrange
 ###############################################################################
 set_property IOSTANDARD LVCMOS33 [get_ports {adc_ovrng_i}]
-
+set_property PULLTYPE PULLDOWN [get_ports {adc_ovrng_i}]
 set_property PACKAGE_PIN N14 [get_ports {adc_ovrng_i}]
