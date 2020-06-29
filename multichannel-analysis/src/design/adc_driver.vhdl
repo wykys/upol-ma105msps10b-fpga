@@ -22,10 +22,10 @@ entity adc_driver is
         adc_ovrng_i : in std_logic                                              := '0';
         adc_data_i  : in std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0) := (others => '0');
         -----------------------------------------------------------------------
-        -- OUTPUT -------------------------------------------------------------
+        -- USER interface -----------------------------------------------------
         -----------------------------------------------------------------------
         ovrng_o  : out std_logic                                              := '0';
-        sample_o : out std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0) := (others => '0')
+        data_o : out std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0) := (others => '0')
     );
 end entity adc_driver;
 
@@ -40,7 +40,7 @@ begin
 
     process (clk_i) begin
         if rising_edge(clk_i) then
-            sample_o <= adc_data_i;
+            data_o <= adc_data_i;
             ovrng_o  <= adc_ovrng_i;
         end if;
     end process;

@@ -58,19 +58,22 @@ architecture rtl of top is
     signal clk : std_logic;
     signal rst : std_logic;
 
-    signal spi_data_rx       : std_logic_vector(7 downto 0) := (others => '1');
-    signal spi_data_tx       : std_logic_vector(7 downto 0) := (others => '1');
-    signal spi_data_rx_valid : std_logic;
-    signal spi_data_tx_valid : std_logic := '0';
-    signal spi_ready         : std_logic;
-    signal spi_first         : std_logic;
+    signal spi_data_rx     : std_logic_vector(7 downto 0) := (others => '1');
+    signal spi_data_tx     : std_logic_vector(7 downto 0) := (others => '1');
+    signal spi_data_rx_vld : std_logic;
+    signal spi_data_tx_vld : std_logic := '0';
+    signal spi_ready       : std_logic;
+    signal spi_first       : std_logic;
 
     signal sram_address        : std_logic_vector(16 downto 0) := (others => '0');
     signal sram_data_write     : std_logic_vector(15 downto 0);
     signal sram_data_read      : std_logic_vector(15 downto 0);
-    signal sram_data_vld_write : std_logic := '1';
-    signal sram_data_vld_read  : std_logic;
+    signal sram_data_write_vld : std_logic := '1';
+    signal sram_data_read_vld  : std_logic;
     signal sram_ready          : std_logic;
+
+    signal adc_data  : std_logic_vector(9 downto 0);
+    signal adc_ovrng : std_logic;
 begin
 
     ---------------------------------------------------------------------------
@@ -117,8 +120,8 @@ begin
             miso_o     => spi_miso_o,
             data_i     => spi_data_tx,
             data_o     => spi_data_rx,
-            data_vld_i => spi_data_tx_valid,
-            data_vld_o => spi_data_rx_valid,
+            data_vld_i => spi_data_tx_vld,
+            data_vld_o => spi_data_rx_vld,
             ready_o    => spi_ready,
             first_o    => spi_first
         );
@@ -131,8 +134,8 @@ begin
             clk_i       => clk,
             adc_ovrng_i => adc_ovrng_i,
             adc_data_i  => adc_data_i,
-            ovrng_o     => open,
-            sample_o    => open
+            ovrng_o     => adc_ovrng,
+            data_o      => adc_data
         );
 
     ---------------------------------------------------------------------------
@@ -151,9 +154,35 @@ begin
             address_i      => sram_address,
             data_i         => sram_data_write,
             data_o         => sram_data_read,
-            data_vld_i     => sram_data_vld_write,
-            data_vld_o     => sram_data_vld_read,
+            data_vld_i     => sram_data_write_vld,
+            data_vld_o     => sram_data_read_vld,
             ready_o        => sram_ready
+        );
+
+    ---------------------------------------------------------------------------
+    -- Řídící logika.
+    ---------------------------------------------------------------------------
+    control_inst : entity work.control
+        port map(
+            clk_i => clk,
+            rst_i => rst,
+            -------------------------------------------------------------------
+            spi_data_o     => spi_data_tx,
+            spi_data_i     => spi_data_rx,
+            spi_data_vld_o => spi_data_tx_vld,
+            spi_data_vld_i => spi_data_rx_vld,
+            spi_ready_i    => spi_ready,
+            spi_first_i    => spi_first,
+            -------------------------------------------------------------------
+            sram_address_o  => sram_address,
+            sram_data_o     => sram_data_write,
+            sram_data_i     => sram_data_read,
+            sram_data_vld_i => sram_data_write_vld,
+            sram_data_vld_o => sram_data_read_vld,
+            sram_ready_i    => sram_ready,
+            -------------------------------------------------------------------
+            adc_ovrng_i => adc_ovrng,
+            adc_data_i  => adc_data
         );
 
 end architecture rtl;

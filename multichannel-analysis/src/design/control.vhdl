@@ -7,7 +7,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
-entity spi_driver is
+entity control is
     port (
         -----------------------------------------------------------------------
         -- CLOCK --------------------------------------------------------------
@@ -29,16 +29,21 @@ entity spi_driver is
         -----------------------------------------------------------------------
         -- RAM USER interface -------------------------------------------------
         -----------------------------------------------------------------------
-        ram_address_o  : in std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0); -- Adresa.
-        ram_data_o     : in std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);    -- Data co budou zapsána.
-        ram_data_i     : out std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);   -- Přečtená data.
-        ram_data_vld_i : in std_logic;                                                 -- Vstupní data jsou validní.
-        ram_data_vld_o : out std_logic := '0';                                         -- Výstupní data jsou validní.
-        ram_ready_i    : out std_logic                                                 -- Signalizace připravenosti.
+        sram_address_o  : in std_logic_vector(16 downto 0);  -- Adresa.
+        sram_data_o     : in std_logic_vector(15 downto 0);  -- Data co budou zapsána.
+        sram_data_i     : out std_logic_vector(15 downto 0); -- Přečtená data.
+        sram_data_vld_i : in std_logic;                      -- Vstupní data jsou validní.
+        sram_data_vld_o : out std_logic := '0';              -- Výstupní data jsou validní.
+        sram_ready_i    : out std_logic;                     -- Signalizace připravenosti.
+        -----------------------------------------------------------------------
+        -- ADC USER interface -------------------------------------------------
+        -----------------------------------------------------------------------
+        adc_ovrng_i : out std_logic;                   -- Mimo rozsah
+        adc_data_i  : out std_logic_vector(9 downto 0) -- Vzorek
     );
-end entity spi_driver;
+end entity control;
 
-architecture rtl of spi_driver is
+architecture rtl of control is
     signal cmd : std_logic_vector(7 downto 0) := (others => '0');
 
     constant SPI_CMD_MEASUREMENT_START : std_logic_vector(7 downto 0) := x"01";
@@ -47,42 +52,5 @@ architecture rtl of spi_driver is
     constant SPI_CMD_MEMORY_READ       : std_logic_vector(7 downto 0) := x"04";
 
 begin
-
-    ---------------------------------------------------------------------------
-    -- SPI komunikace.
-    ---------------------------------------------------------------------------
-    process (clk_i)
-    begin
-        if rising_edge(clk_i) then
-            data_vld_o <= '0';
-            tx_empty   <= '0';
-            if rst_i = '1' then
-                cmd <= (others => '0');
-
-            else
-                if spi_data_vld_i = '1' and spi_first_i = '1' then
-                    -----------------------------------------------------------
-                    -- Přijde příkaz
-                    -----------------------------------------------------------
-                    cmd <= spi_data_i;
-                end if;
-            end if;
-        end if;
-    end process;
-
-    ---------------------------------------------------------------------------
-    -- Reakce na příkaz.
-    ---------------------------------------------------------------------------
-    process (clk_i)
-    begin
-        if rising_edge(clk_i) then
-            if rst_i = '1' then
-                null;
-
-            else
-
-            end if;
-        end if;
-    end process;
 
 end architecture rtl;
