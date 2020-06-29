@@ -3,8 +3,8 @@ vhdl xil_defaultlib  \
 "../../../../src/test/package_timing.vhdl" \
 "../../../../src/test/package_utility.vhdl" \
 "../../../../src/test/async_128Kx16.vhdl" \
-"../../../../src/design/ram_driver.vhdl" \
-"../../../../src/test/ram_driver_tb.vhdl" \
+"../../../../src/design/sram_driver.vhdl" \
+"../../../../src/test/sram_driver_tb.vhdl" \
 
 # Do not sort compile order
 nosort

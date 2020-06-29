@@ -25,9 +25,9 @@ architecture behavioral of ram_driver_tb is
     -- CLOCK ------------------------------------------------------------------
     ---------------------------------------------------------------------------
     signal clk : std_logic;
-    -----------------------------------------------------------------------
-    -- USER interface -----------------------------------------------------
-    -----------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    -- USER interface ---------------------------------------------------------
+    ---------------------------------------------------------------------------
     signal address        : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
     signal data_read      : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
     signal data_write     : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
@@ -37,44 +37,44 @@ architecture behavioral of ram_driver_tb is
     ---------------------------------------------------------------------------
     -- RAM --------------------------------------------------------------------
     ---------------------------------------------------------------------------
-    signal ram_ce_n : std_logic;
-    signal ram_oe_n : std_logic;
-    signal ram_we_n : std_logic;
-    signal ram_lb_n : std_logic;
-    signal ram_ub_n : std_logic;
+    signal sram_ce_n : std_logic;
+    signal sram_oe_n : std_logic;
+    signal sram_we_n : std_logic;
+    signal sram_lb_n : std_logic;
+    signal sram_ub_n : std_logic;
     ---------------------------------------------------------------------------
-    signal ram_address : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
-    signal ram_data_io : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
+    signal sram_address : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
+    signal sram_data_io : std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);
 
 begin
 
     async_sram_inst : entity work.async_128Kx16
         port map(
-            CE_b  => ram_ce_n,
-            WE_b  => ram_we_n,
-            OE_b  => ram_oe_n,
-            BHE_b => ram_ub_n,
-            BLE_b => ram_lb_n,
-            A     => ram_address,
-            DQ    => ram_data_io
+            CE_b  => sram_ce_n,
+            WE_b  => sram_we_n,
+            OE_b  => sram_oe_n,
+            BHE_b => sram_ub_n,
+            BLE_b => sram_lb_n,
+            A     => sram_address,
+            DQ    => sram_data_io
         );
 
-    dut : entity work.ram_driver
+    dut : entity work.sram_driver
         port map(
-            clk_i         => clk,
-            address_i     => address,
-            data_i        => data_write,
-            data_o        => data_read,
-            data_vld_i    => data_vld_write,
-            data_vld_o    => data_vld_read,
-            ready_o       => ready,
-            ram_ce_n_o    => ram_ce_n,
-            ram_oe_n_o    => ram_oe_n,
-            ram_we_n_o    => ram_we_n,
-            ram_lb_n_o    => ram_lb_n,
-            ram_ub_n_o    => ram_ub_n,
-            ram_address_o => ram_address,
-            ram_data_io   => ram_data_io
+            clk_i          => clk,
+            sram_ce_n_o    => sram_ce_n,
+            sram_oe_n_o    => sram_oe_n,
+            sram_we_n_o    => sram_we_n,
+            sram_lb_n_o    => sram_lb_n,
+            sram_ub_n_o    => sram_ub_n,
+            sram_address_o => sram_address,
+            sram_data_io   => sram_data_io,
+            address_i      => address,
+            data_i         => data_write,
+            data_o         => data_read,
+            data_vld_i     => data_vld_write,
+            data_vld_o     => data_vld_read,
+            ready_o        => ready
         );
 
     clock : process begin

@@ -25,7 +25,16 @@ entity spi_driver is
         spi_data_vld_o : in std_logic;                     -- Vstupní data jsou validní.
         spi_data_vld_i : out std_logic;                    -- Výstupní data jsou validní.
         spi_ready_i    : out std_logic;                    -- Vstupní data byla přesunuta do bufferu.
-        spi_first_i    : out std_logic                     -- Příznak prvního bytu v rámci.
+        spi_first_i    : out std_logic;                    -- Příznak prvního bytu v rámci.
+        -----------------------------------------------------------------------
+        -- RAM USER interface -------------------------------------------------
+        -----------------------------------------------------------------------
+        ram_address_o  : in std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0); -- Adresa.
+        ram_data_o     : in std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);    -- Data co budou zapsána.
+        ram_data_i     : out std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);   -- Přečtená data.
+        ram_data_vld_i : in std_logic;                                                 -- Vstupní data jsou validní.
+        ram_data_vld_o : out std_logic := '0';                                         -- Výstupní data jsou validní.
+        ram_ready_i    : out std_logic                                                 -- Signalizace připravenosti.
     );
 end entity spi_driver;
 

@@ -90,7 +90,7 @@ begin
     clk_wiz_0_inst : entity work.clk_wiz_0
         port map
         (
-            reset   => rst,
+            reset   => '0',
             clk_in  => clk_i,
             clk_out => clk
         );
@@ -138,22 +138,22 @@ begin
     ---------------------------------------------------------------------------
     -- HW rozhranní pro SRAM.
     ---------------------------------------------------------------------------
-    ram_driver_inst : entity work.ram_driver
+    sram_driver_inst : entity work.sram_driver
         port map(
-            clk_i         => clk,
-            address_i     => sram_address,
-            data_i        => sram_data_write,
-            data_o        => sram_data_read,
-            data_vld_i    => sram_data_vld_write,
-            data_vld_o    => sram_data_vld_read,
-            ready_o       => sram_ready,
-            ram_ce_n_o    => sram_ce_n_o,
-            ram_oe_n_o    => sram_oe_n_o,
-            ram_we_n_o    => sram_we_n_o,
-            ram_lb_n_o    => sram_lb_n_o,
-            ram_ub_n_o    => sram_ub_n_o,
-            ram_address_o => sram_address_o,
-            ram_data_io   => sram_data_io
+            clk_i          => clk,
+            sram_ce_n_o    => sram_ce_n_o,
+            sram_oe_n_o    => sram_oe_n_o,
+            sram_we_n_o    => sram_we_n_o,
+            sram_lb_n_o    => sram_lb_n_o,
+            sram_ub_n_o    => sram_ub_n_o,
+            sram_address_o => sram_address_o,
+            sram_data_io   => sram_data_io,
+            address_i      => sram_address,
+            data_i         => sram_data_write,
+            data_o         => sram_data_read,
+            data_vld_i     => sram_data_vld_write,
+            data_vld_o     => sram_data_vld_read,
+            ready_o        => sram_ready
         );
 
 end architecture rtl;
