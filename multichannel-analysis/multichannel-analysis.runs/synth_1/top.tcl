@@ -17,6 +17,10 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
+set_param synth.incrementalSynthesisCache ./.Xil/Vivado-8851-wpc/incrSyn
+set_param chipscope.maxJobs 2
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 create_project -in_memory -part xc7s15ftgb196-1IL
 
 set_param project.singleFileAddWarning.threshold 0
@@ -32,10 +36,11 @@ set_property ip_output_repo /home/wykys/projects/upol-ma105msps10b-fpga/multicha
 set_property ip_cache_permissions {read write} [current_project]
 read_vhdl -library xil_defaultlib {
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/control.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/led_driver.vhdl
-  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/ram_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl
 }
 read_ip -quiet /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0.xci

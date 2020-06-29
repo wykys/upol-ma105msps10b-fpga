@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Mon Jun 29 12:15:06 2020
+| Date         : Mon Jun 29 15:30:56 2020
 | Host         : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
 | Design       : top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |     4 |
-|    Minimum number of control sets                        |     4 |
+| Total control sets                                       |     9 |
+|    Minimum number of control sets                        |     9 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    26 |
+| Unused register locations in slices containing registers |    30 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,11 +39,11 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |     4 |
-| >= 0 to < 4        |     2 |
+| Total control sets |     9 |
+| >= 0 to < 4        |     3 |
 | >= 4 to < 6        |     0 |
 | >= 6 to < 8        |     0 |
-| >= 8 to < 10       |     0 |
+| >= 8 to < 10       |     4 |
 | >= 10 to < 12      |     1 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
@@ -58,25 +58,30 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              35 |           12 |
+| No           | No                    | No                     |              47 |           20 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
-| Yes          | No                    | No                     |              11 |            3 |
+| Yes          | No                    | No                     |              35 |            8 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |               0 |            0 |
+| Yes          | Yes                   | No                     |               8 |            1 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+------------------------------+--------------------------------------+------------------+------------------+----------------+
-|         Clock Signal         |             Enable Signal            | Set/Reset Signal | Slice Load Count | Bel Load Count |
-+------------------------------+--------------------------------------+------------------+------------------+----------------+
-|  clk_wiz_0_inst/inst/clk_out | ram_driver_inst/ram_we_n_o_i_1_n_0   |                  |                1 |              1 |
-|  clk_i_IBUF                  |                                      |                  |                1 |              2 |
-|  clk_i_IBUF                  | rst_driver_inst/rst_power_on_reg_n_0 |                  |                2 |             10 |
-|  clk_wiz_0_inst/inst/clk_out |                                      |                  |               11 |             33 |
-+------------------------------+--------------------------------------+------------------+------------------+----------------+
++------------------------------+--------------------------------------+--------------------------------------+------------------+----------------+
+|         Clock Signal         |             Enable Signal            |           Set/Reset Signal           | Slice Load Count | Bel Load Count |
++------------------------------+--------------------------------------+--------------------------------------+------------------+----------------+
+|  clk_wiz_0_inst/inst/clk_out | sram_driver_inst/sram_we_n_o_i_1_n_0 |                                      |                1 |              1 |
+|  clk_i_IBUF                  |                                      |                                      |                1 |              2 |
+| ~clk_wiz_0_inst/inst/clk_out |                                      |                                      |                2 |              3 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/E[0]                 |                                      |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/spi_ready            | spi_driver_inst/buffer_tx[7]_i_1_n_0 |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_tx[7]_i_1_n_0   |                                      |                2 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_rx              |                                      |                2 |              8 |
+|  clk_i_IBUF                  | rst_driver_inst/rst_power_on_reg_0   |                                      |                2 |             10 |
+|  clk_wiz_0_inst/inst/clk_out |                                      |                                      |               17 |             42 |
++------------------------------+--------------------------------------+--------------------------------------+------------------+----------------+
 
 

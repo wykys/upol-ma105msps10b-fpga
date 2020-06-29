@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7s15ftgb196-1IL" LaunchTime="1593425637">
+<GenRun Id="impl_1" LaunchPart="xc7s15ftgb196-1IL" LaunchTime="1593437382">
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <File Type="BG-DRC" Name="top.drc"/>
   <File Type="BG-BGN" Name="top.bgn"/>
@@ -77,13 +77,13 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/src/design/led_driver.vhdl">
+    <File Path="$PPRDIR/src/design/control.vhdl">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PPRDIR/src/design/ram_driver.vhdl">
+    <File Path="$PPRDIR/src/design/led_driver.vhdl">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -96,6 +96,12 @@
       </FileInfo>
     </File>
     <File Path="$PPRDIR/src/design/spi_driver.vhdl">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/src/design/sram_driver.vhdl">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
