@@ -318,6 +318,7 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(15 downto 8);
+                        spi_data_o <= x"AA";
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_SEND_LSB;
                     end if;
@@ -328,6 +329,7 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(7 downto 0);
+                        spi_data_o <= (others => '0');
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_WAIT_FOR_DATA;
                     end if;
