@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Thu Jul  2 00:10:03 2020" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Thu Jul  2 01:15:12 2020" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2019.1 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2552052" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "LIN64" -context "software_version_and_target_device"
@@ -14,11 +14,11 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "cbbd0f28-b3bc-4cf8-8398-fefceec38ffe" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "dc0feb649b8344b681103928d68b269b" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "42" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "68" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "LinuxMint" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "Linux Mint 19.3 Tricia" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i7-3720QM CPU @ 2.60GHz" -context "user_environment"
-webtalk_add_data -client project -key cpu_speed -value "1249.912 MHz" -context "user_environment"
+webtalk_add_data -client project -key cpu_speed -value "1477.386 MHz" -context "user_environment"
 webtalk_add_data -client project -key total_processors -value "1" -context "user_environment"
 webtalk_add_data -client project -key system_ram -value "16.000 GB" -context "user_environment"
 webtalk_register_client -client xsim
@@ -30,13 +30,13 @@ webtalk_add_data -client xsim -key SDFModeling -value "false" -context "xsim\\co
 webtalk_add_data -client xsim -key HWCosim -value "false" -context "xsim\\command_line_options"
 webtalk_add_data -client xsim -key DPI_Used -value "false" -context "xsim\\command_line_options"
 webtalk_add_data -client xsim -key Debug -value "all" -context "xsim\\command_line_options"
-webtalk_add_data -client xsim -key Simulation_Image_Code -value "568 KB" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Simulation_Image_Code -value "572 KB" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Simulation_Image_Data -value "44 KB" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Nets -value "0" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Processes -value "263" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Instances -value "26" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Xilinx_HDL_Libraries_Used -value "secureip unimacro_ver unisims_ver " -context "xsim\\usage"
 webtalk_add_data -client xsim -key Compiler_Time -value "3.39_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Memory -value "303580_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 1140849742 -regid "" -xml /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Compiler_Memory -value "304112_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 3784657960 -regid "" -xml /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.sim/sim_1/behav/xsim/xsim.dir/top_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

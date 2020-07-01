@@ -14,14 +14,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="3000000001fs"></ZoomEndTime>
-      <Cursor1Time time="3000000000fs"></Cursor1Time>
+      <ZoomEndTime time="9000000001fs"></ZoomEndTime>
+      <Cursor1Time time="7570000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="170"></NameColumnWidth>
       <ValueColumnWidth column_width="116"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="23" />
+   <WVObjectSize size="29" />
    <wvobject type="logic" fp_name="/top_tb/dut/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
@@ -46,13 +46,50 @@
       <obj_property name="ElementShortName">spi_miso</obj_property>
       <obj_property name="ObjectShortName">spi_miso</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_tb/sram_data">
-      <obj_property name="ElementShortName">sram_data[15:0]</obj_property>
-      <obj_property name="ObjectShortName">sram_data[15:0]</obj_property>
+   <wvobject type="other" fp_name="/top_tb/dut/control_inst/opcode">
+      <obj_property name="ElementShortName">opcode</obj_property>
+      <obj_property name="ObjectShortName">opcode</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_tb/dut/sram_driver_inst/opcode">
+      <obj_property name="ElementShortName">opcode</obj_property>
+      <obj_property name="ObjectShortName">opcode</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/ready">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_tb/dut/control_inst/cmd">
+      <obj_property name="ElementShortName">cmd</obj_property>
+      <obj_property name="ObjectShortName">cmd</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/sram_ready_i">
+      <obj_property name="ElementShortName">sram_ready_i</obj_property>
+      <obj_property name="ObjectShortName">sram_ready_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/sram_data_write_vld">
+      <obj_property name="ElementShortName">sram_data_write_vld</obj_property>
+      <obj_property name="ObjectShortName">sram_data_write_vld</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/sram_data_read_vld">
+      <obj_property name="ElementShortName">sram_data_read_vld</obj_property>
+      <obj_property name="ObjectShortName">sram_data_read_vld</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_cnt">
+      <obj_property name="ElementShortName">sram_address_cnt[16:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_address_cnt[16:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_o">
+      <obj_property name="ElementShortName">sram_address_o[16:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_address_o[16:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/sram_address">
       <obj_property name="ElementShortName">sram_address[16:0]</obj_property>
       <obj_property name="ObjectShortName">sram_address[16:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/sram_data">
+      <obj_property name="ElementShortName">sram_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data[15:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_tb/sram_ce_n">
       <obj_property name="ElementShortName">sram_ce_n</obj_property>
@@ -78,30 +115,6 @@
       <obj_property name="ElementShortName">led[1:4]</obj_property>
       <obj_property name="ObjectShortName">led[1:4]</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/top_tb/dut/control_inst/opcode">
-      <obj_property name="ElementShortName">opcode</obj_property>
-      <obj_property name="ObjectShortName">opcode</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/sram_ready_i">
-      <obj_property name="ElementShortName">sram_ready_i</obj_property>
-      <obj_property name="ObjectShortName">sram_ready_i</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/top_tb/dut/sram_driver_inst/opcode">
-      <obj_property name="ElementShortName">opcode</obj_property>
-      <obj_property name="ObjectShortName">opcode</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/sram_data_vld_o">
-      <obj_property name="ElementShortName">sram_data_vld_o</obj_property>
-      <obj_property name="ObjectShortName">sram_data_vld_o</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/sram_driver_inst/data_vld_i">
-      <obj_property name="ElementShortName">data_vld_i</obj_property>
-      <obj_property name="ObjectShortName">data_vld_i</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/sram_driver_inst/data_vld_o">
-      <obj_property name="ElementShortName">data_vld_o</obj_property>
-      <obj_property name="ObjectShortName">data_vld_o</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/control_inst/spi_data_i">
       <obj_property name="ElementShortName">spi_data_i[7:0]</obj_property>
       <obj_property name="ObjectShortName">spi_data_i[7:0]</obj_property>
@@ -110,8 +123,20 @@
       <obj_property name="ElementShortName">spi_data_rx_vld</obj_property>
       <obj_property name="ObjectShortName">spi_data_rx_vld</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/spi_data_tx">
+      <obj_property name="ElementShortName">spi_data_tx[7:0]</obj_property>
+      <obj_property name="ObjectShortName">spi_data_tx[7:0]</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/top_tb/dut/spi_data_tx_vld">
       <obj_property name="ElementShortName">spi_data_tx_vld</obj_property>
       <obj_property name="ObjectShortName">spi_data_tx_vld</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_new_data">
+      <obj_property name="ElementShortName">spi_new_data</obj_property>
+      <obj_property name="ObjectShortName">spi_new_data</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_new_cmd">
+      <obj_property name="ElementShortName">spi_new_cmd</obj_property>
+      <obj_property name="ObjectShortName">spi_new_cmd</obj_property>
    </wvobject>
 </wave_config>

@@ -213,26 +213,35 @@ begin
     ---------------------------------------------------------------------------
     process (clk_i)
     begin
-        -----------------------------------------------------------------------
-        -- Výhozí hodnoty signálů.
-        -----------------------------------------------------------------------
-        spi_data_vld_o  <= '0';
-        sram_data_vld_o <= '0';
-
         if rising_edge(clk_i) then
+            -------------------------------------------------------------------
+            -- Výhozí hodnoty signálů.
+            -------------------------------------------------------------------
+            spi_data_vld_o <= '0';
+
             if rst_i = '1' then
                 ---------------------------------------------------------------
                 -- Pokud je aktivní reset.
                 ---------------------------------------------------------------
-                ready          <= '1';
-                opcode         <= OPCODE_NOP;
-                sram_data_o    <= (others => '0');
-                sram_address_o <= (others => '0');
+                ready           <= '1';
+                opcode          <= OPCODE_NOP;
+                sram_data_o     <= (others => '0');
+                sram_address_o  <= (others => '0');
+                sram_data_vld_o <= '0';
 
             elsif spi_new_cmd = '1' then
                 ---------------------------------------------------------------
                 -- Pokud přijde nový příkaz.
-                -- inicializuji stavový automat pro danný příkaz.
+                ---------------------------------------------------------------
+                if spi_byte_cmd /= SPI_CMD_GET_STATE then
+                    -----------------------------------------------------------
+                    -- Pokud nejde o zjištění aktuálního stavu.
+                    -----------------------------------------------------------
+                    sram_data_vld_o <= '0';
+                end if;
+
+                ---------------------------------------------------------------
+                -- Inicializuji stavový automat pro danný příkaz.
                 ---------------------------------------------------------------
                 case cmd is
                     when CMD_READ =>
@@ -287,9 +296,8 @@ begin
                             sram_data_o      <= std_logic_vector(sram_address_cnt(sram_data_o'range));
                             sram_data_vld_o  <= '1';
                         else
-                            sram_data_vld_o <= '0';
-                            ready           <= '1';
-                            opcode          <= OPCODE_NOP;
+                            ready  <= '1';
+                            opcode <= OPCODE_NOP;
                         end if;
                     end if;
 
@@ -318,7 +326,7 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(15 downto 8);
-                        spi_data_o <= x"AA";
+                        spi_data_o     <= x"AA";
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_SEND_LSB;
                     end if;
@@ -329,7 +337,7 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(7 downto 0);
-                        spi_data_o <= (others => '0');
+                        spi_data_o     <= (others => '0');
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_WAIT_FOR_DATA;
                     end if;

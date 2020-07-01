@@ -18,7 +18,7 @@ architecture behavioral of top_tb is
 
     constant CLK_FREQUENCY   : natural := 100; -- [MHz]
     constant CLK_HALF_PERIOD : time    := ((1 us) / CLK_FREQUENCY) / 2;
-    constant SCK_HALF_PERIOD : time    := 100 ns;
+    constant SCK_HALF_PERIOD : time    := 20 * CLK_HALF_PERIOD;
 
     constant STIMULATION_FILE : string := "/home/wykys/projects/diplomka/sw/detector/data-10b-80MSPS.csv";
 
@@ -174,13 +174,34 @@ begin
         -- Čekání na reset systému
         -----------------------------------------------------------------------
         wait for 500 ns;
+
         spi_nss <= '0';
         wait for 50 ns;
-
-        spi_tx(x"AA", spi_mosi, spi_sck);
-
+        spi_tx(x"01", spi_mosi, spi_sck);
         wait for 50 ns;
         spi_nss <= '1';
+
+        wait for 500 ns;
+
+        spi_nss <= '0';
+        wait for 50 ns;
+        spi_tx(x"04", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        spi_tx(x"00", spi_mosi, spi_sck);
+        wait for 50 ns;
+        spi_nss <= '1';
+
+
+
+        wait;
     end process spi;
 
 end architecture behavioral;
