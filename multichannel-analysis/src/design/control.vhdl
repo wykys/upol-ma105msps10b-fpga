@@ -96,8 +96,6 @@ architecture rtl of control is
         OPCODE_READ_SEND_MSB,
         OPCODE_READ_SEND_LSB,
         -----------------------------------------------------------------------
-        OPCODE_GET_STATE,
-        -----------------------------------------------------------------------
         OPCODE_NOP
     );
 
@@ -246,7 +244,6 @@ begin
                         opcode <= OPCODE_MEASUREMENT_INIT;
 
                     when CMD_GET_STATE =>
-                        --opcode <= OPCODE_GET_STATE;
                         -------------------------------------------------------
                         -- Odeslání stavu zařízení:
                         --                          0 - čekání na příkaz
@@ -293,7 +290,6 @@ begin
                             sram_data_vld_o <= '0';
                             ready           <= '1';
                             opcode          <= OPCODE_NOP;
-                            led_o(4)        <= '1'; -- DEBUG #############################
                         end if;
                     end if;
 
@@ -339,7 +335,6 @@ begin
                 when others =>
                     -----------------------------------------------------------
                     -- Žádná operace.
-                    -- Pouze signalizuji připravenost.
                     -----------------------------------------------------------
                     null;
             end case;
