@@ -2,6 +2,7 @@
 -- wykys 2019
 -- module for memory contol
 -- for SRAM IS61WV12816EDBLL
+-- 128K * 16b = 2Mib
 -------------------------------------------------------------------------------
 
 library IEEE;
@@ -18,6 +19,10 @@ entity sram_driver is
         -- CLOCK --------------------------------------------------------------
         -----------------------------------------------------------------------
         clk_i : in std_logic;
+        -----------------------------------------------------------------------
+        -- RESET active in hight ----------------------------------------------
+        -----------------------------------------------------------------------
+        rst_i : in std_logic;
         -----------------------------------------------------------------------
         -- USER interface -----------------------------------------------------
         -----------------------------------------------------------------------
@@ -62,59 +67,76 @@ begin
     process (clk_i)
     begin
         if rising_edge(clk_i) then
-            opcode_old <= opcode;
-            case opcode is
-                when WAIT_FOR_CMD =>
-                    -----------------------------------------------------------
-                    -- Čekání na data k zápisu, nebo na změnu adresy.
-                    -----------------------------------------------------------
-                    sram_oe_n_o    <= '1';
-                    sram_we_n_o    <= '1';
-                    sram_data_io   <= (others => 'Z');
-                    sram_address_o <= address_i;
+            if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset je aktivní.
+                ---------------------------------------------------------------
+                opcode         <= WAIT_FOR_CMD;
+                opcode_old     <= WAIT_FOR_CMD;
+                sram_oe_n_o    <= '1';
+                sram_we_n_o    <= '1';
+                sram_data_io   <= (others => 'Z');
+                sram_address_o <= (others => '0');
+                ready_o        <= '0';
 
-                    ready_o     <= '1';
-                    address_old <= address_i;
-
-                    if data_vld_i = '1' then
+            else
+                ---------------------------------------------------------------
+                -- Obvod není resetován.
+                ---------------------------------------------------------------
+                opcode_old <= opcode;
+                case opcode is
+                    when WAIT_FOR_CMD =>
                         -------------------------------------------------------
-                        -- Mám validní data k zápisu do RAM.
+                        -- Čekání na data k zápisu, nebo na změnu adresy.
                         -------------------------------------------------------
-                        opcode       <= WRITE_DATA;
-                        ready_o      <= '0';
-                        sram_data_io <= data_i;
-                        data_vld_o   <= '0';
+                        sram_oe_n_o    <= '1';
+                        sram_we_n_o    <= '1';
+                        sram_data_io   <= (others => 'Z');
+                        sram_address_o <= address_i;
 
-                    elsif address_old /= address_i or opcode_old = WRITE_DATA then
+                        ready_o     <= '1';
+                        address_old <= address_i;
+
+                        if data_vld_i = '1' then
+                            ---------------------------------------------------
+                            -- Mám validní data k zápisu do RAM.
+                            ---------------------------------------------------
+                            opcode       <= WRITE_DATA;
+                            ready_o      <= '0';
+                            sram_data_io <= data_i;
+                            data_vld_o   <= '0';
+
+                        elsif address_old /= address_i or opcode_old = WRITE_DATA then
+                            ---------------------------------------------------
+                            -- Změna adresy, nebo předcházející zápis,
+                            -- tedy chci číst obsah RAM.
+                            ---------------------------------------------------
+                            opcode      <= READ_DATA;
+                            ready_o     <= '0';
+                            sram_oe_n_o <= '0';
+                            data_vld_o  <= '0';
+                        end if;
+
+                    when WRITE_DATA =>
                         -------------------------------------------------------
-                        -- Změna adresy, nebo předcházející zápis,
-                        -- tedy chci číst obsah RAM.
+                        -- Zápis dat do RAM.
                         -------------------------------------------------------
-                        opcode      <= READ_DATA;
-                        ready_o     <= '0';
-                        sram_oe_n_o <= '0';
-                        data_vld_o  <= '0';
-                    end if;
+                        opcode      <= WAIT_FOR_CMD;
+                        sram_we_n_o <= '0';
+                        ready_o     <= '1';
 
-                when WRITE_DATA =>
-                    -----------------------------------------------------------
-                    -- Zápis dat do RAM.
-                    -----------------------------------------------------------
-                    opcode      <= WAIT_FOR_CMD;
-                    sram_we_n_o <= '0';
-                    ready_o     <= '1';
+                    when READ_DATA =>
+                        -------------------------------------------------------
+                        -- Přečtení dat z RAM.
+                        -------------------------------------------------------
+                        opcode     <= WAIT_FOR_CMD;
+                        data_o     <= sram_data_io;
+                        data_vld_o <= '1';
 
-                when READ_DATA =>
-                    -----------------------------------------------------------
-                    -- Přečtení dat z RAM.
-                    -----------------------------------------------------------
-                    opcode     <= WAIT_FOR_CMD;
-                    data_o     <= sram_data_io;
-                    data_vld_o <= '1';
-
-                when others =>
-                    null;
-            end case;
+                    when others =>
+                        null;
+                end case;
+            end if;
         end if;
     end process;
 

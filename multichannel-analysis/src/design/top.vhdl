@@ -31,8 +31,8 @@ entity top is
         -----------------------------------------------------------------------
         -- ADC ----------------------------------------------------------------
         -----------------------------------------------------------------------
-        adc_data_i  : std_logic_vector(9 downto 0);
-        adc_ovrng_i : std_logic;
+        adc_data_i  : in std_logic_vector(9 downto 0);
+        adc_ovrng_i : in std_logic;
         -----------------------------------------------------------------------
         -- SRAM ---------------------------------------------------------------
         -----------------------------------------------------------------------
@@ -58,31 +58,34 @@ architecture rtl of top is
     signal clk : std_logic;
     signal rst : std_logic;
 
-    signal spi_data_rx     : std_logic_vector(7 downto 0) := (others => '1');
-    signal spi_data_tx     : std_logic_vector(7 downto 0) := (others => '1');
+    signal spi_data_rx     : std_logic_vector(7 downto 0);
+    signal spi_data_tx     : std_logic_vector(7 downto 0);
     signal spi_data_rx_vld : std_logic;
-    signal spi_data_tx_vld : std_logic := '0';
+    signal spi_data_tx_vld : std_logic;
     signal spi_ready       : std_logic;
     signal spi_first       : std_logic;
 
-    signal sram_address        : std_logic_vector(16 downto 0) := (others => '0');
+    signal sram_address        : std_logic_vector(16 downto 0);
     signal sram_data_write     : std_logic_vector(15 downto 0);
     signal sram_data_read      : std_logic_vector(15 downto 0);
-    signal sram_data_write_vld : std_logic := '1';
+    signal sram_data_write_vld : std_logic;
     signal sram_data_read_vld  : std_logic;
     signal sram_ready          : std_logic;
 
-    signal adc_data  : std_logic_vector(9 downto 0);
-    signal adc_ovrng : std_logic;
+    signal adc_data : std_logic_vector(15 downto 0);
+
 begin
 
     ---------------------------------------------------------------------------
     -- Resetovací obvod.
     ---------------------------------------------------------------------------
     rst_driver_inst : entity work.rst_driver
+        generic map(
+            RST_POWER_ON_CNT_NUMBER_OF_BITS => 3
+        )
         port map
         (
-            clk_i  => clk_i,
+            clk_i  => clk,
             nrst_i => nrst_i,
             rst_o  => rst
         );
@@ -101,11 +104,11 @@ begin
     ---------------------------------------------------------------------------
     -- LED driver.
     ---------------------------------------------------------------------------
-    led_driver_inst : entity work.led_driver
-        port map(
-            clk_i => clk,
-            led_o => led_o
-        );
+    -- led_driver_inst : entity work.led_driver
+    --     port map(
+    --         clk_i => clk,
+    --         led_o => led_o
+    --     );
 
     ---------------------------------------------------------------------------
     -- HW rozhranní pro SPI.
@@ -134,7 +137,6 @@ begin
             clk_i       => clk,
             adc_ovrng_i => adc_ovrng_i,
             adc_data_i  => adc_data_i,
-            ovrng_o     => adc_ovrng,
             data_o      => adc_data
         );
 
@@ -144,6 +146,7 @@ begin
     sram_driver_inst : entity work.sram_driver
         port map(
             clk_i          => clk,
+            rst_i          => rst,
             sram_ce_n_o    => sram_ce_n_o,
             sram_oe_n_o    => sram_oe_n_o,
             sram_we_n_o    => sram_we_n_o,
@@ -177,12 +180,13 @@ begin
             sram_address_o  => sram_address,
             sram_data_o     => sram_data_write,
             sram_data_i     => sram_data_read,
-            sram_data_vld_i => sram_data_write_vld,
-            sram_data_vld_o => sram_data_read_vld,
+            sram_data_vld_i => sram_data_read_vld,
+            sram_data_vld_o => sram_data_write_vld,
             sram_ready_i    => sram_ready,
             -------------------------------------------------------------------
-            adc_ovrng_i => adc_ovrng,
-            adc_data_i  => adc_data
+            adc_data_i => adc_data,
+            -------------------------------------------------------------------
+            led_o => led_o
         );
 
 end architecture rtl;

@@ -1,0 +1,15 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../src/design/adc_driver.vhdl" \
+"../../../../src/test/package_timing.vhdl" \
+"../../../../src/test/package_utility.vhdl" \
+"../../../../src/test/async_128Kx16.vhdl" \
+"../../../../src/design/control.vhdl" \
+"../../../../src/design/rst_driver.vhdl" \
+"../../../../src/design/spi_driver.vhdl" \
+"../../../../src/design/sram_driver.vhdl" \
+"../../../../src/design/top.vhdl" \
+"../../../../src/test/top_tb.vhdl" \
+
+# Do not sort compile order
+nosort
