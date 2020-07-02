@@ -112,7 +112,7 @@ begin
             end if;
         end if;
     end process;
-    ready_o <= tx_ready;
+    ready_o <= tx_ready and not data_vld_i;
 
     ---------------------------------------------------------------------------
     -- Detekce hran SCK.

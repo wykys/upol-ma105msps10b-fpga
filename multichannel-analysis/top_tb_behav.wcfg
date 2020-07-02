@@ -14,14 +14,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="41000000001fs"></ZoomEndTime>
-      <Cursor1Time time="41000000000fs"></Cursor1Time>
+      <ZoomEndTime time="65350000001fs"></ZoomEndTime>
+      <Cursor1Time time="13850000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="170"></NameColumnWidth>
-      <ValueColumnWidth column_width="116"></ValueColumnWidth>
+      <ValueColumnWidth column_width="112"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="32" />
+   <WVObjectSize size="31" />
    <wvobject type="logic" fp_name="/top_tb/dut/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
@@ -117,6 +117,20 @@
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_ready_i">
+      <obj_property name="ElementShortName">spi_ready_i</obj_property>
+      <obj_property name="ObjectShortName">spi_ready_i</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/tx_empty">
+      <obj_property name="ElementShortName">tx_empty</obj_property>
+      <obj_property name="ObjectShortName">tx_empty</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/buffer_tx">
+      <obj_property name="ElementShortName">buffer_tx[7:0]</obj_property>
+      <obj_property name="ObjectShortName">buffer_tx[7:0]</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_new_data">
       <obj_property name="ElementShortName">spi_new_data</obj_property>
       <obj_property name="ObjectShortName">spi_new_data</obj_property>
@@ -129,26 +143,10 @@
       <obj_property name="ElementShortName">data_tx[7:0]</obj_property>
       <obj_property name="ObjectShortName">data_tx[7:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/buffer_tx">
-      <obj_property name="ElementShortName">buffer_tx[7:0]</obj_property>
-      <obj_property name="ObjectShortName">buffer_tx[7:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/bit_cnt">
       <obj_property name="ElementShortName">bit_cnt[2:0]</obj_property>
       <obj_property name="ObjectShortName">bit_cnt[2:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/tx_empty">
-      <obj_property name="ElementShortName">tx_empty</obj_property>
-      <obj_property name="ObjectShortName">tx_empty</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/tx_empty_old">
-      <obj_property name="ElementShortName">tx_empty_old</obj_property>
-      <obj_property name="ObjectShortName">tx_empty_old</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_ready_i">
-      <obj_property name="ElementShortName">spi_ready_i</obj_property>
-      <obj_property name="ObjectShortName">spi_ready_i</obj_property>
-      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/sck_posedge">

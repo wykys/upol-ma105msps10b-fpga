@@ -72,12 +72,12 @@ architecture behavioral of top_tb is
     ---------------------------------------------------------------------------
     procedure spi_tx(
         constant data : in std_logic_vector(7 downto 0);
-        signal mosi : out std_logic;
-        signal sck  : out std_logic
+        signal mosi   : out std_logic;
+        signal sck    : out std_logic
     ) is
     begin
         for i in data'range loop
-            sck <= '0';
+            sck  <= '0';
             mosi <= data(i);
             wait for SCK_HALF_PERIOD;
             sck <= '1';
@@ -198,8 +198,6 @@ begin
         spi_tx(x"00", spi_mosi, spi_sck);
         wait for 50 ns;
         spi_nss <= '1';
-
-
 
         wait;
     end process spi;

@@ -49,11 +49,11 @@ end entity control;
 architecture rtl of control is
 
     constant SPI_CMD_UNKNOWN           : std_logic_vector(7 downto 0) := x"00";
-    constant SPI_CMD_MEASUREMENT_START : std_logic_vector(7 downto 0) := x"01";
-    constant SPI_CMD_MEASUREMENT_STOP  : std_logic_vector(7 downto 0) := x"02";
+    constant SPI_CMD_STOP              : std_logic_vector(7 downto 0) := x"01";
+    constant SPI_CMD_GET_STATE         : std_logic_vector(7 downto 0) := x"02";
     constant SPI_CMD_MEMORY_CLEAR      : std_logic_vector(7 downto 0) := x"03";
     constant SPI_CMD_MEMORY_READ       : std_logic_vector(7 downto 0) := x"04";
-    constant SPI_CMD_GET_STATE         : std_logic_vector(7 downto 0) := x"05";
+    constant SPI_CMD_MEASUREMENT_START : std_logic_vector(7 downto 0) := x"05";
 
     type spi_byte_order_t is (
         SPI_BYTE_ORDER_CMD,
@@ -178,7 +178,7 @@ begin
                             cmd         <= CMD_MEASURE;
                         end if;
 
-                    when SPI_CMD_MEASUREMENT_STOP =>
+                    when SPI_CMD_STOP =>
                         if spi_byte_order = SPI_BYTE_ORDER_CMD then
                             spi_new_cmd <= '1';
                             cmd         <= CMD_NOP;
@@ -268,6 +268,10 @@ begin
                         end if;
 
                     when others =>
+                        -------------------------------------------------------
+                        -- CMD: Stop.
+                        -------------------------------------------------------
+                        ready  <= '1';
                         opcode <= OPCODE_NOP;
 
                 end case;
