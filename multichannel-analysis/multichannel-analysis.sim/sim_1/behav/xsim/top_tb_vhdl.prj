@@ -4,9 +4,11 @@ vhdl xil_defaultlib  \
 "../../../../src/test/package_timing.vhdl" \
 "../../../../src/test/package_utility.vhdl" \
 "../../../../src/test/async_128Kx16.vhdl" \
+"../../../../src/design/spi_cmd.vhdl" \
 "../../../../src/design/control.vhdl" \
 "../../../../src/design/rst_driver.vhdl" \
 "../../../../src/design/spi_driver.vhdl" \
+"../../../../src/test/spi_master.vhdl" \
 "../../../../src/design/sram_driver.vhdl" \
 "../../../../src/design/top.vhdl" \
 "../../../../src/test/top_tb.vhdl" \

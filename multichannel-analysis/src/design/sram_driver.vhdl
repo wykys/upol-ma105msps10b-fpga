@@ -30,19 +30,19 @@ entity sram_driver is
         data_i     : in std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);    -- Data co budou zapsána.
         data_o     : out std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);   -- Přečtená data.
         data_vld_i : in std_logic;                                                 -- Vstupní data jsou validní.
-        data_vld_o : out std_logic := '0';                                         -- Výstupní data jsou validní.
-        ready_o    : out std_logic := '0';                                         -- Signalizace připravenosti.
+        data_vld_o : out std_logic;                                                -- Výstupní data jsou validní.
+        ready_o    : out std_logic;                                                -- Signalizace připravenosti.
         -----------------------------------------------------------------------
         -- RAM IO -------------------------------------------------------------
         -----------------------------------------------------------------------
-        sram_ce_n_o : out std_logic := '1'; -- Aktivace RAM, aktivní v L.
-        sram_oe_n_o : out std_logic := '1'; -- Povolení výstupu, aktivní v L.
-        sram_we_n_o : out std_logic := '1'; -- Povolení zápisu, aktivní v L.
-        sram_lb_n_o : out std_logic := '1'; -- Povolení nižšího bajtu, aktivní v L.
-        sram_ub_n_o : out std_logic := '1'; -- Povolení vyššího bajtu, aktivní v L.
+        sram_ce_n_o : out std_logic; -- Aktivace RAM, aktivní v L.
+        sram_oe_n_o : out std_logic; -- Povolení výstupu, aktivní v L.
+        sram_we_n_o : out std_logic; -- Povolení zápisu, aktivní v L.
+        sram_lb_n_o : out std_logic; -- Povolení nižšího bajtu, aktivní v L.
+        sram_ub_n_o : out std_logic; -- Povolení vyššího bajtu, aktivní v L.
         -----------------------------------------------------------------------
         sram_address_o : out std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
-        sram_data_io   : inout std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0) := (others => 'Z')
+        sram_data_io   : inout std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0)
     );
 end entity sram_driver;
 
@@ -71,13 +71,16 @@ begin
                 ---------------------------------------------------------------
                 -- Reset je aktivní.
                 ---------------------------------------------------------------
-                opcode         <= WAIT_FOR_CMD;
-                opcode_old     <= WAIT_FOR_CMD;
+                opcode     <= WAIT_FOR_CMD;
+                opcode_old <= WAIT_FOR_CMD;
+
                 sram_oe_n_o    <= '1';
                 sram_we_n_o    <= '1';
                 sram_data_io   <= (others => 'Z');
                 sram_address_o <= (others => '0');
-                ready_o        <= '0';
+
+                ready_o    <= '0';
+                data_vld_o <= '0';
 
             else
                 ---------------------------------------------------------------

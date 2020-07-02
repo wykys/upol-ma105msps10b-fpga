@@ -7,6 +7,9 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
+library work;
+use work.spi_cmd.all;
+
 entity control is
     port (
         -----------------------------------------------------------------------
@@ -48,13 +51,6 @@ end entity control;
 
 architecture rtl of control is
 
-    constant SPI_CMD_UNKNOWN           : std_logic_vector(7 downto 0) := x"00";
-    constant SPI_CMD_STOP              : std_logic_vector(7 downto 0) := x"01";
-    constant SPI_CMD_GET_STATE         : std_logic_vector(7 downto 0) := x"02";
-    constant SPI_CMD_MEMORY_CLEAR      : std_logic_vector(7 downto 0) := x"03";
-    constant SPI_CMD_MEMORY_READ       : std_logic_vector(7 downto 0) := x"04";
-    constant SPI_CMD_MEASUREMENT_START : std_logic_vector(7 downto 0) := x"05";
-
     type spi_byte_order_t is (
         SPI_BYTE_ORDER_CMD,
         SPI_BYTE_ORDER_FIRST,
@@ -92,6 +88,7 @@ architecture rtl of control is
         OPCODE_MEASUREMENT_COMPLETE,
         -----------------------------------------------------------------------
         OPCODE_READ_INIT,
+        OPCODE_READ_WAIT_FOR_RAM,
         OPCODE_READ_WAIT_FOR_DATA,
         OPCODE_READ_SEND_MSB,
         OPCODE_READ_SEND_LSB,
@@ -309,27 +306,30 @@ begin
                     -----------------------------------------------------------
                     -- Inicializace čtení.
                     -----------------------------------------------------------
+                    if sram_data_vld_i = '1' and sram_ready_i = '1' then
+                        opcode           <= OPCODE_READ_WAIT_FOR_RAM;
+                        sram_address_o   <= ram_start_read_address;
+                        sram_address_cnt <= unsigned(ram_start_read_address) + 1;
+                    end if;
+
+                when OPCODE_READ_WAIT_FOR_RAM =>
                     -----------------------------------------------------------
-                    -- Čekání na přepnutí paměti do režimu čtení.
+                    -- Čekání na připravení paměti.
                     -----------------------------------------------------------
-                    if sram_data_vld_i = '1' then
-                        if sram_ready_i = '1' then
-                            opcode           <= OPCODE_READ_WAIT_FOR_DATA;
-                            sram_address_o   <= ram_start_read_address;
-                            sram_address_cnt <= unsigned(ram_start_read_address) + 1;
-                        end if;
+                    if sram_data_vld_i = '0' then
+                        opcode <= OPCODE_READ_WAIT_FOR_DATA;
                     end if;
 
                 when OPCODE_READ_WAIT_FOR_DATA =>
                     -----------------------------------------------------------
                     -- Čekání na vybavení dat z RAM.
                     -----------------------------------------------------------
-                    -- if sram_data_vld_i = '1' then
-                    --     ram_data         <= sram_data_i;
-                    --     sram_address_o   <= std_logic_vector(sram_address_cnt);
-                    --     sram_address_cnt <= sram_address_cnt + 1;
-                    -- end if;
-                    opcode <= OPCODE_READ_SEND_MSB;
+                    if sram_data_vld_i = '1' then
+                        ram_data         <= sram_data_i;
+                        sram_address_o   <= std_logic_vector(sram_address_cnt);
+                        sram_address_cnt <= sram_address_cnt + 1;
+                        opcode           <= OPCODE_READ_SEND_MSB;
+                    end if;
 
                 when OPCODE_READ_SEND_MSB =>
                     -----------------------------------------------------------
@@ -337,7 +337,7 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(15 downto 8);
-                        spi_data_o     <= x"FA";
+                        spi_data_o     <= x"AA";
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_SEND_LSB;
                     end if;
@@ -348,7 +348,6 @@ begin
                     -----------------------------------------------------------
                     if spi_ready_i = '1' then
                         spi_data_o     <= ram_data(7 downto 0);
-                        spi_data_o     <= x"5F";
                         spi_data_vld_o <= '1';
                         opcode         <= OPCODE_READ_WAIT_FOR_DATA;
                     end if;

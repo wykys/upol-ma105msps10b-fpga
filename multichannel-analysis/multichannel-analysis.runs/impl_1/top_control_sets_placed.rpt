@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Thu Jul  2 17:10:42 2020
+| Date         : Thu Jul  2 19:56:00 2020
 | Host         : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
 | Design       : top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    19 |
-|    Minimum number of control sets                        |    19 |
+| Total control sets                                       |    20 |
+|    Minimum number of control sets                        |    20 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    48 |
+| Unused register locations in slices containing registers |    42 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    19 |
+| Total control sets |    20 |
 | >= 0 to < 4        |     1 |
-| >= 4 to < 6        |     2 |
-| >= 6 to < 8        |     2 |
-| >= 8 to < 10       |     5 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     9 |
 | >= 10 to < 12      |     0 |
 | >= 12 to < 14      |     0 |
-| >= 14 to < 16      |     1 |
-| >= 16              |     8 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     9 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,40 +58,41 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              22 |           12 |
+| No           | No                    | No                     |              24 |           12 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              15 |            4 |
-| Yes          | No                    | No                     |             139 |           29 |
+| No           | Yes                   | No                     |              16 |            6 |
+| Yes          | No                    | No                     |             130 |           28 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              56 |           11 |
+| Yes          | Yes                   | No                     |              76 |           16 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+------------------------------+-----------------------------------------------------+-----------------------------------+------------------+----------------+
-|         Clock Signal         |                    Enable Signal                    |          Set/Reset Signal         | Slice Load Count | Bel Load Count |
-+------------------------------+-----------------------------------------------------+-----------------------------------+------------------+----------------+
-|  clk_wiz_0_inst/inst/clk_out | sram_driver_inst/sram_we_n_o_i_1_n_0                | rst_driver_inst/SR[0]             |                1 |              1 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/E[0]                                | rst_driver_inst/SR[0]             |                1 |              4 |
-|  clk_wiz_0_inst/inst/clk_out | control_inst/spi_data_vld_o_i_1_n_0                 |                                   |                1 |              4 |
-|  clk_wiz_0_inst/inst/clk_out | control_inst/FSM_onehot_opcode[6]_i_1_n_0           |                                   |                2 |              6 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_rx_0                           |                                   |                1 |              7 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/first_o_reg_0[0]                    | rst_driver_inst/SR[0]             |                1 |              8 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/FSM_onehot_spi_byte_order_reg[0][0] |                                   |                1 |              8 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/FSM_onehot_spi_byte_order_reg[1][0] |                                   |                1 |              8 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_o[7]_i_2_n_0                   | spi_driver_inst/data_o[7]_i_1_n_0 |                1 |              8 |
-|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_tx[7]_i_1_n_0                  |                                   |                2 |              8 |
-|  clk_wiz_0_inst/inst/clk_out |                                                     | rst_driver_inst/SR[0]             |                4 |             15 |
-|  clk_wiz_0_inst/inst/clk_out | control_inst/ram_start_read_address_0               |                                   |                3 |             16 |
-|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/rst_pin_reg_1[0]                    |                                   |                3 |             16 |
-|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/FSM_onehot_opcode_reg[0][0]         |                                   |                4 |             17 |
-|  clk_wiz_0_inst/inst/clk_out | control_inst/sram_address_o[16]_i_1_n_0             |                                   |                5 |             17 |
-|  clk_wiz_0_inst/inst/clk_out | control_inst/sram_address_cnt                       | control_inst/sram_address_cnt0    |                4 |             17 |
-|  clk_wiz_0_inst/inst/clk_out | sram_driver_inst/FSM_onehot_opcode_reg[0]_0         | rst_driver_inst/SR[0]             |                3 |             18 |
-|  clk_wiz_0_inst/inst/clk_out |                                                     |                                   |               12 |             22 |
-|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/E[0]                                |                                   |                6 |             32 |
-+------------------------------+-----------------------------------------------------+-----------------------------------+------------------+----------------+
++------------------------------+-----------------------------------------------------+------------------------------------+------------------+----------------+
+|         Clock Signal         |                    Enable Signal                    |          Set/Reset Signal          | Slice Load Count | Bel Load Count |
++------------------------------+-----------------------------------------------------+------------------------------------+------------------+----------------+
+|  clk_wiz_0_inst/inst/clk_out | sram_driver_inst/sram_we_n_o_i_1_n_0                | rst_driver_inst/SR[0]              |                1 |              1 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_rx_0                           |                                    |                2 |              7 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/tx_ready                            | rst_driver_inst/SR[0]              |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/ram_data_1                             |                                    |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/spi_data_vld_o_i_1_n_0                 |                                    |                2 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/FSM_onehot_opcode_reg[2][0]         |                                    |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_o[7]_i_2_n_0                   | spi_driver_inst/data_o[7]_i_1_n_0  |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/data_tx[7]_i_1_n_0                  |                                    |                2 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/E[0]                                |                                    |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/FSM_onehot_spi_byte_order_reg[0][0] |                                    |                1 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | spi_driver_inst/first_o_reg_0[0]                    | rst_driver_inst/SR[0]              |                2 |              8 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/sram_data_o[15]_i_2_n_0                | rst_driver_inst/rst_power_on_reg_2 |                3 |             16 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/ram_start_read_address_0               |                                    |                4 |             16 |
+|  clk_wiz_0_inst/inst/clk_out |                                                     | rst_driver_inst/SR[0]              |                6 |             16 |
+|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/FSM_onehot_opcode_reg[0][0]         |                                    |                3 |             17 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/sram_address_cnt                       | control_inst/sram_address_cnt0     |                4 |             17 |
+|  clk_wiz_0_inst/inst/clk_out | control_inst/sram_address_o[16]_i_1_n_0             |                                    |                5 |             17 |
+|  clk_wiz_0_inst/inst/clk_out | sram_driver_inst/FSM_onehot_opcode_reg[0]_0         | rst_driver_inst/SR[0]              |                4 |             18 |
+|  clk_wiz_0_inst/inst/clk_out |                                                     |                                    |               12 |             24 |
+|  clk_wiz_0_inst/inst/clk_out | rst_driver_inst/E[0]                                |                                    |                6 |             25 |
++------------------------------+-----------------------------------------------------+------------------------------------+------------------+----------------+
 
 

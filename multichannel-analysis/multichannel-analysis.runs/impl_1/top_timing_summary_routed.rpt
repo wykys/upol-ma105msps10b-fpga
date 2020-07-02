@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date         : Thu Jul  2 17:10:55 2020
+| Date         : Thu Jul  2 19:56:13 2020
 | Host         : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command      : report_timing_summary -max_paths 10 -file top_timing_summary_routed.rpt -pb top_timing_summary_routed.pb -rpx top_timing_summary_routed.rpx -warn_on_violation
 | Design       : top
@@ -75,7 +75,7 @@ Table of Contents
 
 5. checking no_input_delay
 --------------------------
- There are 5 input ports with no input delay specified. (HIGH)
+ There are 13 input ports with no input delay specified. (HIGH)
 
  There are 0 input ports with no input delay but user has a false path constraint.
 
@@ -127,7 +127,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-      4.941        0.000                      0                  494        0.144        0.000                      0                  494        3.000        0.000                       0                   239  
+      4.856        0.000                      0                  532        0.160        0.000                      0                  532        3.000        0.000                       0                   253  
 
 
 All user specified timing constraints are met.
@@ -153,7 +153,7 @@ clk_i                 {0.000 5.000}      10.000          100.000
 Clock                     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 clk_i                                                                                                                                                                   3.000        0.000                       0                     1  
-  clk_out_clk_wiz_0         4.941        0.000                      0                  494        0.144        0.000                      0                  494        4.500        0.000                       0                   235  
+  clk_out_clk_wiz_0         4.856        0.000                      0                  532        0.160        0.000                      0                  532        4.500        0.000                       0                   249  
   clkfbout_clk_wiz_0                                                                                                                                                    7.845        0.000                       0                     3  
 
 
@@ -212,28 +212,28 @@ High Pulse Width  Fast    MMCME2_ADV/CLKIN1  n/a            2.000         5.000 
 From Clock:  clk_out_clk_wiz_0
   To Clock:  clk_out_clk_wiz_0
 
-Setup :            0  Failing Endpoints,  Worst Slack        4.941ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.144ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        4.856ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.160ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.856ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[10]/CE
+  Destination:            control_inst/sram_data_o_reg[11]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.301ns  (logic 1.177ns (27.365%)  route 3.124ns (72.635%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.274ns = ( 13.726 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -251,20 +251,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[10]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.695     8.638    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[11]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -277,31 +277,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[10]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[10]
+                         net (fo=247, routed)         1.573    13.726    control_inst/clk_out
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[11]/C
+                         clock pessimism              0.571    14.297    
+                         clock uncertainty           -0.074    14.223    
+    SLICE_X38Y33         FDRE (Setup_fdre_C_R)       -0.728    13.495    control_inst/sram_data_o_reg[11]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.495    
+                         arrival time                          -8.638    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.856    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.856ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[13]/CE
+  Destination:            control_inst/sram_data_o_reg[12]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.301ns  (logic 1.177ns (27.365%)  route 3.124ns (72.635%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.274ns = ( 13.726 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -319,20 +319,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[13]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.695     8.638    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[12]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -345,31 +345,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[13]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[13]
+                         net (fo=247, routed)         1.573    13.726    control_inst/clk_out
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[12]/C
+                         clock pessimism              0.571    14.297    
+                         clock uncertainty           -0.074    14.223    
+    SLICE_X38Y33         FDRE (Setup_fdre_C_R)       -0.728    13.495    control_inst/sram_data_o_reg[12]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.495    
+                         arrival time                          -8.638    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.856    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.856ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[1]/CE
+  Destination:            control_inst/sram_data_o_reg[7]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.301ns  (logic 1.177ns (27.365%)  route 3.124ns (72.635%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.274ns = ( 13.726 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -387,20 +387,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[1]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.695     8.638    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[7]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -413,31 +413,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[1]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[1]
+                         net (fo=247, routed)         1.573    13.726    control_inst/clk_out
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[7]/C
+                         clock pessimism              0.571    14.297    
+                         clock uncertainty           -0.074    14.223    
+    SLICE_X38Y33         FDRE (Setup_fdre_C_R)       -0.728    13.495    control_inst/sram_data_o_reg[7]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.495    
+                         arrival time                          -8.638    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.856    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.856ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[2]/CE
+  Destination:            control_inst/sram_data_o_reg[9]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.301ns  (logic 1.177ns (27.365%)  route 3.124ns (72.635%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.274ns = ( 13.726 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -455,20 +455,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[2]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.695     8.638    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[9]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -481,31 +481,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[2]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[2]
+                         net (fo=247, routed)         1.573    13.726    control_inst/clk_out
+    SLICE_X38Y33         FDRE                                         r  control_inst/sram_data_o_reg[9]/C
+                         clock pessimism              0.571    14.297    
+                         clock uncertainty           -0.074    14.223    
+    SLICE_X38Y33         FDRE (Setup_fdre_C_R)       -0.728    13.495    control_inst/sram_data_o_reg[9]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.495    
+                         arrival time                          -8.638    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.856    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[3]/CE
+  Destination:            control_inst/sram_data_o_reg[0]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -523,20 +523,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[3]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[0]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -549,31 +549,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[3]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[3]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[0]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[0]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.895    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[6]/CE
+  Destination:            control_inst/sram_data_o_reg[14]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -591,20 +591,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[6]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[14]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -617,31 +617,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[6]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[6]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[14]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[14]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.895    
 
-Slack (MET) :             4.941ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[9]/CE
+  Destination:            control_inst/sram_data_o_reg[15]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.529ns  (logic 0.945ns (20.866%)  route 3.584ns (79.134%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -659,20 +659,20 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.694     8.872    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[9]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[15]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -685,31 +685,31 @@ Slack (MET) :             4.941ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[9]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_CE)      -0.429    13.813    control_inst/sram_data_o_reg[9]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[15]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[15]
   -------------------------------------------------------------------
-                         required time                         13.813    
-                         arrival time                          -8.872    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  4.941    
+                         slack                                  4.895    
 
-Slack (MET) :             4.992ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[1]/D
+  Destination:            control_inst/sram_data_o_reg[1]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.848ns  (logic 0.952ns (19.636%)  route 3.896ns (80.364%))
-  Logic Levels:           4  (LUT2=1 LUT3=1 LUT6=2)
-  Clock Path Skew:        -0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.271ns = ( 13.729 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -727,20 +727,20 @@ Slack (MET) :             4.992ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.901     8.464    control_inst/FSM_onehot_opcode_reg[2]_0
-    SLICE_X37Y36         LUT2 (Prop_lut2_I1_O)        0.124     8.588 r  control_inst/sram_data_o[1]_i_1/O
-                         net (fo=1, routed)           0.604     9.192    control_inst/sram_data_o[1]
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[1]/D
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[1]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -753,31 +753,31 @@ Slack (MET) :             4.992ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.576    13.729    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[1]/C
-                         clock pessimism              0.587    14.316    
-                         clock uncertainty           -0.074    14.242    
-    SLICE_X39Y37         FDRE (Setup_fdre_C_D)       -0.058    14.184    control_inst/sram_data_o_reg[1]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[1]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[1]
   -------------------------------------------------------------------
-                         required time                         14.184    
-                         arrival time                          -9.192    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  4.992    
+                         slack                                  4.895    
 
-Slack (MET) :             5.128ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[11]/CE
+  Destination:            control_inst/sram_data_o_reg[4]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.378ns  (logic 0.945ns (21.584%)  route 3.433ns (78.416%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.270ns = ( 13.730 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -795,20 +795,20 @@ Slack (MET) :             5.128ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.544     8.721    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X38Y38         FDRE                                         r  control_inst/sram_data_o_reg[11]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[4]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -821,31 +821,31 @@ Slack (MET) :             5.128ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.577    13.730    control_inst/clk_out
-    SLICE_X38Y38         FDRE                                         r  control_inst/sram_data_o_reg[11]/C
-                         clock pessimism              0.587    14.317    
-                         clock uncertainty           -0.074    14.243    
-    SLICE_X38Y38         FDRE (Setup_fdre_C_CE)      -0.393    13.850    control_inst/sram_data_o_reg[11]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[4]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[4]
   -------------------------------------------------------------------
-                         required time                         13.850    
-                         arrival time                          -8.721    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  5.128    
+                         slack                                  4.895    
 
-Slack (MET) :             5.128ns  (required time - arrival time)
-  Source:                 control_inst/sram_address_cnt_reg[13]/C
+Slack (MET) :             4.895ns  (required time - arrival time)
+  Source:                 control_inst/sram_address_cnt_reg[11]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_data_o_reg[12]/CE
+  Destination:            control_inst/sram_data_o_reg[6]/R
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_out_clk_wiz_0 rise@15.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        4.378ns  (logic 0.945ns (21.584%)  route 3.433ns (78.416%))
-  Logic Levels:           4  (LUT3=2 LUT6=2)
-  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.270ns = ( 13.730 - 15.000 ) 
-    Source Clock Delay      (SCD):    -0.657ns = ( 4.343 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    0.587ns
+  Data Path Delay:        4.263ns  (logic 1.177ns (27.609%)  route 3.086ns (72.391%))
+  Logic Levels:           4  (LUT3=1 LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.273ns = ( 13.727 - 15.000 ) 
+    Source Clock Delay      (SCD):    -0.663ns = ( 4.337 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Discrete Jitter          (DJ):    0.131ns
@@ -863,20 +863,20 @@ Slack (MET) :             5.128ns  (required time - arrival time)
                                                      -6.740     0.925 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.622     2.548    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.096     2.644 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.699     4.343    control_inst/clk_out
-    SLICE_X36Y39         FDRE                                         r  control_inst/sram_address_cnt_reg[13]/C
+                         net (fo=247, routed)         1.693     4.337    control_inst/clk_out
+    SLICE_X35Y35         FDRE                                         r  control_inst/sram_address_cnt_reg[11]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y39         FDRE (Prop_fdre_C_Q)         0.456     4.799 f  control_inst/sram_address_cnt_reg[13]/Q
-                         net (fo=4, routed)           1.296     6.096    control_inst/sram_address_cnt_reg_n_0_[13]
-    SLICE_X39Y37         LUT6 (Prop_lut6_I1_O)        0.124     6.220 f  control_inst/FSM_onehot_opcode[6]_i_8/O
-                         net (fo=1, routed)           0.526     6.746    control_inst/FSM_onehot_opcode[6]_i_8_n_0
-    SLICE_X38Y37         LUT6 (Prop_lut6_I0_O)        0.124     6.870 f  control_inst/FSM_onehot_opcode[6]_i_7/O
-                         net (fo=2, routed)           0.569     7.439    control_inst/FSM_onehot_opcode[6]_i_7_n_0
-    SLICE_X35Y37         LUT3 (Prop_lut3_I0_O)        0.124     7.563 f  control_inst/sram_address_cnt[16]_i_2/O
-                         net (fo=37, routed)          0.498     8.061    rst_driver_inst/sram_data_o_reg[0]
-    SLICE_X34Y38         LUT3 (Prop_lut3_I2_O)        0.117     8.178 r  rst_driver_inst/sram_data_o[15]_i_1/O
-                         net (fo=16, routed)          0.544     8.721    control_inst/sram_data_o_reg[0]_0[0]
-    SLICE_X38Y38         FDRE                                         r  control_inst/sram_data_o_reg[12]/CE
+    SLICE_X35Y35         FDRE (Prop_fdre_C_Q)         0.456     4.793 r  control_inst/sram_address_cnt_reg[11]/Q
+                         net (fo=4, routed)           0.843     5.636    control_inst/sram_address_cnt_reg_n_0_[11]
+    SLICE_X37Y35         LUT4 (Prop_lut4_I0_O)        0.154     5.790 f  control_inst/FSM_sequential_opcode[1]_i_8/O
+                         net (fo=4, routed)           0.662     6.453    control_inst/FSM_sequential_opcode[1]_i_8_n_0
+    SLICE_X36Y35         LUT6 (Prop_lut6_I1_O)        0.327     6.780 r  control_inst/sram_data_o[15]_i_4/O
+                         net (fo=3, routed)           0.489     7.268    control_inst/sram_data_o[15]_i_4_n_0
+    SLICE_X36Y35         LUT5 (Prop_lut5_I0_O)        0.124     7.392 f  control_inst/sram_data_o[15]_i_3/O
+                         net (fo=2, routed)           0.435     7.828    rst_driver_inst/sram_data_o_reg[0]
+    SLICE_X34Y35         LUT3 (Prop_lut3_I2_O)        0.116     7.944 r  rst_driver_inst/sram_data_o[15]_i_1/O
+                         net (fo=16, routed)          0.657     8.600    control_inst/sram_data_o_reg[0]_0
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[6]/R
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -889,16 +889,16 @@ Slack (MET) :             5.128ns  (required time - arrival time)
                                                      -7.005    10.519 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           1.543    12.062    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.091    12.153 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         1.577    13.730    control_inst/clk_out
-    SLICE_X38Y38         FDRE                                         r  control_inst/sram_data_o_reg[12]/C
-                         clock pessimism              0.587    14.317    
-                         clock uncertainty           -0.074    14.243    
-    SLICE_X38Y38         FDRE (Setup_fdre_C_CE)      -0.393    13.850    control_inst/sram_data_o_reg[12]
+                         net (fo=247, routed)         1.574    13.727    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[6]/C
+                         clock pessimism              0.571    14.298    
+                         clock uncertainty           -0.074    14.224    
+    SLICE_X38Y34         FDRE (Setup_fdre_C_R)       -0.728    13.496    control_inst/sram_data_o_reg[6]
   -------------------------------------------------------------------
-                         required time                         13.850    
-                         arrival time                          -8.721    
+                         required time                         13.496    
+                         arrival time                          -8.600    
   -------------------------------------------------------------------
-                         slack                                  5.128    
+                         slack                                  4.895    
 
 
 
@@ -906,20 +906,20 @@ Slack (MET) :             5.128ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.144ns  (arrival time - required time)
-  Source:                 spi_driver_inst/data_rx_reg[1]/C
+Slack (MET) :             0.160ns  (arrival time - required time)
+  Source:                 control_inst/sram_data_o_reg[2]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            spi_driver_inst/data_o_reg[2]/D
+  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[2]/D
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.204ns  (logic 0.141ns (69.075%)  route 0.063ns (30.926%))
+  Data Path Delay:        0.246ns  (logic 0.141ns (57.351%)  route 0.105ns (42.649%))
   Logic Levels:           0  
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.745ns = ( 4.255 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.512ns = ( 4.488 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.246ns
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.746ns = ( 4.254 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.513ns = ( 4.487 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.247ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -933,12 +933,12 @@ Slack (MET) :             0.144ns  (arrival time - required time)
                                                      -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.589     4.488    spi_driver_inst/clk_out
-    SLICE_X32Y36         FDRE                                         r  spi_driver_inst/data_rx_reg[1]/C
+                         net (fo=247, routed)         0.588     4.487    control_inst/clk_out
+    SLICE_X36Y33         FDRE                                         r  control_inst/sram_data_o_reg[2]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X32Y36         FDRE (Prop_fdre_C_Q)         0.141     4.629 r  spi_driver_inst/data_rx_reg[1]/Q
-                         net (fo=2, routed)           0.063     4.692    spi_driver_inst/data_rx[1]
-    SLICE_X33Y36         FDRE                                         r  spi_driver_inst/data_o_reg[2]/D
+    SLICE_X36Y33         FDRE (Prop_fdre_C_Q)         0.141     4.628 r  control_inst/sram_data_o_reg[2]/Q
+                         net (fo=1, routed)           0.105     4.733    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[2]
+    SLICE_X39Y33         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[2]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -951,25 +951,80 @@ Slack (MET) :             0.144ns  (arrival time - required time)
                                                      -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.858     4.255    spi_driver_inst/clk_out
-    SLICE_X33Y36         FDRE                                         r  spi_driver_inst/data_o_reg[2]/C
-                         clock pessimism              0.246     4.501    
-    SLICE_X33Y36         FDRE (Hold_fdre_C_D)         0.047     4.548    spi_driver_inst/data_o_reg[2]
+                         net (fo=247, routed)         0.857     4.254    sram_driver_inst/clk_out
+    SLICE_X39Y33         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[2]/C
+                         clock pessimism              0.247     4.501    
+    SLICE_X39Y33         FDRE (Hold_fdre_C_D)         0.072     4.573    sram_driver_inst/sram_data_io_tristate_oe_reg[2]
   -------------------------------------------------------------------
-                         required time                         -4.548    
-                         arrival time                           4.692    
+                         required time                         -4.573    
+                         arrival time                           4.733    
   -------------------------------------------------------------------
-                         slack                                  0.144    
+                         slack                                  0.160    
 
-Slack (MET) :             0.153ns  (arrival time - required time)
-  Source:                 control_inst/sram_data_o_reg[12]/C
+Slack (MET) :             0.161ns  (arrival time - required time)
+  Source:                 control_inst/sram_data_o_reg[13]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[12]/D
+  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[13]/D
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.213ns  (logic 0.164ns (76.958%)  route 0.049ns (23.042%))
+  Data Path Delay:        0.245ns  (logic 0.141ns (57.591%)  route 0.104ns (42.409%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.746ns = ( 4.254 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.513ns = ( 4.487 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.247ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.588     4.487    control_inst/clk_out
+    SLICE_X36Y33         FDRE                                         r  control_inst/sram_data_o_reg[13]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X36Y33         FDRE (Prop_fdre_C_Q)         0.141     4.628 r  control_inst/sram_data_o_reg[13]/Q
+                         net (fo=1, routed)           0.104     4.732    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[13]
+    SLICE_X39Y33         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[13]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.857     4.254    sram_driver_inst/clk_out
+    SLICE_X39Y33         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[13]/C
+                         clock pessimism              0.247     4.501    
+    SLICE_X39Y33         FDRE (Hold_fdre_C_D)         0.070     4.571    sram_driver_inst/sram_data_io_tristate_oe_reg[13]
+  -------------------------------------------------------------------
+                         required time                         -4.571    
+                         arrival time                           4.732    
+  -------------------------------------------------------------------
+                         slack                                  0.161    
+
+Slack (MET) :             0.168ns  (arrival time - required time)
+  Source:                 sram_driver_inst/data_o_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Destination:            control_inst/ram_data_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Path Group:             clk_out_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
+  Data Path Delay:        0.238ns  (logic 0.141ns (59.277%)  route 0.097ns (40.723%))
   Logic Levels:           0  
   Clock Path Skew:        0.013ns (DCD - SCD - CPR)
     Destination Clock Delay (DCD):    -0.741ns = ( 4.259 - 5.000 ) 
@@ -988,12 +1043,12 @@ Slack (MET) :             0.153ns  (arrival time - required time)
                                                      -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.591     4.490    control_inst/clk_out
-    SLICE_X38Y38         FDRE                                         r  control_inst/sram_data_o_reg[12]/C
+                         net (fo=247, routed)         0.591     4.490    sram_driver_inst/clk_out
+    SLICE_X37Y38         FDRE                                         r  sram_driver_inst/data_o_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X38Y38         FDRE (Prop_fdre_C_Q)         0.164     4.654 r  control_inst/sram_data_o_reg[12]/Q
-                         net (fo=1, routed)           0.049     4.703    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[12]
-    SLICE_X39Y38         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[12]/D
+    SLICE_X37Y38         FDRE (Prop_fdre_C_Q)         0.141     4.631 r  sram_driver_inst/data_o_reg[0]/Q
+                         net (fo=1, routed)           0.097     4.728    control_inst/ram_data_reg[7]_0[0]
+    SLICE_X36Y38         FDRE                                         r  control_inst/ram_data_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -1006,196 +1061,29 @@ Slack (MET) :             0.153ns  (arrival time - required time)
                                                      -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.862     4.259    sram_driver_inst/clk_out
-    SLICE_X39Y38         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[12]/C
+                         net (fo=247, routed)         0.862     4.259    control_inst/clk_out
+    SLICE_X36Y38         FDRE                                         r  control_inst/ram_data_reg[0]/C
                          clock pessimism              0.244     4.503    
-    SLICE_X39Y38         FDRE (Hold_fdre_C_D)         0.047     4.550    sram_driver_inst/sram_data_io_tristate_oe_reg[12]
+    SLICE_X36Y38         FDRE (Hold_fdre_C_D)         0.057     4.560    control_inst/ram_data_reg[0]
   -------------------------------------------------------------------
-                         required time                         -4.550    
-                         arrival time                           4.703    
+                         required time                         -4.560    
+                         arrival time                           4.728    
   -------------------------------------------------------------------
-                         slack                                  0.153    
+                         slack                                  0.168    
 
-Slack (MET) :             0.155ns  (arrival time - required time)
-  Source:                 control_inst/sram_address_cnt_reg[6]/C
+Slack (MET) :             0.179ns  (arrival time - required time)
+  Source:                 control_inst/sram_data_o_reg[10]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/sram_address_o_reg[6]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Path Group:             clk_out_clk_wiz_0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.260ns  (logic 0.186ns (71.492%)  route 0.074ns (28.508%))
-  Logic Levels:           1  (LUT6=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.743ns = ( 4.257 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.511ns = ( 4.489 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.245ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.590     4.489    control_inst/clk_out
-    SLICE_X36Y37         FDRE                                         r  control_inst/sram_address_cnt_reg[6]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X36Y37         FDRE (Prop_fdre_C_Q)         0.141     4.630 r  control_inst/sram_address_cnt_reg[6]/Q
-                         net (fo=4, routed)           0.074     4.704    control_inst/sram_address_cnt_reg_n_0_[6]
-    SLICE_X37Y37         LUT6 (Prop_lut6_I1_O)        0.045     4.749 r  control_inst/sram_address_o[6]_i_1/O
-                         net (fo=1, routed)           0.000     4.749    control_inst/sram_address_o[6]
-    SLICE_X37Y37         FDRE                                         r  control_inst/sram_address_o_reg[6]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.860     4.257    control_inst/clk_out
-    SLICE_X37Y37         FDRE                                         r  control_inst/sram_address_o_reg[6]/C
-                         clock pessimism              0.245     4.502    
-    SLICE_X37Y37         FDRE (Hold_fdre_C_D)         0.092     4.594    control_inst/sram_address_o_reg[6]
-  -------------------------------------------------------------------
-                         required time                         -4.594    
-                         arrival time                           4.749    
-  -------------------------------------------------------------------
-                         slack                                  0.155    
-
-Slack (MET) :             0.157ns  (arrival time - required time)
-  Source:                 spi_driver_inst/data_o_reg[3]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/spi_byte_second_reg[3]/D
+  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[10]/D
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.248ns  (logic 0.141ns (56.844%)  route 0.107ns (43.156%))
+  Data Path Delay:        0.261ns  (logic 0.141ns (54.060%)  route 0.120ns (45.940%))
   Logic Levels:           0  
-  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.745ns = ( 4.255 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.512ns = ( 4.488 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.248ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.589     4.488    spi_driver_inst/clk_out
-    SLICE_X33Y36         FDRE                                         r  spi_driver_inst/data_o_reg[3]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X33Y36         FDRE (Prop_fdre_C_Q)         0.141     4.629 r  spi_driver_inst/data_o_reg[3]/Q
-                         net (fo=3, routed)           0.107     4.736    control_inst/spi_byte_second_reg[7]_0[3]
-    SLICE_X34Y36         FDRE                                         r  control_inst/spi_byte_second_reg[3]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.858     4.255    control_inst/clk_out
-    SLICE_X34Y36         FDRE                                         r  control_inst/spi_byte_second_reg[3]/C
-                         clock pessimism              0.248     4.503    
-    SLICE_X34Y36         FDRE (Hold_fdre_C_D)         0.076     4.579    control_inst/spi_byte_second_reg[3]
-  -------------------------------------------------------------------
-                         required time                         -4.579    
-                         arrival time                           4.736    
-  -------------------------------------------------------------------
-                         slack                                  0.157    
-
-Slack (MET) :             0.163ns  (arrival time - required time)
-  Source:                 control_inst/spi_byte_first_reg[0]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/ram_start_read_address_reg[8]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Path Group:             clk_out_clk_wiz_0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.253ns  (logic 0.141ns (55.730%)  route 0.112ns (44.270%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.745ns = ( 4.255 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.511ns = ( 4.489 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.248ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.590     4.489    control_inst/clk_out
-    SLICE_X35Y37         FDRE                                         r  control_inst/spi_byte_first_reg[0]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X35Y37         FDRE (Prop_fdre_C_Q)         0.141     4.630 r  control_inst/spi_byte_first_reg[0]/Q
-                         net (fo=1, routed)           0.112     4.742    control_inst/spi_byte_first__0[0]
-    SLICE_X35Y36         FDRE                                         r  control_inst/ram_start_read_address_reg[8]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.858     4.255    control_inst/clk_out
-    SLICE_X35Y36         FDRE                                         r  control_inst/ram_start_read_address_reg[8]/C
-                         clock pessimism              0.248     4.503    
-    SLICE_X35Y36         FDRE (Hold_fdre_C_D)         0.076     4.579    control_inst/ram_start_read_address_reg[8]
-  -------------------------------------------------------------------
-                         required time                         -4.579    
-                         arrival time                           4.742    
-  -------------------------------------------------------------------
-                         slack                                  0.163    
-
-Slack (MET) :             0.164ns  (arrival time - required time)
-  Source:                 control_inst/sram_data_o_reg[1]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[1]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Path Group:             clk_out_clk_wiz_0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.253ns  (logic 0.141ns (55.730%)  route 0.112ns (44.270%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.017ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.741ns = ( 4.259 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.511ns = ( 4.489 - 5.000 ) 
+  Clock Path Skew:        0.012ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.748ns = ( 4.252 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.513ns = ( 4.487 - 5.000 ) 
     Clock Pessimism Removal (CPR):    -0.247ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
@@ -1210,67 +1098,12 @@ Slack (MET) :             0.164ns  (arrival time - required time)
                                                      -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.590     4.489    control_inst/clk_out
-    SLICE_X39Y37         FDRE                                         r  control_inst/sram_data_o_reg[1]/C
+                         net (fo=247, routed)         0.588     4.487    control_inst/clk_out
+    SLICE_X36Y33         FDRE                                         r  control_inst/sram_data_o_reg[10]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X39Y37         FDRE (Prop_fdre_C_Q)         0.141     4.630 r  control_inst/sram_data_o_reg[1]/Q
-                         net (fo=1, routed)           0.112     4.742    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[1]
-    SLICE_X39Y38         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[1]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.862     4.259    sram_driver_inst/clk_out
-    SLICE_X39Y38         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[1]/C
-                         clock pessimism              0.247     4.506    
-    SLICE_X39Y38         FDRE (Hold_fdre_C_D)         0.072     4.578    sram_driver_inst/sram_data_io_tristate_oe_reg[1]
-  -------------------------------------------------------------------
-                         required time                         -4.578    
-                         arrival time                           4.742    
-  -------------------------------------------------------------------
-                         slack                                  0.164    
-
-Slack (MET) :             0.165ns  (arrival time - required time)
-  Source:                 spi_driver_inst/data_o_reg[0]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            control_inst/spi_byte_second_reg[0]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Path Group:             clk_out_clk_wiz_0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.255ns  (logic 0.141ns (55.214%)  route 0.114ns (44.786%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.745ns = ( 4.255 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.512ns = ( 4.488 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.248ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.589     4.488    spi_driver_inst/clk_out
-    SLICE_X33Y36         FDRE                                         r  spi_driver_inst/data_o_reg[0]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X33Y36         FDRE (Prop_fdre_C_Q)         0.141     4.629 r  spi_driver_inst/data_o_reg[0]/Q
-                         net (fo=3, routed)           0.114     4.743    control_inst/spi_byte_second_reg[7]_0[0]
-    SLICE_X34Y36         FDRE                                         r  control_inst/spi_byte_second_reg[0]/D
+    SLICE_X36Y33         FDRE (Prop_fdre_C_Q)         0.141     4.628 r  control_inst/sram_data_o_reg[10]/Q
+                         net (fo=1, routed)           0.120     4.748    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[10]
+    SLICE_X37Y31         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[10]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -1283,87 +1116,30 @@ Slack (MET) :             0.165ns  (arrival time - required time)
                                                      -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.858     4.255    control_inst/clk_out
-    SLICE_X34Y36         FDRE                                         r  control_inst/spi_byte_second_reg[0]/C
-                         clock pessimism              0.248     4.503    
-    SLICE_X34Y36         FDRE (Hold_fdre_C_D)         0.075     4.578    control_inst/spi_byte_second_reg[0]
+                         net (fo=247, routed)         0.855     4.252    sram_driver_inst/clk_out
+    SLICE_X37Y31         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[10]/C
+                         clock pessimism              0.247     4.499    
+    SLICE_X37Y31         FDRE (Hold_fdre_C_D)         0.070     4.569    sram_driver_inst/sram_data_io_tristate_oe_reg[10]
   -------------------------------------------------------------------
-                         required time                         -4.578    
-                         arrival time                           4.743    
-  -------------------------------------------------------------------
-                         slack                                  0.165    
-
-Slack (MET) :             0.179ns  (arrival time - required time)
-  Source:                 control_inst/spi_data_o_reg[2]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            spi_driver_inst/buffer_tx_reg[2]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Path Group:             clk_out_clk_wiz_0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.316ns  (logic 0.186ns (58.784%)  route 0.130ns (41.216%))
-  Logic Levels:           1  (LUT2=1)
-  Clock Path Skew:        0.017ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.741ns = ( 4.259 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.510ns = ( 4.490 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.248ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.591     4.490    control_inst/clk_out
-    SLICE_X33Y39         FDRE                                         r  control_inst/spi_data_o_reg[2]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X33Y39         FDRE (Prop_fdre_C_Q)         0.141     4.631 r  control_inst/spi_data_o_reg[2]/Q
-                         net (fo=1, routed)           0.130     4.761    control_inst/spi_data_o_reg_n_0_[2]
-    SLICE_X34Y40         LUT2 (Prop_lut2_I1_O)        0.045     4.806 r  control_inst/buffer_tx[2]_i_1/O
-                         net (fo=1, routed)           0.000     4.806    spi_driver_inst/D[1]
-    SLICE_X34Y40         FDRE                                         r  spi_driver_inst/buffer_tx_reg[2]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out_clk_wiz_0 rise edge)
-                                                      5.000     5.000 r  
-    G11                                               0.000     5.000 r  clk_i (IN)
-                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
-    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
-                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
-    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
-                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
-    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.862     4.259    spi_driver_inst/clk_out
-    SLICE_X34Y40         FDRE                                         r  spi_driver_inst/buffer_tx_reg[2]/C
-                         clock pessimism              0.248     4.507    
-    SLICE_X34Y40         FDRE (Hold_fdre_C_D)         0.120     4.627    spi_driver_inst/buffer_tx_reg[2]
-  -------------------------------------------------------------------
-                         required time                         -4.627    
-                         arrival time                           4.806    
+                         required time                         -4.569    
+                         arrival time                           4.748    
   -------------------------------------------------------------------
                          slack                                  0.179    
 
-Slack (MET) :             0.184ns  (arrival time - required time)
-  Source:                 control_inst/sram_data_o_reg[7]/C
+Slack (MET) :             0.179ns  (arrival time - required time)
+  Source:                 spi_driver_inst/data_vld_o_reg/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            sram_driver_inst/sram_data_io_tristate_oe_reg[7]/D
+  Destination:            control_inst/spi_new_data_reg/D
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.274ns  (logic 0.164ns (59.853%)  route 0.110ns (40.147%))
+  Data Path Delay:        0.263ns  (logic 0.141ns (53.571%)  route 0.122ns (46.429%))
   Logic Levels:           0  
   Clock Path Skew:        0.014ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.744ns = ( 4.256 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.511ns = ( 4.489 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.247ns
+    Destination Clock Delay (DCD):    -0.774ns = ( 4.226 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.539ns = ( 4.461 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.249ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -1377,12 +1153,12 @@ Slack (MET) :             0.184ns  (arrival time - required time)
                                                      -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.590     4.489    control_inst/clk_out
-    SLICE_X38Y37         FDRE                                         r  control_inst/sram_data_o_reg[7]/C
+                         net (fo=247, routed)         0.562     4.461    spi_driver_inst/clk_out
+    SLICE_X31Y35         FDRE                                         r  spi_driver_inst/data_vld_o_reg/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X38Y37         FDRE (Prop_fdre_C_Q)         0.164     4.653 r  control_inst/sram_data_o_reg[7]/Q
-                         net (fo=1, routed)           0.110     4.763    sram_driver_inst/sram_data_io_tristate_oe_reg[15]_1[7]
-    SLICE_X39Y36         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[7]/D
+    SLICE_X31Y35         FDRE (Prop_fdre_C_Q)         0.141     4.602 r  spi_driver_inst/data_vld_o_reg/Q
+                         net (fo=7, routed)           0.122     4.724    control_inst/spi_data_rx_vld
+    SLICE_X31Y34         FDRE                                         r  control_inst/spi_new_data_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -1395,30 +1171,30 @@ Slack (MET) :             0.184ns  (arrival time - required time)
                                                      -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.859     4.256    sram_driver_inst/clk_out
-    SLICE_X39Y36         FDRE                                         r  sram_driver_inst/sram_data_io_tristate_oe_reg[7]/C
-                         clock pessimism              0.247     4.503    
-    SLICE_X39Y36         FDRE (Hold_fdre_C_D)         0.076     4.579    sram_driver_inst/sram_data_io_tristate_oe_reg[7]
+                         net (fo=247, routed)         0.829     4.226    control_inst/clk_out
+    SLICE_X31Y34         FDRE                                         r  control_inst/spi_new_data_reg/C
+                         clock pessimism              0.249     4.475    
+    SLICE_X31Y34         FDRE (Hold_fdre_C_D)         0.070     4.545    control_inst/spi_new_data_reg
   -------------------------------------------------------------------
-                         required time                         -4.579    
-                         arrival time                           4.763    
+                         required time                         -4.545    
+                         arrival time                           4.724    
   -------------------------------------------------------------------
-                         slack                                  0.184    
+                         slack                                  0.179    
 
-Slack (MET) :             0.184ns  (arrival time - required time)
-  Source:                 control_inst/sram_address_o_reg[8]/C
+Slack (MET) :             0.182ns  (arrival time - required time)
+  Source:                 spi_driver_inst/data_rx_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
-  Destination:            sram_driver_inst/sram_address_o_reg[8]/D
+  Destination:            spi_driver_inst/data_o_reg[1]/D
                             (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
   Path Group:             clk_out_clk_wiz_0
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
-  Data Path Delay:        0.259ns  (logic 0.141ns (54.394%)  route 0.118ns (45.606%))
+  Data Path Delay:        0.291ns  (logic 0.164ns (56.327%)  route 0.127ns (43.673%))
   Logic Levels:           0  
-  Clock Path Skew:        0.015ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.744ns = ( 4.256 - 5.000 ) 
-    Source Clock Delay      (SCD):    -0.512ns = ( 4.488 - 5.000 ) 
-    Clock Pessimism Removal (CPR):    -0.247ns
+  Clock Path Skew:        0.033ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.774ns = ( 4.226 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.539ns = ( 4.461 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.268ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -1432,12 +1208,12 @@ Slack (MET) :             0.184ns  (arrival time - required time)
                                                      -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.589     4.488    control_inst/clk_out
-    SLICE_X36Y35         FDRE                                         r  control_inst/sram_address_o_reg[8]/C
+                         net (fo=247, routed)         0.562     4.461    spi_driver_inst/clk_out
+    SLICE_X28Y34         FDRE                                         r  spi_driver_inst/data_rx_reg[0]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X36Y35         FDRE (Prop_fdre_C_Q)         0.141     4.629 r  control_inst/sram_address_o_reg[8]/Q
-                         net (fo=3, routed)           0.118     4.747    sram_driver_inst/D[8]
-    SLICE_X38Y35         FDRE                                         r  sram_driver_inst/sram_address_o_reg[8]/D
+    SLICE_X28Y34         FDRE (Prop_fdre_C_Q)         0.164     4.625 r  spi_driver_inst/data_rx_reg[0]/Q
+                         net (fo=2, routed)           0.127     4.752    spi_driver_inst/data_rx[0]
+    SLICE_X30Y34         FDRE                                         r  spi_driver_inst/data_o_reg[1]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk_out_clk_wiz_0 rise edge)
@@ -1450,15 +1226,239 @@ Slack (MET) :             0.184ns  (arrival time - required time)
                                                      -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
                          net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
     BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
-                         net (fo=233, routed)         0.859     4.256    sram_driver_inst/clk_out
-    SLICE_X38Y35         FDRE                                         r  sram_driver_inst/sram_address_o_reg[8]/C
-                         clock pessimism              0.247     4.503    
-    SLICE_X38Y35         FDRE (Hold_fdre_C_D)         0.060     4.563    sram_driver_inst/sram_address_o_reg[8]
+                         net (fo=247, routed)         0.829     4.226    spi_driver_inst/clk_out
+    SLICE_X30Y34         FDRE                                         r  spi_driver_inst/data_o_reg[1]/C
+                         clock pessimism              0.268     4.494    
+    SLICE_X30Y34         FDRE (Hold_fdre_C_D)         0.076     4.570    spi_driver_inst/data_o_reg[1]
   -------------------------------------------------------------------
-                         required time                         -4.563    
-                         arrival time                           4.747    
+                         required time                         -4.570    
+                         arrival time                           4.752    
   -------------------------------------------------------------------
-                         slack                                  0.184    
+                         slack                                  0.182    
+
+Slack (MET) :             0.188ns  (arrival time - required time)
+  Source:                 control_inst/sram_address_cnt_reg[3]/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Destination:            control_inst/sram_data_o_reg[3]/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Path Group:             clk_out_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
+  Data Path Delay:        0.295ns  (logic 0.141ns (47.782%)  route 0.154ns (52.218%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.035ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.746ns = ( 4.254 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.513ns = ( 4.487 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.588     4.487    control_inst/clk_out
+    SLICE_X35Y33         FDRE                                         r  control_inst/sram_address_cnt_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y33         FDRE (Prop_fdre_C_Q)         0.141     4.628 r  control_inst/sram_address_cnt_reg[3]/Q
+                         net (fo=4, routed)           0.154     4.782    control_inst/sram_address_cnt_reg_n_0_[3]
+    SLICE_X36Y33         FDRE                                         r  control_inst/sram_data_o_reg[3]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.857     4.254    control_inst/clk_out
+    SLICE_X36Y33         FDRE                                         r  control_inst/sram_data_o_reg[3]/C
+                         clock pessimism              0.268     4.522    
+    SLICE_X36Y33         FDRE (Hold_fdre_C_D)         0.072     4.594    control_inst/sram_data_o_reg[3]
+  -------------------------------------------------------------------
+                         required time                         -4.594    
+                         arrival time                           4.782    
+  -------------------------------------------------------------------
+                         slack                                  0.188    
+
+Slack (MET) :             0.190ns  (arrival time - required time)
+  Source:                 spi_driver_inst/nss_old_reg/C
+                            (rising edge-triggered cell FDSE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Destination:            spi_driver_inst/first_o_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Path Group:             clk_out_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
+  Data Path Delay:        0.281ns  (logic 0.227ns (80.666%)  route 0.054ns (19.335%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.773ns = ( 4.227 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.539ns = ( 4.461 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.234ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.562     4.461    spi_driver_inst/clk_out
+    SLICE_X31Y36         FDSE                                         r  spi_driver_inst/nss_old_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X31Y36         FDSE (Prop_fdse_C_Q)         0.128     4.589 r  spi_driver_inst/nss_old_reg/Q
+                         net (fo=1, routed)           0.054     4.643    spi_driver_inst/nss_old
+    SLICE_X31Y36         LUT4 (Prop_lut4_I1_O)        0.099     4.742 r  spi_driver_inst/first_o_i_1/O
+                         net (fo=1, routed)           0.000     4.742    spi_driver_inst/first_o_i_1_n_0
+    SLICE_X31Y36         FDRE                                         r  spi_driver_inst/first_o_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.830     4.227    spi_driver_inst/clk_out
+    SLICE_X31Y36         FDRE                                         r  spi_driver_inst/first_o_reg/C
+                         clock pessimism              0.234     4.461    
+    SLICE_X31Y36         FDRE (Hold_fdre_C_D)         0.091     4.552    spi_driver_inst/first_o_reg
+  -------------------------------------------------------------------
+                         required time                         -4.552    
+                         arrival time                           4.742    
+  -------------------------------------------------------------------
+                         slack                                  0.190    
+
+Slack (MET) :             0.193ns  (arrival time - required time)
+  Source:                 control_inst/sram_address_cnt_reg[6]/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Destination:            control_inst/sram_data_o_reg[6]/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Path Group:             clk_out_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
+  Data Path Delay:        0.281ns  (logic 0.141ns (50.259%)  route 0.140ns (49.741%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.035ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.745ns = ( 4.255 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.512ns = ( 4.488 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.589     4.488    control_inst/clk_out
+    SLICE_X35Y34         FDRE                                         r  control_inst/sram_address_cnt_reg[6]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y34         FDRE (Prop_fdre_C_Q)         0.141     4.629 r  control_inst/sram_address_cnt_reg[6]/Q
+                         net (fo=4, routed)           0.140     4.768    control_inst/sram_address_cnt_reg_n_0_[6]
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[6]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.858     4.255    control_inst/clk_out
+    SLICE_X38Y34         FDRE                                         r  control_inst/sram_data_o_reg[6]/C
+                         clock pessimism              0.268     4.523    
+    SLICE_X38Y34         FDRE (Hold_fdre_C_D)         0.053     4.576    control_inst/sram_data_o_reg[6]
+  -------------------------------------------------------------------
+                         required time                         -4.576    
+                         arrival time                           4.768    
+  -------------------------------------------------------------------
+                         slack                                  0.193    
+
+Slack (MET) :             0.196ns  (arrival time - required time)
+  Source:                 spi_driver_inst/sck_old_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Destination:            spi_driver_inst/bit_cnt_reg[0]/D
+                            (rising edge-triggered cell FDRE clocked by clk_out_clk_wiz_0  {rise@5.000ns fall@10.000ns period=10.000ns})
+  Path Group:             clk_out_clk_wiz_0
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_out_clk_wiz_0 rise@5.000ns - clk_out_clk_wiz_0 rise@5.000ns)
+  Data Path Delay:        0.321ns  (logic 0.186ns (57.993%)  route 0.135ns (42.007%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.034ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.773ns = ( 4.227 - 5.000 ) 
+    Source Clock Delay      (SCD):    -0.539ns = ( 4.461 - 5.000 ) 
+    Clock Pessimism Removal (CPR):    -0.268ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.201     5.201 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.440     5.641    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -2.230     3.411 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.462     3.873    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.026     3.899 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.562     4.461    spi_driver_inst/clk_out
+    SLICE_X31Y36         FDRE                                         r  spi_driver_inst/sck_old_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X31Y36         FDRE (Prop_fdre_C_Q)         0.141     4.602 r  spi_driver_inst/sck_old_reg/Q
+                         net (fo=8, routed)           0.135     4.736    spi_driver_inst/sck_old
+    SLICE_X29Y36         LUT6 (Prop_lut6_I2_O)        0.045     4.781 r  spi_driver_inst/bit_cnt[0]_i_1/O
+                         net (fo=1, routed)           0.000     4.781    spi_driver_inst/bit_cnt[0]_i_1_n_0
+    SLICE_X29Y36         FDRE                                         r  spi_driver_inst/bit_cnt_reg[0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_out_clk_wiz_0 rise edge)
+                                                      5.000     5.000 r  
+    G11                                               0.000     5.000 r  clk_i (IN)
+                         net (fo=0)                   0.000     5.000    clk_wiz_0_inst/inst/clk_in
+    G11                  IBUF (Prop_ibuf_I_O)         0.388     5.388 r  clk_wiz_0_inst/inst/clkin1_ibufg/O
+                         net (fo=1, routed)           0.480     5.868    clk_wiz_0_inst/inst/clk_in_clk_wiz_0
+    MMCME2_ADV_X0Y0      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                     -3.004     2.864 r  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
+                         net (fo=1, routed)           0.505     3.368    clk_wiz_0_inst/inst/clk_out_clk_wiz_0
+    BUFGCTRL_X0Y0        BUFG (Prop_bufg_I_O)         0.029     3.397 r  clk_wiz_0_inst/inst/clkout1_buf/O
+                         net (fo=247, routed)         0.830     4.227    spi_driver_inst/clk_out
+    SLICE_X29Y36         FDRE                                         r  spi_driver_inst/bit_cnt_reg[0]/C
+                         clock pessimism              0.268     4.495    
+    SLICE_X29Y36         FDRE (Hold_fdre_C_D)         0.091     4.586    spi_driver_inst/bit_cnt_reg[0]
+  -------------------------------------------------------------------
+                         required time                         -4.586    
+                         arrival time                           4.781    
+  -------------------------------------------------------------------
+                         slack                                  0.196    
 
 
 
@@ -1476,33 +1476,33 @@ Min Period        n/a     BUFG/I              n/a            2.155         10.00
 Min Period        n/a     FDRE/C              n/a            1.474         10.000      8.526      ILOGIC_X0Y8      adc_driver_inst/adc_ovrng_reg/C
 Min Period        n/a     MMCME2_ADV/CLKOUT0  n/a            1.249         10.000      8.751      MMCME2_ADV_X0Y0  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
 Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X0Y8       adc_driver_inst/data_o_reg[15]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y39     control_inst/FSM_onehot_opcode_reg[1]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X34Y39     control_inst/cmd_reg[0]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X34Y39     control_inst/cmd_reg[1]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X34Y39     control_inst/cmd_reg[2]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X34Y37     control_inst/ram_start_read_address_reg[6]/C
-Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X34Y37     control_inst/ram_start_read_address_reg[7]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y36     control_inst/FSM_onehot_spi_byte_order_reg[0]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y36     control_inst/FSM_onehot_spi_byte_order_reg[1]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y36     control_inst/FSM_onehot_spi_byte_order_reg[2]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y35     control_inst/cmd_reg[0]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y35     control_inst/cmd_reg[1]/C
+Min Period        n/a     FDRE/C              n/a            1.000         10.000      9.000      SLICE_X32Y35     control_inst/cmd_reg[2]/C
 Max Period        n/a     MMCME2_ADV/CLKOUT0  n/a            213.360       10.000      203.360    MMCME2_ADV_X0Y0  clk_wiz_0_inst/inst/mmcm_adv_inst/CLKOUT0
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X32Y39     control_inst/FSM_onehot_opcode_reg[1]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y39     control_inst/cmd_reg[0]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y39     control_inst/cmd_reg[1]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y39     control_inst/cmd_reg[2]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y38     control_inst/ready_reg/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y39     control_inst/spi_data_o_reg[0]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y39     control_inst/spi_data_o_reg[2]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y39     control_inst/spi_data_o_reg[6]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y39     control_inst/spi_data_o_reg[7]/C
-Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y38     control_inst/spi_data_vld_o_reg/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y34     control_inst/ram_start_read_address_reg[15]/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X37Y33     control_inst/ram_start_read_address_reg[1]/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X37Y33     control_inst/ram_start_read_address_reg[3]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y34     control_inst/ram_start_read_address_reg[5]/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X37Y33     control_inst/ram_start_read_address_reg[6]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y34     control_inst/ram_start_read_address_reg[7]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y34     control_inst/ram_start_read_address_reg[8]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y34     control_inst/ram_start_read_address_reg[9]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X32Y34     control_inst/spi_byte_cmd_reg[0]/C
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X32Y34     control_inst/spi_byte_cmd_reg[1]/C
 High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X0Y8       adc_driver_inst/data_o_reg[15]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y37     control_inst/ram_start_read_address_reg[6]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y37     control_inst/ram_start_read_address_reg[7]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y37     control_inst/ram_start_read_address_reg[9]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[0]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[1]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[2]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[3]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[4]/C
-High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_byte_cmd_reg[5]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y37     control_inst/spi_data_vld_o_reg/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X31Y34     control_inst/spi_new_data_reg/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X30Y34     spi_driver_inst/data_o_reg[7]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X34Y37     control_inst/FSM_sequential_opcode_reg[1]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_data_o_reg[0]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_data_o_reg[1]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_data_o_reg[3]/C
+High Pulse Width  Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X33Y37     control_inst/spi_data_o_reg[6]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X30Y34     spi_driver_inst/data_o_reg[0]/C
 
 
 

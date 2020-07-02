@@ -8,20 +8,21 @@
             <top_module name="glbl" />
             <top_module name="package_timing" />
             <top_module name="package_utility" />
+            <top_module name="spi_cmd" />
             <top_module name="top_tb" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="65350000001fs"></ZoomEndTime>
-      <Cursor1Time time="13850000000fs"></Cursor1Time>
+      <ZoomStartTime time="20523200000fs"></ZoomStartTime>
+      <ZoomEndTime time="20619600001fs"></ZoomEndTime>
+      <Cursor1Time time="20560000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="170"></NameColumnWidth>
-      <ValueColumnWidth column_width="112"></ValueColumnWidth>
+      <ValueColumnWidth column_width="195"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="31" />
+   <WVObjectSize size="27" />
    <wvobject type="logic" fp_name="/top_tb/dut/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
@@ -65,22 +66,40 @@
    <wvobject type="logic" fp_name="/top_tb/dut/control_inst/sram_ready_i">
       <obj_property name="ElementShortName">sram_ready_i</obj_property>
       <obj_property name="ObjectShortName">sram_ready_i</obj_property>
+      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/sram_data_write">
+      <obj_property name="ElementShortName">sram_data_write[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data_write[15:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_tb/dut/sram_data_write_vld">
       <obj_property name="ElementShortName">sram_data_write_vld</obj_property>
       <obj_property name="ObjectShortName">sram_data_write_vld</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/sram_data_read">
+      <obj_property name="ElementShortName">sram_data_read[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data_read[15:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/top_tb/dut/sram_data_read_vld">
       <obj_property name="ElementShortName">sram_data_read_vld</obj_property>
       <obj_property name="ObjectShortName">sram_data_read_vld</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_cnt">
-      <obj_property name="ElementShortName">sram_address_cnt[16:0]</obj_property>
-      <obj_property name="ObjectShortName">sram_address_cnt[16:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_o">
       <obj_property name="ElementShortName">sram_address_o[16:0]</obj_property>
       <obj_property name="ObjectShortName">sram_address_o[16:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_cnt">
+      <obj_property name="ElementShortName">sram_address_cnt[16:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_address_cnt[16:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/sram_address">
       <obj_property name="ElementShortName">sram_address[16:0]</obj_property>
@@ -90,6 +109,8 @@
    <wvobject type="array" fp_name="/top_tb/dut/control_inst/ram_data">
       <obj_property name="ElementShortName">ram_data[15:0]</obj_property>
       <obj_property name="ObjectShortName">ram_data[15:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/sram_data">
       <obj_property name="ElementShortName">sram_data[15:0]</obj_property>
@@ -123,38 +144,14 @@
       <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/tx_empty">
-      <obj_property name="ElementShortName">tx_empty</obj_property>
-      <obj_property name="ObjectShortName">tx_empty</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/buffer_tx">
       <obj_property name="ElementShortName">buffer_tx[7:0]</obj_property>
       <obj_property name="ObjectShortName">buffer_tx[7:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_new_data">
-      <obj_property name="ElementShortName">spi_new_data</obj_property>
-      <obj_property name="ObjectShortName">spi_new_data</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_new_cmd">
-      <obj_property name="ElementShortName">spi_new_cmd</obj_property>
-      <obj_property name="ObjectShortName">spi_new_cmd</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/data_tx">
-      <obj_property name="ElementShortName">data_tx[7:0]</obj_property>
-      <obj_property name="ObjectShortName">data_tx[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/bit_cnt">
-      <obj_property name="ElementShortName">bit_cnt[2:0]</obj_property>
-      <obj_property name="ObjectShortName">bit_cnt[2:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+   <wvobject type="array" fp_name="/top_tb/dut/control_inst/spi_data_o">
+      <obj_property name="ElementShortName">spi_data_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">spi_data_o[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/sck_posedge">
-      <obj_property name="ElementShortName">sck_posedge</obj_property>
-      <obj_property name="ObjectShortName">sck_posedge</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/spi_driver_inst/sck_negedge">
-      <obj_property name="ElementShortName">sck_negedge</obj_property>
-      <obj_property name="ObjectShortName">sck_negedge</obj_property>
    </wvobject>
 </wave_config>

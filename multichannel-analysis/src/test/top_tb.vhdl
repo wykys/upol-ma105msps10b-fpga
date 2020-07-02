@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
--- test bench to stimulate TOP entity
--- wykys 2019
+-- Simulace entity nejvyšší úrovně.
+-- wykys 2020
 -------------------------------------------------------------------------------
 
 library IEEE;
@@ -11,16 +11,18 @@ library STD;
 use STD.textio.all;
 use STD.env.stop;
 
+library work;
+use work.spi_cmd.all;
+use work.sim_spi_master.all;
+
 entity top_tb is
 end entity top_tb;
 
 architecture behavioral of top_tb is
 
-    constant CLK_FREQUENCY   : natural := 100; -- [MHz]
-    constant CLK_HALF_PERIOD : time    := ((1 us) / CLK_FREQUENCY) / 2;
-    constant SCK_HALF_PERIOD : time    := 20 * 2 * CLK_HALF_PERIOD;
-
-    constant STIMULATION_FILE : string := "/home/wykys/projects/diplomka/sw/detector/data-10b-80MSPS.csv";
+    constant CLK_FREQUENCY    : natural := 100; -- [MHz]
+    constant CLK_HALF_PERIOD  : time    := ((1 us) / CLK_FREQUENCY) / 2;
+    constant STIMULATION_FILE : string  := "/home/wykys/projects/diplomka/sw/detector/data-10b-80MSPS.csv";
 
     ---------------------------------------------------------------------------
     -- CLOCK ------------------------------------------------------------------
@@ -64,27 +66,6 @@ architecture behavioral of top_tb is
     -- GPIO for DEBUG ---------------------------------------------------------
     ---------------------------------------------------------------------------
     signal gpio : std_logic_vector(3 downto 0);
-
-    ---------------------------------------------------------------------------
-    -- SPI vysílač (MASTER).
-    -- Klidový stav hodin je 0.
-    -- Data jsou korektní na náběžnou hranu.
-    ---------------------------------------------------------------------------
-    procedure spi_tx(
-        constant data : in std_logic_vector(7 downto 0);
-        signal mosi   : out std_logic;
-        signal sck    : out std_logic
-    ) is
-    begin
-        for i in data'range loop
-            sck  <= '0';
-            mosi <= data(i);
-            wait for SCK_HALF_PERIOD;
-            sck <= '1';
-            wait for SCK_HALF_PERIOD;
-        end loop;
-        sck <= '0';
-    end spi_tx;
 
 begin
 
@@ -171,34 +152,18 @@ begin
     spi : process
     begin
         -----------------------------------------------------------------------
-        -- Čekání na reset systému
+        -- Čekání na reset systému.
         -----------------------------------------------------------------------
         wait for 500 ns;
-
-        spi_nss <= '0';
-        wait for 50 ns;
-        spi_tx(x"01", spi_mosi, spi_sck);
-        wait for 50 ns;
-        spi_nss <= '1';
-
-        wait for 500 ns;
-
-        spi_nss <= '0';
-        wait for 50 ns;
-        spi_tx(x"04", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        spi_tx(x"00", spi_mosi, spi_sck);
-        wait for 50 ns;
-        spi_nss <= '1';
-
+        -----------------------------------------------------------------------
+        -- SPI příkazy.
+        -----------------------------------------------------------------------
+        spi_tx_cmd_get_state(spi_mosi, spi_sck, spi_nss);
+        spi_tx_cmd_measurement_start(spi_mosi, spi_sck, spi_nss);
+        spi_tx_cmd_read(x"0000", 2, spi_mosi, spi_sck, spi_nss);
+        -----------------------------------------------------------------------
+        -- Čekání do konce simulace.
+        -----------------------------------------------------------------------
         wait;
     end process spi;
 
