@@ -10,7 +10,7 @@ use IEEE.numeric_std.all;
 library work;
 use work.spi_cmd.all;
 
-entity control is
+entity brain is
     port (
         -----------------------------------------------------------------------
         -- CLOCK --------------------------------------------------------------
@@ -32,12 +32,11 @@ entity control is
         -----------------------------------------------------------------------
         -- RAM USER interface -------------------------------------------------
         -----------------------------------------------------------------------
-        sram_address_o  : out std_logic_vector(16 downto 0); -- Adresa.
-        sram_data_o     : out std_logic_vector(15 downto 0); -- Data co budou zapsána.
-        sram_data_i     : in std_logic_vector(15 downto 0);  -- Přečtená data.
-        sram_data_vld_i : in std_logic;                      -- Vstupní data jsou validní.
-        sram_data_vld_o : out std_logic := '0';              -- Výstupní data jsou validní.
-        sram_ready_i    : in std_logic;                      -- Signalizace připravenosti.
+        sram_address_o : out std_logic_vector(16 downto 0); -- Adresa.
+        sram_data_o    : out std_logic_vector(15 downto 0); -- Data co budou zapsána.
+        sram_data_i    : in std_logic_vector(15 downto 0);  -- Přečtená data.
+        sram_read_o    : out std_logic;                     -- Přečíst z paměti.
+        sram_write_o   : out std_logic;                     -- Zapsat do paměti.
         -----------------------------------------------------------------------
         -- ADC USER interface -------------------------------------------------
         -----------------------------------------------------------------------
@@ -47,9 +46,9 @@ entity control is
         -----------------------------------------------------------------------
         led_o : out std_logic_vector(1 to 4) := (others => '0') -- Aktivní v H.
     );
-end entity control;
+end entity brain;
 
-architecture rtl of control is
+architecture rtl of brain is
 
     type spi_byte_order_t is (
         SPI_BYTE_ORDER_CMD,
@@ -79,8 +78,8 @@ architecture rtl of control is
     signal sram_address_cnt   : unsigned(sram_address_o'range) := (others => '0');
     constant SRAM_ADDRESS_MAX : unsigned(sram_address_o'range) := (others => '1');
 
-    signal ram_start_read_address : std_logic_vector(sram_address_o'range);
-    signal ram_data               : std_logic_vector(sram_data_o'range);
+    signal sram_start_read_address : std_logic_vector(sram_address_o'range);
+    signal sram_data               : std_logic_vector(sram_data_o'range);
 
     type opcode_t is (
         OPCODE_MEASUREMENT_INIT,
@@ -88,15 +87,22 @@ architecture rtl of control is
         OPCODE_MEASUREMENT_COMPLETE,
         -----------------------------------------------------------------------
         OPCODE_READ_INIT,
-        OPCODE_READ_WAIT_FOR_RAM,
         OPCODE_READ_WAIT_FOR_DATA,
         OPCODE_READ_SEND_MSB,
         OPCODE_READ_SEND_LSB,
         -----------------------------------------------------------------------
+        OPCODE_SRAM_READ,
+        OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP1,
+        OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP2,
+        OPCODE_SRAM_READ_COMPLETE,
+        -----------------------------------------------------------------------
+        OPCODE_SRAM_WRITE,
+        -----------------------------------------------------------------------
         OPCODE_NOP
     );
 
-    signal opcode : opcode_t := OPCODE_NOP;
+    signal opcode      : opcode_t;
+    signal opcode_jump : opcode_t;
 
 begin
 
@@ -183,11 +189,11 @@ begin
 
                     when SPI_CMD_MEMORY_READ =>
                         if spi_byte_order = SPI_BYTE_ORDER_SECOND then
-                            spi_new_cmd                         <= '1';
-                            cmd                                 <= CMD_READ;
-                            ram_start_read_address              <= (others => '0');
-                            ram_start_read_address(15 downto 8) <= spi_byte_first;
-                            ram_start_read_address(7 downto 0)  <= spi_byte_second;
+                            spi_new_cmd                          <= '1';
+                            cmd                                  <= CMD_READ;
+                            sram_start_read_address              <= (others => '0');
+                            sram_start_read_address(15 downto 8) <= spi_byte_first;
+                            sram_start_read_address(7 downto 0)  <= spi_byte_second;
                         end if;
 
                     when SPI_CMD_GET_STATE =>
@@ -214,30 +220,25 @@ begin
             -------------------------------------------------------------------
             -- Výhozí hodnoty signálů.
             -------------------------------------------------------------------
+            sram_read_o    <= '0';
+            sram_write_o   <= '0';
             spi_data_vld_o <= '0';
 
             if rst_i = '1' then
                 ---------------------------------------------------------------
                 -- Pokud je aktivní reset.
                 ---------------------------------------------------------------
-                ready           <= '1';
-                opcode          <= OPCODE_NOP;
-                sram_data_o     <= (others => '0');
-                sram_address_o  <= (others => '0');
-                sram_data_vld_o <= '0';
+                ready          <= '1';
+                opcode         <= OPCODE_NOP;
+                opcode_jump    <= OPCODE_NOP;
+                sram_data_o    <= (others => '0');
+                sram_address_o <= (others => '0');
+                spi_data_o     <= (others => '0');
+                spi_data_vld_o <= '0';
 
             elsif spi_new_cmd = '1' then
                 ---------------------------------------------------------------
                 -- Pokud přijde nový příkaz.
-                ---------------------------------------------------------------
-                if spi_byte_cmd /= SPI_CMD_GET_STATE then
-                    -----------------------------------------------------------
-                    -- Pokud nejde o zjištění aktuálního stavu.
-                    -----------------------------------------------------------
-                    sram_data_vld_o <= '0';
-                end if;
-
-                ---------------------------------------------------------------
                 -- Inicializuji stavový automat pro danný příkaz.
                 ---------------------------------------------------------------
                 case cmd is
@@ -272,93 +273,119 @@ begin
                         opcode <= OPCODE_NOP;
 
                 end case;
-            end if;
 
-            -------------------------------------------------------------------
-            -- Příkazový stavový automat.
-            -- Vykonává jednotlivé příkazy.
-            -------------------------------------------------------------------
-            case opcode is
-                when OPCODE_MEASUREMENT_INIT =>
-                    -----------------------------------------------------------
-                    -- Inicializace měření.
-                    -----------------------------------------------------------
-                    sram_address_cnt <= (others => '0');
-                    opcode           <= OPCODE_MEASUREMENT_PROCESS;
+            else
+                ---------------------------------------------------------------
+                -- Příkazový stavový automat.
+                -- Vykonává jednotlivé příkazy.
+                ---------------------------------------------------------------
+                case opcode is
+                    when OPCODE_MEASUREMENT_INIT =>
+                        -------------------------------------------------------
+                        -- Inicializace měření.
+                        -------------------------------------------------------
+                        sram_address_cnt <= (others => '0');
+                        opcode           <= OPCODE_MEASUREMENT_PROCESS;
+                        opcode_jump      <= OPCODE_MEASUREMENT_PROCESS;
 
-                when OPCODE_MEASUREMENT_PROCESS =>
-                    -----------------------------------------------------------
-                    -- Vlastní měření.
-                    -----------------------------------------------------------
-                    if sram_ready_i = '1' then
+                    when OPCODE_MEASUREMENT_PROCESS =>
+                        -------------------------------------------------------
+                        -- Vlastní měření.
+                        -------------------------------------------------------
                         if sram_address_cnt /= SRAM_ADDRESS_MAX then
                             sram_address_cnt <= sram_address_cnt + 1;
                             sram_address_o   <= std_logic_vector(sram_address_cnt);
                             sram_data_o      <= std_logic_vector(sram_address_cnt(sram_data_o'range));
-                            sram_data_vld_o  <= '1';
+                            opcode           <= OPCODE_SRAM_WRITE;
                         else
                             ready  <= '1';
                             opcode <= OPCODE_NOP;
                         end if;
-                    end if;
 
-                when OPCODE_READ_INIT =>
-                    -----------------------------------------------------------
-                    -- Inicializace čtení.
-                    -----------------------------------------------------------
-                    if sram_data_vld_i = '1' and sram_ready_i = '1' then
-                        opcode           <= OPCODE_READ_WAIT_FOR_RAM;
-                        sram_address_o   <= ram_start_read_address;
-                        sram_address_cnt <= unsigned(ram_start_read_address) + 1;
-                    end if;
+                    when OPCODE_READ_INIT =>
+                        -------------------------------------------------------
+                        -- Inicializace čtení.
+                        -------------------------------------------------------
+                        opcode           <= OPCODE_READ_WAIT_FOR_DATA;
+                        opcode_jump      <= OPCODE_READ_SEND_MSB;
+                        sram_address_cnt <= unsigned(sram_start_read_address);
 
-                when OPCODE_READ_WAIT_FOR_RAM =>
-                    -----------------------------------------------------------
-                    -- Čekání na připravení paměti.
-                    -----------------------------------------------------------
-                    if sram_data_vld_i = '0' then
-                        opcode <= OPCODE_READ_WAIT_FOR_DATA;
-                    end if;
-
-                when OPCODE_READ_WAIT_FOR_DATA =>
-                    -----------------------------------------------------------
-                    -- Čekání na vybavení dat z RAM.
-                    -----------------------------------------------------------
-                    if sram_data_vld_i = '1' then
-                        ram_data         <= sram_data_i;
+                    when OPCODE_READ_WAIT_FOR_DATA =>
+                        -------------------------------------------------------
+                        -- Čekání na vybavení dat z RAM.
+                        -------------------------------------------------------
                         sram_address_o   <= std_logic_vector(sram_address_cnt);
                         sram_address_cnt <= sram_address_cnt + 1;
-                        opcode           <= OPCODE_READ_SEND_MSB;
-                    end if;
+                        opcode           <= OPCODE_SRAM_READ;
 
-                when OPCODE_READ_SEND_MSB =>
-                    -----------------------------------------------------------
-                    -- Odeslání významějšího bajtu s 16b slova RAM.
-                    -----------------------------------------------------------
-                    if spi_ready_i = '1' then
-                        spi_data_o     <= ram_data(15 downto 8);
-                        spi_data_o     <= x"AA";
-                        spi_data_vld_o <= '1';
-                        opcode         <= OPCODE_READ_SEND_LSB;
-                    end if;
+                    when OPCODE_READ_SEND_MSB =>
+                        -------------------------------------------------------
+                        -- Odeslání významějšího bajtu s 16b slova RAM.
+                        -------------------------------------------------------
+                        if spi_ready_i = '1' then
+                            spi_data_o     <= sram_data(15 downto 8);
+                            spi_data_vld_o <= '1';
+                            opcode         <= OPCODE_READ_SEND_LSB;
+                        end if;
 
-                when OPCODE_READ_SEND_LSB =>
-                    -----------------------------------------------------------
-                    -- Odeslání méně významného bajtu s 16b slova RAM.
-                    -----------------------------------------------------------
-                    if spi_ready_i = '1' then
-                        spi_data_o     <= ram_data(7 downto 0);
-                        spi_data_vld_o <= '1';
-                        opcode         <= OPCODE_READ_WAIT_FOR_DATA;
-                    end if;
+                    when OPCODE_READ_SEND_LSB =>
+                        -------------------------------------------------------
+                        -- Odeslání méně významného bajtu s 16b slova RAM.
+                        -------------------------------------------------------
+                        if spi_ready_i = '1' then
+                            spi_data_o     <= sram_data(7 downto 0);
+                            spi_data_vld_o <= '1';
+                            opcode         <= OPCODE_READ_WAIT_FOR_DATA;
+                        end if;
 
-                when others =>
-                    -----------------------------------------------------------
-                    -- Žádná operace.
-                    -----------------------------------------------------------
-                    null;
-            end case;
+                    when OPCODE_SRAM_READ =>
+                        -------------------------------------------------------
+                        -- Čtení ze SRAM.
+                        -- Odešle řícící signál pro řadič paměti.
+                        -- Tento stav předpokládá, že v předchozím hodinovém
+                        -- cyklu byla nastavena adresa čtení na sram_address_o.
+                        -------------------------------------------------------
+                        sram_read_o <= '1';
+                        opcode      <= OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP1;
 
+                    when OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP1 =>
+                        -------------------------------------------------------
+                        -- Čekání na stabilní data krok 1.
+                        -------------------------------------------------------
+                        opcode <= OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP2;
+
+                    when OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP2 =>
+                        -------------------------------------------------------
+                        -- Čekání na stabilní data krok 2.
+                        -------------------------------------------------------
+                        opcode <= OPCODE_SRAM_READ_COMPLETE;
+
+                    when OPCODE_SRAM_READ_COMPLETE =>
+                        -------------------------------------------------------
+                        -- Přečtení dat a odskok na požadovaný stav.
+                        -------------------------------------------------------
+                        sram_data <= sram_data_i;
+                        opcode    <= opcode_jump;
+
+                    when OPCODE_SRAM_WRITE =>
+                        -------------------------------------------------------
+                        -- Zápis do SRAM.
+                        -- Tento stav předpokládá, že v předchozím hodinovém
+                        -- cyklu byly nastaveny sram_data_o, sram_address_o.
+                        -- Po dokončení zápisu je proveden odskok
+                        -- na požadovaný stav.
+                        -------------------------------------------------------
+                        sram_write_o <= '1';
+                        opcode       <= opcode_jump;
+
+                    when others =>
+                        -------------------------------------------------------
+                        -- Žádná operace.
+                        -------------------------------------------------------
+                        null;
+                end case;
+
+            end if;
         end if;
     end process;
 

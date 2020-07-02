@@ -17,8 +17,6 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param xicom.use_bs_reader 1
-set_param chipscope.maxJobs 2
 create_project -in_memory -part xc7s15ftgb196-1IL
 
 set_param project.singleFileAddWarning.threshold 0
@@ -35,7 +33,7 @@ set_property ip_cache_permissions {read write} [current_project]
 read_vhdl -library xil_defaultlib {
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_cmd.vhdl
-  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/control.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl

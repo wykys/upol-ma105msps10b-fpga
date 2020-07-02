@@ -8,21 +8,22 @@
             <top_module name="glbl" />
             <top_module name="package_timing" />
             <top_module name="package_utility" />
+            <top_module name="sim_spi_master" />
             <top_module name="spi_cmd" />
             <top_module name="top_tb" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="20523200000fs"></ZoomStartTime>
-      <ZoomEndTime time="20619600001fs"></ZoomEndTime>
-      <Cursor1Time time="20560000000fs"></Cursor1Time>
+      <ZoomStartTime time="55236300000fs"></ZoomStartTime>
+      <ZoomEndTime time="55285100001fs"></ZoomEndTime>
+      <Cursor1Time time="55274350000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="170"></NameColumnWidth>
-      <ValueColumnWidth column_width="195"></ValueColumnWidth>
+      <ValueColumnWidth column_width="183"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="27" />
+   <WVObjectSize size="31" />
    <wvobject type="logic" fp_name="/top_tb/dut/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
@@ -47,74 +48,60 @@
       <obj_property name="ElementShortName">spi_miso</obj_property>
       <obj_property name="ObjectShortName">spi_miso</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/top_tb/dut/control_inst/opcode">
-      <obj_property name="ElementShortName">opcode</obj_property>
-      <obj_property name="ObjectShortName">opcode</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/top_tb/dut/sram_driver_inst/opcode">
-      <obj_property name="ElementShortName">opcode</obj_property>
-      <obj_property name="ObjectShortName">opcode</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/ready">
-      <obj_property name="ElementShortName">ready</obj_property>
-      <obj_property name="ObjectShortName">ready</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/top_tb/dut/control_inst/cmd">
-      <obj_property name="ElementShortName">cmd</obj_property>
-      <obj_property name="ObjectShortName">cmd</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/sram_ready_i">
-      <obj_property name="ElementShortName">sram_ready_i</obj_property>
-      <obj_property name="ObjectShortName">sram_ready_i</obj_property>
-      <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/sram_data_write">
       <obj_property name="ElementShortName">sram_data_write[15:0]</obj_property>
       <obj_property name="ObjectShortName">sram_data_write[15:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/sram_data_write_vld">
-      <obj_property name="ElementShortName">sram_data_write_vld</obj_property>
-      <obj_property name="ObjectShortName">sram_data_write_vld</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/sram_data_read">
-      <obj_property name="ElementShortName">sram_data_read[15:0]</obj_property>
-      <obj_property name="ObjectShortName">sram_data_read[15:0]</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/sram_data_read_vld">
-      <obj_property name="ElementShortName">sram_data_read_vld</obj_property>
-      <obj_property name="ObjectShortName">sram_data_read_vld</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_o">
-      <obj_property name="ElementShortName">sram_address_o[16:0]</obj_property>
-      <obj_property name="ObjectShortName">sram_address_o[16:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/control_inst/sram_address_cnt">
-      <obj_property name="ElementShortName">sram_address_cnt[16:0]</obj_property>
-      <obj_property name="ObjectShortName">sram_address_cnt[16:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/top_tb/sram_address">
       <obj_property name="ElementShortName">sram_address[16:0]</obj_property>
       <obj_property name="ObjectShortName">sram_address[16:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/control_inst/ram_data">
-      <obj_property name="ElementShortName">ram_data[15:0]</obj_property>
-      <obj_property name="ObjectShortName">ram_data[15:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+   <wvobject type="array" fp_name="/top_tb/sram_data">
+      <obj_property name="ElementShortName">sram_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/spi_data_rx_vld">
+      <obj_property name="ElementShortName">spi_data_rx_vld</obj_property>
+      <obj_property name="ObjectShortName">spi_data_rx_vld</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/spi_data_tx_vld">
+      <obj_property name="ElementShortName">spi_data_tx_vld</obj_property>
+      <obj_property name="ObjectShortName">spi_data_tx_vld</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/sram_address">
+      <obj_property name="ElementShortName">sram_address[16:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_address[16:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/sram_data">
       <obj_property name="ElementShortName">sram_data[15:0]</obj_property>
       <obj_property name="ObjectShortName">sram_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/sram_ce_n">
+      <obj_property name="ElementShortName">sram_ce_n</obj_property>
+      <obj_property name="ObjectShortName">sram_ce_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/sram_oe_n">
+      <obj_property name="ElementShortName">sram_oe_n</obj_property>
+      <obj_property name="ObjectShortName">sram_oe_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/sram_we_n">
+      <obj_property name="ElementShortName">sram_we_n</obj_property>
+      <obj_property name="ObjectShortName">sram_we_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/sram_lb_n">
+      <obj_property name="ElementShortName">sram_lb_n</obj_property>
+      <obj_property name="ObjectShortName">sram_lb_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/sram_ub_n">
+      <obj_property name="ElementShortName">sram_ub_n</obj_property>
+      <obj_property name="ObjectShortName">sram_ub_n</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/top_tb/dut/spi_data_rx">
       <obj_property name="ElementShortName">spi_data_rx[7:0]</obj_property>
@@ -135,23 +122,43 @@
    <wvobject type="logic" fp_name="/top_tb/dut/spi_data_tx_vld">
       <obj_property name="ElementShortName">spi_data_tx_vld</obj_property>
       <obj_property name="ObjectShortName">spi_data_tx_vld</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/top_tb/dut/control_inst/spi_ready_i">
-      <obj_property name="ElementShortName">spi_ready_i</obj_property>
-      <obj_property name="ObjectShortName">spi_ready_i</obj_property>
+   <wvobject type="other" fp_name="/top_tb/dut/brain_inst/opcode">
+      <obj_property name="ElementShortName">opcode</obj_property>
+      <obj_property name="ObjectShortName">opcode</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_tb/dut/sram_driver_inst/opcode">
+      <obj_property name="ElementShortName">opcode</obj_property>
+      <obj_property name="ObjectShortName">opcode</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/top_tb/dut/brain_inst/cmd">
+      <obj_property name="ElementShortName">cmd</obj_property>
+      <obj_property name="ObjectShortName">cmd</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_tb/dut/brain_inst/ready">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
       <obj_property name="CustomSignalColor">#FFFFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/spi_driver_inst/buffer_tx">
-      <obj_property name="ElementShortName">buffer_tx[7:0]</obj_property>
-      <obj_property name="ObjectShortName">buffer_tx[7:0]</obj_property>
+   <wvobject type="logic" fp_name="/top_tb/dut/sram_write">
+      <obj_property name="ElementShortName">sram_write</obj_property>
+      <obj_property name="ObjectShortName">sram_write</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/top_tb/dut/control_inst/spi_data_o">
-      <obj_property name="ElementShortName">spi_data_o[7:0]</obj_property>
-      <obj_property name="ObjectShortName">spi_data_o[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/top_tb/dut/sram_read">
+      <obj_property name="ElementShortName">sram_read</obj_property>
+      <obj_property name="ObjectShortName">sram_read</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/brain_inst/sram_address_o">
+      <obj_property name="ElementShortName">sram_address_o[16:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_address_o[16:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/brain_inst/sram_data_o">
+      <obj_property name="ElementShortName">sram_data_o[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data_o[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/top_tb/dut/brain_inst/sram_data_i">
+      <obj_property name="ElementShortName">sram_data_i[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sram_data_i[15:0]</obj_property>
    </wvobject>
 </wave_config>

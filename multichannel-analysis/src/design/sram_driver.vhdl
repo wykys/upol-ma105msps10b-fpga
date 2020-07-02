@@ -26,12 +26,11 @@ entity sram_driver is
         -----------------------------------------------------------------------
         -- USER interface -----------------------------------------------------
         -----------------------------------------------------------------------
-        address_i  : in std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0); -- Adresa.
-        data_i     : in std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);    -- Data co budou zapsána.
-        data_o     : out std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);   -- Přečtená data.
-        data_vld_i : in std_logic;                                                 -- Vstupní data jsou validní.
-        data_vld_o : out std_logic;                                                -- Výstupní data jsou validní.
-        ready_o    : out std_logic;                                                -- Signalizace připravenosti.
+        address_i : in std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0); -- Adresa.
+        data_i    : in std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);    -- Data co budou zapsána.
+        data_o    : out std_logic_vector(RAM_DATA_NUMBER_OF_BITS - 1 downto 0);   -- Přečtená data.
+        read_i    : in std_logic;                                                 -- Přečte data.
+        write_i   : in std_logic;                                                 -- Zapíše data.
         -----------------------------------------------------------------------
         -- RAM IO -------------------------------------------------------------
         -----------------------------------------------------------------------
@@ -54,9 +53,7 @@ architecture rtl of sram_driver is
         READ_DATA
     );
 
-    signal opcode      : ram_opcode_t := WAIT_FOR_CMD;
-    signal opcode_old  : ram_opcode_t := WAIT_FOR_CMD;
-    signal address_old : std_logic_vector(RAM_ADDRESS_NUMBER_OF_BITS - 1 downto 0);
+    signal opcode : ram_opcode_t;
 
 begin
 
@@ -71,22 +68,16 @@ begin
                 ---------------------------------------------------------------
                 -- Reset je aktivní.
                 ---------------------------------------------------------------
-                opcode     <= WAIT_FOR_CMD;
-                opcode_old <= WAIT_FOR_CMD;
-
+                opcode         <= WAIT_FOR_CMD;
                 sram_oe_n_o    <= '1';
                 sram_we_n_o    <= '1';
                 sram_data_io   <= (others => 'Z');
                 sram_address_o <= (others => '0');
 
-                ready_o    <= '0';
-                data_vld_o <= '0';
-
             else
                 ---------------------------------------------------------------
-                -- Obvod není resetován.
+                -- Běžná činnost obvodu.
                 ---------------------------------------------------------------
-                opcode_old <= opcode;
                 case opcode is
                     when WAIT_FOR_CMD =>
                         -------------------------------------------------------
@@ -97,27 +88,20 @@ begin
                         sram_data_io   <= (others => 'Z');
                         sram_address_o <= address_i;
 
-                        ready_o     <= '1';
-                        address_old <= address_i;
-
-                        if data_vld_i = '1' then
+                        if write_i = '1' then
                             ---------------------------------------------------
-                            -- Mám validní data k zápisu do RAM.
+                            -- Požadavek na zápis do paměti.
                             ---------------------------------------------------
                             opcode       <= WRITE_DATA;
-                            ready_o      <= '0';
                             sram_data_io <= data_i;
-                            data_vld_o   <= '0';
 
-                        elsif address_old /= address_i or opcode_old = WRITE_DATA then
+                        elsif read_i = '1' then
                             ---------------------------------------------------
-                            -- Změna adresy, nebo předcházející zápis,
-                            -- tedy chci číst obsah RAM.
+                            -- Požadavek na čtení z paměti.
                             ---------------------------------------------------
                             opcode      <= READ_DATA;
-                            ready_o     <= '0';
                             sram_oe_n_o <= '0';
-                            data_vld_o  <= '0';
+
                         end if;
 
                     when WRITE_DATA =>
@@ -126,17 +110,18 @@ begin
                         -------------------------------------------------------
                         opcode      <= WAIT_FOR_CMD;
                         sram_we_n_o <= '0';
-                        ready_o     <= '1';
 
                     when READ_DATA =>
                         -------------------------------------------------------
                         -- Přečtení dat z RAM.
                         -------------------------------------------------------
-                        opcode     <= WAIT_FOR_CMD;
-                        data_o     <= sram_data_io;
-                        data_vld_o <= '1';
+                        opcode <= WAIT_FOR_CMD;
+                        data_o <= sram_data_io;
 
                     when others =>
+                        -------------------------------------------------------
+                        -- Prázdný case kvůli varování syntetizátoru.
+                        -------------------------------------------------------
                         null;
                 end case;
             end if;

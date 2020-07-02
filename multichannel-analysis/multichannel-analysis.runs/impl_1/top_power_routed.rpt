@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-| Date             : Thu Jul  2 19:56:13 2020
+| Date             : Fri Jul  3 00:17:39 2020
 | Host             : wpc running 64-bit Linux Mint 19.3 Tricia
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb -rpx top_power_routed.rpx
 | Design           : top
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.130        |
+| Total On-Chip Power (W)  | 0.144        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.111        |
+| Dynamic (W)              | 0.125        |
 | Device Static (W)        | 0.019        |
 | Effective TJA (C/W)      | 3.4          |
-| Max Ambient (C)          | 99.6         |
-| Junction Temperature (C) | 25.4         |
+| Max Ambient (C)          | 99.5         |
+| Junction Temperature (C) | 25.5         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -53,16 +53,16 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.002 |        5 |       --- |             --- |
-| Slice Logic    |    <0.001 |      419 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      128 |      8000 |            1.60 |
-|   Register     |    <0.001 |      246 |     16000 |            1.54 |
-|   CARRY4       |    <0.001 |        6 |      2000 |            0.30 |
+| Slice Logic    |    <0.001 |      372 |       --- |             --- |
+|   LUT as Logic |    <0.001 |       97 |      8000 |            1.21 |
+|   Register     |    <0.001 |      238 |     16000 |            1.49 |
+|   CARRY4       |    <0.001 |        4 |      2000 |            0.20 |
 |   Others       |     0.000 |       13 |       --- |             --- |
-| Signals        |    <0.001 |      331 |       --- |             --- |
+| Signals        |    <0.001 |      326 |       --- |             --- |
 | MMCM           |     0.106 |        1 |         2 |           50.00 |
-| I/O            |     0.003 |       49 |       100 |           49.00 |
+| I/O            |     0.016 |       49 |       100 |           49.00 |
 | Static Power   |     0.019 |          |           |                 |
-| Total          |     0.130 |          |           |                 |
+| Total          |     0.144 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -74,7 +74,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Vccint    |       0.950 |     0.006 |       0.003 |      0.003 |
 | Vccaux    |       1.800 |     0.066 |       0.059 |      0.007 |
-| Vcco33    |       3.300 |     0.002 |       0.001 |      0.001 |
+| Vcco33    |       3.300 |     0.006 |       0.005 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -141,7 +141,8 @@ Table of Contents
 +------------------+-----------+
 | Name             | Power (W) |
 +------------------+-----------+
-| top              |     0.111 |
+| top              |     0.125 |
+|   brain_inst     |     0.001 |
 |   clk_wiz_0_inst |     0.106 |
 |     inst         |     0.106 |
 +------------------+-----------+

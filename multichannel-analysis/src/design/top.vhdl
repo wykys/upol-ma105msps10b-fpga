@@ -65,12 +65,11 @@ architecture rtl of top is
     signal spi_ready       : std_logic;
     signal spi_first       : std_logic;
 
-    signal sram_address        : std_logic_vector(16 downto 0);
-    signal sram_data_write     : std_logic_vector(15 downto 0);
-    signal sram_data_read      : std_logic_vector(15 downto 0);
-    signal sram_data_write_vld : std_logic;
-    signal sram_data_read_vld  : std_logic;
-    signal sram_ready          : std_logic;
+    signal sram_address    : std_logic_vector(16 downto 0);
+    signal sram_data_write : std_logic_vector(15 downto 0);
+    signal sram_data_read  : std_logic_vector(15 downto 0);
+    signal sram_write      : std_logic;
+    signal sram_read       : std_logic;
 
     signal adc_data : std_logic_vector(15 downto 0);
 
@@ -100,15 +99,6 @@ begin
             clk_in  => clk_i,
             clk_out => clk
         );
-
-    ---------------------------------------------------------------------------
-    -- LED driver.
-    ---------------------------------------------------------------------------
-    -- led_driver_inst : entity work.led_driver
-    --     port map(
-    --         clk_i => clk,
-    --         led_o => led_o
-    --     );
 
     ---------------------------------------------------------------------------
     -- HW rozhranní pro SPI.
@@ -157,15 +147,14 @@ begin
             address_i      => sram_address,
             data_i         => sram_data_write,
             data_o         => sram_data_read,
-            data_vld_i     => sram_data_write_vld,
-            data_vld_o     => sram_data_read_vld,
-            ready_o        => sram_ready
+            read_i         => sram_read,
+            write_i        => sram_write
         );
 
     ---------------------------------------------------------------------------
     -- Řídící logika.
     ---------------------------------------------------------------------------
-    control_inst : entity work.control
+    brain_inst : entity work.brain
         port map(
             clk_i => clk,
             rst_i => rst,
@@ -177,12 +166,11 @@ begin
             spi_ready_i    => spi_ready,
             spi_first_i    => spi_first,
             -------------------------------------------------------------------
-            sram_address_o  => sram_address,
-            sram_data_o     => sram_data_write,
-            sram_data_i     => sram_data_read,
-            sram_data_vld_i => sram_data_read_vld,
-            sram_data_vld_o => sram_data_write_vld,
-            sram_ready_i    => sram_ready,
+            sram_address_o => sram_address,
+            sram_data_o    => sram_data_write,
+            sram_data_i    => sram_data_read,
+            sram_read_o    => sram_read,
+            sram_write_o   => sram_write,
             -------------------------------------------------------------------
             adc_data_i => adc_data,
             -------------------------------------------------------------------

@@ -160,7 +160,9 @@ begin
         -----------------------------------------------------------------------
         spi_tx_cmd_get_state(spi_mosi, spi_sck, spi_nss);
         spi_tx_cmd_measurement_start(spi_mosi, spi_sck, spi_nss);
-        spi_tx_cmd_read(x"0000", 2, spi_mosi, spi_sck, spi_nss);
+        spi_tx_cmd_get_state(spi_mosi, spi_sck, spi_nss);
+        -- wait for 3 ms;
+        spi_tx_cmd_read(x"0000", 10, spi_mosi, spi_sck, spi_nss);
         -----------------------------------------------------------------------
         -- Čekání do konce simulace.
         -----------------------------------------------------------------------
