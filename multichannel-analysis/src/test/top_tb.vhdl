@@ -18,7 +18,7 @@ architecture behavioral of top_tb is
 
     constant CLK_FREQUENCY   : natural := 100; -- [MHz]
     constant CLK_HALF_PERIOD : time    := ((1 us) / CLK_FREQUENCY) / 2;
-    constant SCK_HALF_PERIOD : time    := 20 * CLK_HALF_PERIOD;
+    constant SCK_HALF_PERIOD : time    := 20 * 2 * CLK_HALF_PERIOD;
 
     constant STIMULATION_FILE : string := "/home/wykys/projects/diplomka/sw/detector/data-10b-80MSPS.csv";
 

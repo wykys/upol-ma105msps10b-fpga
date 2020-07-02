@@ -63,7 +63,7 @@ begin
     ---------------------------------------------------------------------------
     process (clk_i)
     begin
-        if falling_edge(clk_i) then
+        if rising_edge(clk_i) then
             mosi <= mosi_i;
             sck  <= sck_i;
             nss  <= nss_i;
@@ -83,30 +83,40 @@ begin
     begin
         if rising_edge(clk_i) then
             if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset je aktivní.
+                ---------------------------------------------------------------
                 tx_empty_old <= '0';
+                tx_ready     <= '0';
+                buffer_tx    <= (others => '0');
             else
+                ---------------------------------------------------------------
+                -- Detekce připravenosti
+                ---------------------------------------------------------------
                 tx_empty_old <= tx_empty;
-            end if;
+                if tx_empty = '1' and tx_empty_old = '0' then
+                    tx_ready <= '1';
+                end if;
 
-            if tx_empty = '1' and tx_empty_old = '0' then
-                tx_ready <= '1';
-            end if;
-
-            if tx_ready = '1' then
-                if data_vld_i = '1' then
-                    buffer_tx <= data_i;
-                    tx_ready  <= '0';
-                else
-                    buffer_tx <= (others => '0');
+                ---------------------------------------------------------------
+                -- Zápis do vstupního datového vysílacího registru.
+                ---------------------------------------------------------------
+                if tx_ready = '1' then
+                    if data_vld_i = '1' then
+                        buffer_tx <= data_i;
+                        tx_ready  <= '0';
+                    else
+                        buffer_tx <= (others => '0');
+                    end if;
                 end if;
             end if;
         end if;
     end process;
     ready_o <= tx_ready;
 
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     -- Detekce hran SCK.
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     process (clk_i)
     begin
         if rising_edge(clk_i) then
@@ -120,9 +130,9 @@ begin
     sck_posedge <= sck and not sck_old;
     sck_negedge <= not sck and sck_old;
 
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     -- Detekce hran NSS.
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     process (clk_i)
     begin
         if rising_edge(clk_i) then
@@ -135,9 +145,9 @@ begin
     end process;
     nss_negedge <= not nss and nss_old;
 
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     -- Signalizace prvního bajtu v rámci.
-    ---------------------------------------------------------------
+    ---------------------------------------------------------------------------
     process (clk_i)
     begin
         if rising_edge(clk_i) then
@@ -160,10 +170,19 @@ begin
         if rising_edge(clk_i) then
             data_vld_o <= '0';
             tx_empty   <= '0';
+
+            if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset.
+                ---------------------------------------------------------------
+                data_o <= (others => '0');
+            end if;
+
             if rst_i = '1' or nss = '1' then
                 ---------------------------------------------------------------
+                -- Reset je aktivní nebo slave je deaktitován.
                 -- Čekání na aktivování slave.
-                -- Příprava dat MSB prvního bajtu v rámci.
+                -- Příprava dat prvního bajtu v rámci.
                 ---------------------------------------------------------------
                 bit_cnt  <= (others => '0');
                 miso     <= buffer_tx(7);
@@ -181,6 +200,7 @@ begin
                     data_rx <= data_rx(6 downto 0) & mosi;
                     bit_cnt <= bit_cnt + 1;
                     if bit_cnt = "111" then
+                        data_o     <= data_rx(6 downto 0) & mosi;
                         data_vld_o <= '1';
                     end if;
 
@@ -203,5 +223,4 @@ begin
             end if;
         end if;
     end process;
-    data_o <= data_rx;
 end architecture rtl;
