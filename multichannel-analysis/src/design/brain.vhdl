@@ -295,7 +295,8 @@ begin
                         if sram_address_cnt /= SRAM_ADDRESS_MAX then
                             sram_address_cnt <= sram_address_cnt + 1;
                             sram_address_o   <= std_logic_vector(sram_address_cnt);
-                            sram_data_o      <= std_logic_vector(sram_address_cnt(sram_data_o'range));
+                            -- sram_data_o      <= std_logic_vector(sram_address_cnt(sram_data_o'range));
+                            sram_data_o <= adc_data_i;
                             opcode           <= OPCODE_SRAM_WRITE;
                         else
                             ready  <= '1';

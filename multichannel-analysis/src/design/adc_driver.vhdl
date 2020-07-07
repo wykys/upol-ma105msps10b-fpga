@@ -30,11 +30,6 @@ end entity adc_driver;
 
 architecture rtl of adc_driver is
 
-    attribute IOB : string;
-    ---------------------------------------------------------------------------
-    attribute IOB of adc_data_i  : signal is "TRUE";
-    attribute IOB of adc_ovrng_i : signal is "TRUE";
-
     signal adc_ovrng : std_logic;
     signal adc_data  : std_logic_vector(adc_data_i'range);
 

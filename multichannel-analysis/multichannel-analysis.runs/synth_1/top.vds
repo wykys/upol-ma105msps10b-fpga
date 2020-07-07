@@ -1,9 +1,9 @@
 #-----------------------------------------------------------
-# Vivado v2019.1 (64-bit)
-# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
-# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
-# Start of session at: Fri Jul  3 00:16:23 2020
-# Process ID: 9460
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Mon Jul  6 21:22:47 2020
+# Process ID: 4241
 # Current directory: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1
 # Command line: vivado -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/top.vds
@@ -15,81 +15,49 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7s15'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7s15'
 INFO: [Device 21-403] Loading part xc7s15ftgb196-1IL
-INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 9483 
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 4321
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 1665.945 ; gain = 153.715 ; free physical = 5562 ; free virtual = 12146
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2111.723 ; gain = 0.000 ; free physical = 8836 ; free virtual = 14018
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'top' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:57]
 INFO: [Synth 8-638] synthesizing module 'rst_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:30]
 	Parameter RST_POWER_ON_CNT_NUMBER_OF_BITS bound to: 3 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'rst_driver' (1#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:30]
-INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-9460-wpc/realtime/clk_wiz_0_stub.vhdl:14]
+INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-4241-wpc/realtime/clk_wiz_0_stub.vhdl:13]
 INFO: [Synth 8-638] synthesizing module 'spi_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl:39]
 INFO: [Synth 8-256] done synthesizing module 'spi_driver' (2#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl:39]
 INFO: [Synth 8-638] synthesizing module 'adc_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl:31]
 	Parameter ADC_DATA_NUMBER_OF_BITS bound to: 10 - type: integer 
-INFO: [Synth 8-5534] Detected attribute (* iob = "TRUE" *) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl:22]
-INFO: [Synth 8-5534] Detected attribute (* iob = "TRUE" *) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl:23]
 INFO: [Synth 8-256] done synthesizing module 'adc_driver' (3#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl:31]
 INFO: [Synth 8-638] synthesizing module 'sram_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl:48]
 	Parameter RAM_DATA_NUMBER_OF_BITS bound to: 16 - type: integer 
 	Parameter RAM_ADDRESS_NUMBER_OF_BITS bound to: 17 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'sram_driver' (4#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl:48]
 INFO: [Synth 8-638] synthesizing module 'brain' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl:51]
-WARNING: [Synth 8-6014] Unused sequential element spi_byte_others_reg was removed.  [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl:147]
 INFO: [Synth 8-256] done synthesizing module 'brain' (5#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl:51]
 INFO: [Synth 8-256] done synthesizing module 'top' (6#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:57]
-WARNING: [Synth 8-3331] design brain has unconnected port led_o[2]
-WARNING: [Synth 8-3331] design brain has unconnected port led_o[3]
-WARNING: [Synth 8-3331] design brain has unconnected port led_o[4]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[14]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[13]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[12]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[11]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[10]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[9]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[8]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[7]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[6]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[5]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[4]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[3]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[2]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[1]
-WARNING: [Synth 8-3331] design brain has unconnected port adc_data_i[0]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[3]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[2]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[1]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[0]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[3]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[2]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[1]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[0]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1720.695 ; gain = 208.465 ; free physical = 5597 ; free virtual = 12181
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 2111.723 ; gain = 0.000 ; free physical = 8864 ; free virtual = 14048
 ---------------------------------------------------------------------------------
-
-Report Check Netlist: 
-+------+------------------+-------+---------+-------+------------------+
-|      |Item              |Errors |Warnings |Status |Description       |
-+------+------------------+-------+---------+-------+------------------+
-|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
-+------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1726.633 ; gain = 214.402 ; free physical = 5595 ; free virtual = 12180
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 2111.723 ; gain = 0.000 ; free physical = 8862 ; free virtual = 14045
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1726.633 ; gain = 214.402 ; free physical = 5595 ; free virtual = 12180
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 2111.723 ; gain = 0.000 ; free physical = 8862 ; free virtual = 14045
 ---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2111.723 ; gain = 0.000 ; free physical = 8855 ; free virtual = 14038
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
 Parsing XDC File [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clk_wiz_0_inst'
+WARNING: [Vivado 12-584] No ports matched ''. [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc:1]
+WARNING: [Vivado 12-584] No ports matched ''. [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc:4]
 Finished Parsing XDC File [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc] for cell 'clk_wiz_0_inst'
 Parsing XDC File [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/constraints/adc.xdc]
 Finished Parsing XDC File [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/constraints/adc.xdc]
@@ -124,31 +92,30 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1906.289 ; gain = 0.000 ; free physical = 5509 ; free virtual = 12081
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2190.406 ; gain = 0.000 ; free physical = 8750 ; free virtual = 13959
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 1906.289 ; gain = 0.000 ; free physical = 5509 ; free virtual = 12081
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2190.406 ; gain = 0.000 ; free physical = 8750 ; free virtual = 13959
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5565 ; free virtual = 12137
+Finished Constraint Validation : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8745 ; free virtual = 13967
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7s15ftgb196-1IL
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5565 ; free virtual = 12137
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8745 ; free virtual = 13967
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
-Applied set_property IO_BUFFER_TYPE = NONE for clk_i. (constraint file  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 3).
-Applied set_property CLOCK_BUFFER_TYPE = NONE for clk_i. (constraint file  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 4).
+Applied set_property IO_BUFFER_TYPE = NONE for clk_i. (constraint file  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 5).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for clk_i. (constraint file  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.srcs/sources_1/ip/clk_wiz_0/clk_wiz_0/clk_wiz_0_in_context.xdc, line 6).
 Applied set_property DONT_TOUCH = true for clk_wiz_0_inst. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5565 ; free virtual = 12137
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:18 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8748 ; free virtual = 13967
 ---------------------------------------------------------------------------------
-WARNING: [Synth 8-3936] Found unconnected internal register 'data_rx_reg' and it is trimmed from '8' to '7' bits. [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl:200]
 INFO: [Synth 8-802] inferred FSM for state register 'opcode_reg' in module 'sram_driver'
 INFO: [Synth 8-802] inferred FSM for state register 'spi_byte_order_reg' in module 'brain'
 ---------------------------------------------------------------------------------------------------
@@ -170,21 +137,15 @@ INFO: [Synth 8-3354] encoded FSM with state register 'opcode_reg' using encoding
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'spi_byte_order_reg' using encoding 'one-hot' in module 'brain'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5577 ; free virtual = 12149
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:18 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8739 ; free virtual = 13958
 ---------------------------------------------------------------------------------
-
-Report RTL Partitions: 
-+-+--------------+------------+----------+
-| |RTL Partition |Replication |Instances |
-+-+--------------+------------+----------+
-+-+--------------+------------+----------+
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input     17 Bit       Adders := 1     
-	   2 Input      3 Bit       Adders := 2     
+	   2 Input   17 Bit       Adders := 1     
+	   2 Input    3 Bit       Adders := 2     
 +---Registers : 
 	               17 Bit    Registers := 4     
 	               16 Bit    Registers := 4     
@@ -195,98 +156,25 @@ Detailed RTL Component Info :
 	                3 Bit    Registers := 3     
 	                1 Bit    Registers := 22    
 +---Muxes : 
-	  12 Input     17 Bit        Muxes := 1     
-	   3 Input     16 Bit        Muxes := 1     
-	   2 Input     16 Bit        Muxes := 1     
-	   2 Input      8 Bit        Muxes := 7     
-	   5 Input      8 Bit        Muxes := 1     
-	  12 Input      8 Bit        Muxes := 1     
-	   3 Input      4 Bit        Muxes := 1     
-	  13 Input      4 Bit        Muxes := 1     
-	   5 Input      4 Bit        Muxes := 1     
-	   3 Input      3 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 2     
-	   5 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 26    
-	   5 Input      1 Bit        Muxes := 5     
-	   3 Input      1 Bit        Muxes := 2     
-	   4 Input      1 Bit        Muxes := 3     
-	  12 Input      1 Bit        Muxes := 11    
+	  12 Input   17 Bit        Muxes := 1     
+	   3 Input   16 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 7     
+	   5 Input    8 Bit        Muxes := 1     
+	  12 Input    8 Bit        Muxes := 1     
+	   3 Input    4 Bit        Muxes := 1     
+	  13 Input    4 Bit        Muxes := 1     
+	   5 Input    4 Bit        Muxes := 1     
+	   3 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 2     
+	   5 Input    3 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 26    
+	   5 Input    1 Bit        Muxes := 5     
+	   3 Input    1 Bit        Muxes := 2     
+	   4 Input    1 Bit        Muxes := 3     
+	  12 Input    1 Bit        Muxes := 11    
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start RTL Hierarchical Component Statistics 
----------------------------------------------------------------------------------
-Hierarchical RTL Component report 
-Module rst_driver 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      3 Bit       Adders := 1     
-+---Registers : 
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 2     
-+---Muxes : 
-	   2 Input      1 Bit        Muxes := 1     
-Module spi_driver 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      3 Bit       Adders := 1     
-+---Registers : 
-	                8 Bit    Registers := 3     
-	                7 Bit    Registers := 1     
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 11    
-+---Muxes : 
-	   2 Input      8 Bit        Muxes := 6     
-	   5 Input      8 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 12    
-	   5 Input      1 Bit        Muxes := 1     
-Module adc_driver 
-Detailed RTL Component Info : 
-+---Registers : 
-	               16 Bit    Registers := 1     
-	               10 Bit    Registers := 1     
-	                1 Bit    Registers := 1     
-Module sram_driver 
-Detailed RTL Component Info : 
-+---Registers : 
-	               17 Bit    Registers := 1     
-	               16 Bit    Registers := 1     
-	                1 Bit    Registers := 2     
-+---Muxes : 
-	   3 Input     16 Bit        Muxes := 1     
-	   2 Input     16 Bit        Muxes := 1     
-	   3 Input      3 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 3     
-	   3 Input      1 Bit        Muxes := 2     
-Module brain 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input     17 Bit       Adders := 1     
-+---Registers : 
-	               17 Bit    Registers := 3     
-	               16 Bit    Registers := 2     
-	                8 Bit    Registers := 4     
-	                4 Bit    Registers := 2     
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 6     
-+---Muxes : 
-	  12 Input     17 Bit        Muxes := 1     
-	   2 Input      8 Bit        Muxes := 1     
-	  12 Input      8 Bit        Muxes := 1     
-	   3 Input      4 Bit        Muxes := 1     
-	  13 Input      4 Bit        Muxes := 1     
-	   5 Input      4 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 1     
-	   5 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 10    
-	   5 Input      1 Bit        Muxes := 4     
-	   4 Input      1 Bit        Muxes := 3     
-	  12 Input      1 Bit        Muxes := 11    
----------------------------------------------------------------------------------
-Finished RTL Hierarchical Component Statistics
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Part Resource Summary
@@ -300,82 +188,28 @@ Finished Part Resource Summary
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
-Warning: Parallel synthesis criteria is not met 
-WARNING: [Synth 8-3917] design top has port sram_ce_n_o driven by constant 0
-WARNING: [Synth 8-3917] design top has port sram_lb_n_o driven by constant 0
-WARNING: [Synth 8-3917] design top has port sram_ub_n_o driven by constant 0
-WARNING: [Synth 8-3917] design top has port led_o[2] driven by constant 0
-WARNING: [Synth 8-3917] design top has port led_o[3] driven by constant 0
-WARNING: [Synth 8-3917] design top has port led_o[4] driven by constant 0
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[3]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[2]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[1]
-WARNING: [Synth 8-3331] design top has unconnected port nu_io[0]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[3]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[2]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[1]
-WARNING: [Synth 8-3331] design top has unconnected port gpio_io[0]
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\spi_driver_inst/data_tx_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\brain_inst/opcode_jump_reg[1] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\brain_inst/sram_start_read_address_reg[16] )
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_32' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_31' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_30' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_29' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_28' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_27' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_26' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_25' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_24' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_23' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_22' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_21' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_20' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_19' (FDE) to 'sram_data_io_regi_18'
-INFO: [Synth 8-3886] merging instance 'sram_data_io_regi_18' (FDE) to 'sram_data_io_regi_17'
-WARNING: [Synth 8-3332] Sequential element (brain_inst/FSM_onehot_spi_byte_order_reg[3]) is unused and will be removed from module top.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:13 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5564 ; free virtual = 12139
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:20 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8722 ; free virtual = 13951
 ---------------------------------------------------------------------------------
-
-Report RTL Partitions: 
-+-+--------------+------------+----------+
-| |RTL Partition |Replication |Instances |
-+-+--------------+------------+----------+
-+-+--------------+------------+----------+
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-5578] Moved timing constraint from pin 'clk_wiz_0_inst/clk_out' to pin 'clk_wiz_0_inst/bbstub_clk_out/O'
 WARNING: [Synth 8-565] redefining clock 'clk_i'
-INFO: [Synth 8-5819] Moved 1 constraints on hierarchical pins to their respective driving/loading pins
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:19 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5424 ; free virtual = 11999
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:29 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8739 ; free virtual = 13856
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5419 ; free virtual = 11994
+Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:29 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8736 ; free virtual = 13853
 ---------------------------------------------------------------------------------
-
-Report RTL Partitions: 
-+-+--------------+------------+----------+
-| |RTL Partition |Replication |Instances |
-+-+--------------+------------+----------+
-+-+--------------+------------+----------+
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:29 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
-
-Report RTL Partitions: 
-+-+--------------+------------+----------+
-| |RTL Partition |Replication |Instances |
-+-+--------------+------------+----------+
-+-+--------------+------------+----------+
 ---------------------------------------------------------------------------------
 Start IO Insertion
 ---------------------------------------------------------------------------------
@@ -392,50 +226,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished IO Insertion : Time (s): cpu = 00:00:28 ; elapsed = 00:00:32 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
-
-Report Check Netlist: 
-+------+------------------+-------+---------+-------+------------------+
-|      |Item              |Errors |Warnings |Status |Description       |
-+------+------------------+-------+---------+-------+------------------+
-|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
-+------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:28 ; elapsed = 00:00:32 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
-
-Report RTL Partitions: 
-+-+--------------+------------+----------+
-| |RTL Partition |Replication |Instances |
-+-+--------------+------------+----------+
-+-+--------------+------------+----------+
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -449,59 +270,45 @@ Report BlackBoxes:
 +------+--------------+----------+
 
 Report Cell Usage: 
-+------+----------+------+
-|      |Cell      |Count |
-+------+----------+------+
-|1     |clk_wiz_0 |     1|
-|2     |CARRY4    |     4|
-|3     |LUT1      |     3|
-|4     |LUT2      |    18|
-|5     |LUT3      |    11|
-|6     |LUT4      |    19|
-|7     |LUT5      |    31|
-|8     |LUT6      |    37|
-|9     |FDRE      |   230|
-|10    |FDSE      |     9|
-|11    |IBUF      |     5|
-|12    |IOBUF     |    16|
-|13    |OBUF      |    26|
-|14    |OBUFT     |     1|
-+------+----------+------+
-
-Report Instance Areas: 
-+------+-------------------+------------+------+
-|      |Instance           |Module      |Cells |
-+------+-------------------+------------+------+
-|1     |top                |            |   411|
-|2     |  adc_driver_inst  |adc_driver  |     2|
-|3     |  brain_inst       |brain       |   216|
-|4     |  rst_driver_inst  |rst_driver  |    19|
-|5     |  spi_driver_inst  |spi_driver  |    67|
-|6     |  sram_driver_inst |sram_driver |    57|
-+------+-------------------+------------+------+
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |clk_wiz |     1|
+|2     |CARRY4  |     4|
+|3     |LUT1    |     3|
+|4     |LUT2    |    18|
+|5     |LUT3    |    11|
+|6     |LUT4    |    19|
+|7     |LUT5    |    31|
+|8     |LUT6    |    37|
+|9     |FDRE    |   229|
+|10    |FDSE    |    20|
+|11    |IBUF    |    15|
+|12    |IOBUF   |    16|
+|13    |OBUF    |    26|
+|14    |OBUFT   |     1|
++------+--------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5418 ; free virtual = 11993
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8735 ; free virtual = 13852
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 17 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:19 . Memory (MB): peak = 1906.289 ; gain = 214.402 ; free physical = 5470 ; free virtual = 12046
-Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:21 . Memory (MB): peak = 1906.289 ; gain = 394.059 ; free physical = 5470 ; free virtual = 12046
+Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:26 ; elapsed = 00:00:30 . Memory (MB): peak = 2190.406 ; gain = 0.000 ; free physical = 8787 ; free virtual = 13905
+Synthesis Optimization Complete : Time (s): cpu = 00:00:28 ; elapsed = 00:00:33 . Memory (MB): peak = 2190.406 ; gain = 78.684 ; free physical = 8788 ; free virtual = 13905
 INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2190.406 ; gain = 0.000 ; free physical = 8858 ; free virtual = 13977
 INFO: [Netlist 29-17] Analyzing 20 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1906.289 ; gain = 0.000 ; free physical = 5441 ; free virtual = 12016
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2190.406 ; gain = 0.000 ; free physical = 8804 ; free virtual = 13922
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 16 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 16 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-57 Infos, 45 Warnings, 0 Critical Warnings and 0 Errors encountered.
+38 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:22 ; elapsed = 00:00:24 . Memory (MB): peak = 1906.289 ; gain = 512.375 ; free physical = 5538 ; free virtual = 12113
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1906.289 ; gain = 0.000 ; free physical = 5538 ; free virtual = 12113
-WARNING: [Constraints 18-5210] No constraints selected for write.
-Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+synth_design: Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2190.406 ; gain = 78.906 ; free physical = 8943 ; free virtual = 14061
 INFO: [Common 17-1381] The checkpoint '/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Jul  3 00:16:56 2020...
+INFO: [Common 17-206] Exiting Vivado at Mon Jul  6 21:23:41 2020...

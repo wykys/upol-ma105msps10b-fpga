@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7s15ftgb196-1IL" LaunchTime="1593728181">
+<GenRun Id="impl_1" LaunchPart="xc7s15ftgb196-1IL" LaunchTime="1594063437">
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="BG-DRC" Name="top.drc"/>
-  <File Type="BG-BGN" Name="top.bgn"/>
   <File Type="BITSTR-SYSDEF" Name="top.sysdef"/>
   <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
   <File Type="BITSTR-LTX" Name="top.ltx"/>
+  <File Type="BG-BGN" Name="top.bgn"/>
+  <File Type="NPI_FILE" Name="top.npi"/>
+  <File Type="BG-DRC" Name="top.drc"/>
+  <File Type="RNPI_FILE" Name="top.rnpi"/>
+  <File Type="CFI_FILE" Name="top.cfi"/>
+  <File Type="RCFI_FILE" Name="top.rcfi"/>
+  <File Type="PDI-FILE" Name="top.pdi"/>
   <File Type="BITSTR-MMI" Name="top.mmi"/>
   <File Type="BITSTR-BMM" Name="top_bd.bmm"/>
   <File Type="BITSTR-NKY" Name="top.nky"/>
   <File Type="BITSTR-RBT" Name="top.rbt"/>
   <File Type="BITSTR-MSK" Name="top.msk"/>
+  <File Type="RBD_FILE" Name="top.rbd"/>
   <File Type="BG-BIN" Name="top.bin"/>
   <File Type="BG-BIT" Name="top.bit"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="top_bus_skew_postroute_physopted.rpx"/>

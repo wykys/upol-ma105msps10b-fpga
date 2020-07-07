@@ -1,7 +1,0 @@
-# compile vhdl design source files
-vhdl xil_defaultlib  \
-"../../../../../src/design/spi_driver.vhdl" \
-"../../../../../src/test/spi_driver_tb.vhdl" \
-
-# Do not sort compile order
-nosort
