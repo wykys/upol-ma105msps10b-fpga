@@ -59,7 +59,7 @@ architecture rtl of brain is
 
     type cmd_t is (
         CMD_NOP,
-        CMD_CLEAN,
+        CMD_ERASE,
         CMD_READ,
         CMD_MEASURE,
         CMD_GET_STATE
@@ -84,12 +84,14 @@ architecture rtl of brain is
     type opcode_t is (
         OPCODE_MEASUREMENT_INIT,
         OPCODE_MEASUREMENT_PROCESS,
-        OPCODE_MEASUREMENT_COMPLETE,
         -----------------------------------------------------------------------
-        OPCODE_READ_INIT,
-        OPCODE_READ_WAIT_FOR_DATA,
-        OPCODE_READ_SEND_MSB,
-        OPCODE_READ_SEND_LSB,
+        OPCODE_MEMORY_ERASE_INIT,
+        OPCODE_MEMORY_ERASE_PROCESS,
+        -----------------------------------------------------------------------
+        OPCODE_MEMORY_READ_INIT,
+        OPCODE_MEMORY_READ_WAIT_FOR_DATA,
+        OPCODE_MEMORY_READ_SEND_MSB,
+        OPCODE_MEMORY_READ_SEND_LSB,
         -----------------------------------------------------------------------
         OPCODE_SRAM_READ,
         OPCODE_SRAM_READ_WAIT_FOR_DATA_STEP1,
@@ -187,6 +189,12 @@ begin
                             cmd         <= CMD_NOP;
                         end if;
 
+                    when SPI_CMD_MEMORY_ERASE =>
+                        if spi_byte_order = SPI_BYTE_ORDER_CMD then
+                            spi_new_cmd <= '1';
+                            cmd         <= CMD_ERASE;
+                        end if;
+
                     when SPI_CMD_MEMORY_READ =>
                         if spi_byte_order = SPI_BYTE_ORDER_SECOND then
                             spi_new_cmd                          <= '1';
@@ -242,9 +250,13 @@ begin
                 -- Inicializuji stavový automat pro danný příkaz.
                 ---------------------------------------------------------------
                 case cmd is
+                    when CMD_ERASE =>
+                        ready  <= '0';
+                        opcode <= OPCODE_MEMORY_ERASE_INIT;
+
                     when CMD_READ =>
                         ready  <= '0';
-                        opcode <= OPCODE_READ_INIT;
+                        opcode <= OPCODE_MEMORY_READ_INIT;
 
                     when CMD_MEASURE =>
                         ready  <= '0';
@@ -295,23 +307,44 @@ begin
                         if sram_address_cnt /= SRAM_ADDRESS_MAX then
                             sram_address_cnt <= sram_address_cnt + 1;
                             sram_address_o   <= std_logic_vector(sram_address_cnt);
-                            -- sram_data_o      <= std_logic_vector(sram_address_cnt(sram_data_o'range));
-                            sram_data_o <= adc_data_i;
+                            sram_data_o      <= adc_data_i;
                             opcode           <= OPCODE_SRAM_WRITE;
                         else
                             ready  <= '1';
                             opcode <= OPCODE_NOP;
                         end if;
 
-                    when OPCODE_READ_INIT =>
+                    when OPCODE_MEMORY_ERASE_INIT =>
+                        -------------------------------------------------------
+                        -- Inicializace mazání.
+                        -------------------------------------------------------
+                        sram_address_cnt <= (others => '0');
+                        opcode           <= OPCODE_MEMORY_ERASE_PROCESS;
+                        opcode_jump      <= OPCODE_MEMORY_ERASE_PROCESS;
+
+                    when OPCODE_MEMORY_ERASE_PROCESS =>
+                        -------------------------------------------------------
+                        -- Vlastní mazání.
+                        -------------------------------------------------------
+                        if sram_address_cnt /= SRAM_ADDRESS_MAX then
+                            sram_address_cnt <= sram_address_cnt + 1;
+                            sram_address_o   <= std_logic_vector(sram_address_cnt);
+                            sram_data_o      <= (others => '0');
+                            opcode           <= OPCODE_SRAM_WRITE;
+                        else
+                            ready  <= '1';
+                            opcode <= OPCODE_NOP;
+                        end if;
+
+                    when OPCODE_MEMORY_READ_INIT =>
                         -------------------------------------------------------
                         -- Inicializace čtení.
                         -------------------------------------------------------
-                        opcode           <= OPCODE_READ_WAIT_FOR_DATA;
-                        opcode_jump      <= OPCODE_READ_SEND_MSB;
+                        opcode           <= OPCODE_MEMORY_READ_WAIT_FOR_DATA;
+                        opcode_jump      <= OPCODE_MEMORY_READ_SEND_MSB;
                         sram_address_cnt <= unsigned(sram_start_read_address);
 
-                    when OPCODE_READ_WAIT_FOR_DATA =>
+                    when OPCODE_MEMORY_READ_WAIT_FOR_DATA =>
                         -------------------------------------------------------
                         -- Čekání na vybavení dat z RAM.
                         -------------------------------------------------------
@@ -319,24 +352,24 @@ begin
                         sram_address_cnt <= sram_address_cnt + 1;
                         opcode           <= OPCODE_SRAM_READ;
 
-                    when OPCODE_READ_SEND_MSB =>
+                    when OPCODE_MEMORY_READ_SEND_MSB =>
                         -------------------------------------------------------
                         -- Odeslání významějšího bajtu s 16b slova RAM.
                         -------------------------------------------------------
                         if spi_ready_i = '1' then
                             spi_data_o     <= sram_data(15 downto 8);
                             spi_data_vld_o <= '1';
-                            opcode         <= OPCODE_READ_SEND_LSB;
+                            opcode         <= OPCODE_MEMORY_READ_SEND_LSB;
                         end if;
 
-                    when OPCODE_READ_SEND_LSB =>
+                    when OPCODE_MEMORY_READ_SEND_LSB =>
                         -------------------------------------------------------
                         -- Odeslání méně významného bajtu s 16b slova RAM.
                         -------------------------------------------------------
                         if spi_ready_i = '1' then
                             spi_data_o     <= sram_data(7 downto 0);
                             spi_data_vld_o <= '1';
-                            opcode         <= OPCODE_READ_WAIT_FOR_DATA;
+                            opcode         <= OPCODE_MEMORY_READ_WAIT_FOR_DATA;
                         end if;
 
                     when OPCODE_SRAM_READ =>
