@@ -32,7 +32,8 @@ entity spi_driver is
         data_vld_i : in std_logic;                     -- Vstupní data jsou validní.
         data_vld_o : out std_logic;                    -- Výstupní data jsou validní.
         ready_o    : out std_logic;                    -- Vstupní data byla přesunuta do bufferu.
-        first_o    : out std_logic                     -- Příznak prvního bytu v rámci.
+        first_o    : out std_logic;                    -- Příznak prvního batu v rámci.
+        ss_o       : out std_logic                     -- Příznak SPI slave je aktivní.
     );
 end entity spi_driver;
 
@@ -69,6 +70,7 @@ begin
             nss  <= nss_i;
         end if;
     end process;
+    ss_o <= not nss;
 
     ---------------------------------------------------------------------------
     -- Výstup je aktivní pouze pokud je aktivován slave.

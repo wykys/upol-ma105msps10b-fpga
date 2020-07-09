@@ -28,7 +28,8 @@ entity brain is
         spi_data_vld_o : out std_logic;                    -- Vstupní data jsou validní.
         spi_data_vld_i : in std_logic;                     -- Výstupní data jsou validní.
         spi_ready_i    : in std_logic;                     -- Vstupní data byla přesunuta do bufferu.
-        spi_first_i    : in std_logic;                     -- Příznak prvního bytu v rámci.
+        spi_first_i    : in std_logic;                     -- Příznak prvního bajtu v rámci.
+        spi_ss_i       : in std_logic;                     -- Příznak SPI slave je aktivní.
         -----------------------------------------------------------------------
         -- RAM USER interface -------------------------------------------------
         -----------------------------------------------------------------------
@@ -400,9 +401,19 @@ begin
                         -------------------------------------------------------
                         -- Čekání na vybavení dat z RAM.
                         -------------------------------------------------------
-                        sram_address_o   <= std_logic_vector(sram_address_cnt);
-                        sram_address_cnt <= sram_address_cnt + 1;
-                        opcode           <= OPCODE_SRAM_READ;
+                        if spi_ss_i = '1' then
+                            ---------------------------------------------------
+                            -- SPI slave je aktivní.
+                            ---------------------------------------------------
+                            sram_address_o   <= std_logic_vector(sram_address_cnt);
+                            sram_address_cnt <= sram_address_cnt + 1;
+                            opcode           <= OPCODE_SRAM_READ;
+                        else
+                            ---------------------------------------------------
+                            -- Pokud není SPI komunikace aktivní.
+                            ---------------------------------------------------
+                            opcode <= OPCODE_NOP;
+                        end if;
 
                     when OPCODE_MEMORY_READ_SEND_MSB =>
                         -------------------------------------------------------

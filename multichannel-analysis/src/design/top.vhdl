@@ -64,6 +64,7 @@ architecture rtl of top is
     signal spi_data_tx_vld : std_logic;
     signal spi_ready       : std_logic;
     signal spi_first       : std_logic;
+    signal spi_ss          : std_logic;
 
     signal sram_address    : std_logic_vector(16 downto 0);
     signal sram_data_write : std_logic_vector(15 downto 0);
@@ -129,7 +130,8 @@ begin
             data_vld_i => spi_data_tx_vld,
             data_vld_o => spi_data_rx_vld,
             ready_o    => spi_ready,
-            first_o    => spi_first
+            first_o    => spi_first,
+            ss_o       => spi_ss
         );
 
     ---------------------------------------------------------------------------
@@ -193,6 +195,7 @@ begin
             spi_data_vld_i => spi_data_rx_vld,
             spi_ready_i    => spi_ready,
             spi_first_i    => spi_first,
+            spi_ss_i       => spi_ss,
             -------------------------------------------------------------------
             sram_address_o => sram_address,
             sram_data_o    => sram_data_write,
