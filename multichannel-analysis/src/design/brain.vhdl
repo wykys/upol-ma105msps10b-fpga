@@ -40,7 +40,8 @@ entity brain is
         -----------------------------------------------------------------------
         -- ADC USER interface -------------------------------------------------
         -----------------------------------------------------------------------
-        adc_data_i : in std_logic_vector(15 downto 0); -- Vzorek
+        adc_data_i  : in std_logic_vector(9 downto 0); -- Vzorek
+        adc_ovrng_i : in std_logic;                    -- Mimo rozsah.
         -----------------------------------------------------------------------
         -- LED ----------------------------------------------------------------
         -----------------------------------------------------------------------
@@ -108,7 +109,7 @@ architecture rtl of brain is
 
 begin
 
-    led_o(1) <= adc_data_i(15);
+    led_o(1) <= adc_ovrng_i;
     ---------------------------------------------------------------------------
     -- SPI získání dat.
     -- Přijímá data a podle jejich pořadí v rámci, je přiřazuje do příslušných
@@ -307,8 +308,14 @@ begin
                         if sram_address_cnt /= SRAM_ADDRESS_MAX then
                             sram_address_cnt <= sram_address_cnt + 1;
                             sram_address_o   <= std_logic_vector(sram_address_cnt);
-                            sram_data_o      <= adc_data_i;
-                            opcode           <= OPCODE_SRAM_WRITE;
+                            if adc_ovrng_i = '1' then
+                                sram_data_o <= (others => '1');
+                            else
+                                sram_data_o                   <= (others => '0');
+                                sram_data_o(adc_data_i'range) <= adc_data_i;
+                            end if;
+
+                            opcode <= OPCODE_SRAM_WRITE;
                         else
                             ready  <= '1';
                             opcode <= OPCODE_NOP;

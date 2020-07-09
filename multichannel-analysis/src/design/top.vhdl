@@ -71,7 +71,8 @@ architecture rtl of top is
     signal sram_write      : std_logic;
     signal sram_read       : std_logic;
 
-    signal adc_data : std_logic_vector(15 downto 0);
+    signal adc_data  : std_logic_vector(adc_data_i'range);
+    signal adc_ovrng : std_logic;
 
 begin
 
@@ -134,9 +135,11 @@ begin
     adc_driver_inst : entity work.adc_driver
         port map(
             clk_i       => clk,
+            rst_i       => rst,
             adc_ovrng_i => adc_ovrng_i,
             adc_data_i  => adc_data_i,
-            data_o      => adc_data
+            adc_ovrng_o => adc_ovrng,
+            adc_data_o  => adc_data
         );
 
     ---------------------------------------------------------------------------
@@ -181,7 +184,8 @@ begin
             sram_read_o    => sram_read,
             sram_write_o   => sram_write,
             -------------------------------------------------------------------
-            adc_data_i => adc_data,
+            adc_data_i  => adc_data,
+            adc_ovrng_i => adc_ovrng,
             -------------------------------------------------------------------
             led_o => led_o
         );

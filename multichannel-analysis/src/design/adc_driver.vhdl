@@ -17,45 +17,42 @@ entity adc_driver is
         -----------------------------------------------------------------------
         clk_i : in std_logic;
         -----------------------------------------------------------------------
+        -- RESET active in hight ----------------------------------------------
+        -----------------------------------------------------------------------
+        rst_i : in std_logic;
+        -----------------------------------------------------------------------
         -- ADC IO -------------------------------------------------------------
         -----------------------------------------------------------------------
-        adc_ovrng_i : in std_logic                                              := '0';
-        adc_data_i  : in std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0) := (others => '0');
+        adc_ovrng_i : in std_logic;
+        adc_data_i  : in std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0);
         -----------------------------------------------------------------------
         -- USER interface -----------------------------------------------------
         -----------------------------------------------------------------------
-        data_o : out std_logic_vector(15 downto 0) := (others => '0')
+        adc_ovrng_o : out std_logic;
+        adc_data_o  : out std_logic_vector(ADC_DATA_NUMBER_OF_BITS - 1 downto 0)
     );
 end entity adc_driver;
 
 architecture rtl of adc_driver is
-
-    signal adc_ovrng : std_logic;
-    signal adc_data  : std_logic_vector(adc_data_i'range);
-
 begin
 
     ---------------------------------------------------------------------------
-    -- Synchronizace dat.
+    -- Získání dat z ADC.
     ---------------------------------------------------------------------------
     process (clk_i) begin
         if rising_edge(clk_i) then
-            adc_data  <= adc_data_i;
-            adc_ovrng <= adc_ovrng_i;
-        end if;
-    end process;
-
-    ---------------------------------------------------------------------------
-    -- Předzpracování dat z ADC.
-    ---------------------------------------------------------------------------
-    process (clk_i)
-    begin
-        if rising_edge(clk_i) then
-            if adc_ovrng = '1' then
-                data_o <= (others => '1');
+            if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset obvodu.
+                ---------------------------------------------------------------
+                adc_data_o  <= (others => '0');
+                adc_ovrng_o <= '0';
             else
-                data_o                 <= (others => '0');
-                data_o(adc_data'range) <= adc_data;
+                ---------------------------------------------------------------
+                -- Čtení dat z ADC.
+                ---------------------------------------------------------------
+                adc_data_o  <= adc_data_i;
+                adc_ovrng_o <= adc_ovrng_i;
             end if;
         end if;
     end process;
