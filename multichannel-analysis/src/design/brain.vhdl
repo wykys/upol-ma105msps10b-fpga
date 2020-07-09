@@ -70,7 +70,7 @@ architecture rtl of brain is
         CMD_MEASURE,
         CMD_GET_STATE
     );
-    signal cmd   : cmd_t     := CMD_NOP;
+    signal cmd : cmd_t := CMD_NOP;
     signal ready : std_logic := '1';
 
     signal spi_new_data    : std_logic                    := '0';
@@ -89,6 +89,7 @@ architecture rtl of brain is
 
     type opcode_t is (
         OPCODE_MEASUREMENT_INIT,
+        OPCODE_MEASUREMENT_WAIT_FOR_PULSE,
         OPCODE_MEASUREMENT_PROCESS,
         -----------------------------------------------------------------------
         OPCODE_MEMORY_ERASE_INIT,
@@ -302,26 +303,34 @@ begin
                         -------------------------------------------------------
                         -- Inicializace měření.
                         -------------------------------------------------------
-                        sram_address_cnt <= (others => '0');
-                        opcode           <= OPCODE_MEASUREMENT_PROCESS;
-                        opcode_jump      <= OPCODE_MEASUREMENT_PROCESS;
+                        opcode <= OPCODE_MEASUREMENT_WAIT_FOR_PULSE;
+
+                    when OPCODE_MEASUREMENT_WAIT_FOR_PULSE =>
+                        -------------------------------------------------------
+                        -- čekání na puls
+                        -------------------------------------------------------
+                        if pulse_vld_i = '1' then
+                            sram_address_o                     <= (others => '0');
+                            sram_address_o(pulse_peak_i'range) <= pulse_peak_i;
+                            opcode                             <= OPCODE_SRAM_READ;
+                            opcode_jump                        <= OPCODE_MEASUREMENT_PROCESS;
+                        end if;
 
                     when OPCODE_MEASUREMENT_PROCESS =>
                         -------------------------------------------------------
-                        -- Vlastní měření.
+                        -- Vyhodnocení hodnoty čítače amplitud.
                         -------------------------------------------------------
-                        if sram_address_cnt /= SRAM_ADDRESS_MAX then
-                            sram_address_cnt <= sram_address_cnt + 1;
-                            sram_address_o   <= std_logic_vector(sram_address_cnt);
-                            if adc_ovrng_i = '1' then
-                                sram_data_o <= (others => '1');
-                            else
-                                sram_data_o                   <= (others => '0');
-                                sram_data_o(adc_data_i'range) <= adc_data_i;
-                            end if;
-
-                            opcode <= OPCODE_SRAM_WRITE;
+                        if sram_data /= std_logic_vector(to_unsigned(1023, sram_data'length)) then
+                            ---------------------------------------------------
+                            -- Pokud nehrozí přetečeníp okračuj v měření.
+                            ---------------------------------------------------
+                            sram_data_o <= std_logic_vector(unsigned(sram_data) + 1);
+                            opcode      <= OPCODE_SRAM_WRITE;
+                            opcode_jump <= OPCODE_MEASUREMENT_WAIT_FOR_PULSE;
                         else
+                            ---------------------------------------------------
+                            -- Jinak ukončit měření.
+                            ---------------------------------------------------
                             ready  <= '1';
                             opcode <= OPCODE_NOP;
                         end if;
