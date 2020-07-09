@@ -56,6 +56,9 @@ end entity brain;
 
 architecture rtl of brain is
 
+    ---------------------------------------------------------------------------
+    -- Pořadí přijímaných bajtů po SPI.
+    ---------------------------------------------------------------------------
     type spi_byte_order_t is (
         SPI_BYTE_ORDER_CMD,
         SPI_BYTE_ORDER_FIRST,
@@ -63,6 +66,9 @@ architecture rtl of brain is
         SPI_BYTE_ORDER_OTHERS
     );
 
+    ---------------------------------------------------------------------------
+    -- Příkazy pro ovládání hlavního stavového automatu.
+    ---------------------------------------------------------------------------
     type cmd_t is (
         CMD_NOP,
         CMD_ERASE,
@@ -70,23 +76,20 @@ architecture rtl of brain is
         CMD_MEASURE,
         CMD_GET_STATE
     );
-    signal cmd : cmd_t := CMD_NOP;
-    signal ready : std_logic := '1';
 
-    signal spi_new_data    : std_logic                    := '0';
-    signal spi_new_cmd     : std_logic                    := '0';
-    signal spi_byte_order  : spi_byte_order_t             := SPI_BYTE_ORDER_CMD;
-    signal spi_byte_cmd    : std_logic_vector(7 downto 0) := (others => '0');
-    signal spi_byte_first  : std_logic_vector(7 downto 0) := (others => '0');
-    signal spi_byte_second : std_logic_vector(7 downto 0) := (others => '0');
-    signal spi_byte_others : std_logic_vector(7 downto 0) := (others => '0');
+    ---------------------------------------------------------------------------
+    -- Stavy ve kterých se nachází zařízení.
+    ---------------------------------------------------------------------------
+    type state_t is (
+        STATE_READY,
+        STATE_READ,
+        STATE_ERASE,
+        STATE_MEASUREMENT
+    );
 
-    signal sram_address_cnt   : unsigned(sram_address_o'range) := (others => '0');
-    constant SRAM_ADDRESS_MAX : unsigned(sram_address_o'range) := (others => '1');
-
-    signal sram_start_read_address : std_logic_vector(sram_address_o'range);
-    signal sram_data               : std_logic_vector(sram_data_o'range);
-
+    ---------------------------------------------------------------------------
+    -- Stavy hlavního stavového automatu.
+    ---------------------------------------------------------------------------
     type opcode_t is (
         OPCODE_MEASUREMENT_INIT,
         OPCODE_MEASUREMENT_WAIT_FOR_PULSE,
@@ -112,10 +115,32 @@ architecture rtl of brain is
 
     signal opcode      : opcode_t;
     signal opcode_jump : opcode_t;
+    signal state       : state_t := STATE_READY;
+    signal cmd         : cmd_t   := CMD_NOP;
+
+    signal spi_new_data    : std_logic                    := '0';
+    signal spi_new_cmd     : std_logic                    := '0';
+    signal spi_byte_order  : spi_byte_order_t             := SPI_BYTE_ORDER_CMD;
+    signal spi_byte_cmd    : std_logic_vector(7 downto 0) := (others => '0');
+    signal spi_byte_first  : std_logic_vector(7 downto 0) := (others => '0');
+    signal spi_byte_second : std_logic_vector(7 downto 0) := (others => '0');
+    signal spi_byte_others : std_logic_vector(7 downto 0) := (others => '0');
+
+    constant SRAM_ADDRESS_MAX      : unsigned(sram_address_o'range) := (others => '1');
+    signal sram_address_cnt        : unsigned(sram_address_o'range) := (others => '0');
+    signal sram_start_read_address : std_logic_vector(sram_address_o'range);
+    signal sram_data               : std_logic_vector(sram_data_o'range);
 
 begin
 
+    ---------------------------------------------------------------------------
+    -- Vyzuální znázornění překročení rozsahu ADC.
+    ---------------------------------------------------------------------------
     led_o(1) <= adc_ovrng_i;
+    led_o(2) <= adc_ovrng_i;
+    led_o(3) <= adc_ovrng_i;
+    led_o(4) <= adc_ovrng_i;
+
     ---------------------------------------------------------------------------
     -- SPI získání dat.
     -- Přijímá data a podle jejich pořadí v rámci, je přiřazuje do příslušných
@@ -243,7 +268,7 @@ begin
                 ---------------------------------------------------------------
                 -- Pokud je aktivní reset.
                 ---------------------------------------------------------------
-                ready          <= '1';
+                state          <= STATE_READY;
                 opcode         <= OPCODE_NOP;
                 opcode_jump    <= OPCODE_NOP;
                 sram_data_o    <= (others => '0');
@@ -258,29 +283,35 @@ begin
                 ---------------------------------------------------------------
                 case cmd is
                     when CMD_ERASE =>
-                        ready  <= '0';
+                        state  <= STATE_ERASE;
                         opcode <= OPCODE_MEMORY_ERASE_INIT;
 
                     when CMD_READ =>
-                        ready  <= '0';
+                        state  <= STATE_READ;
                         opcode <= OPCODE_MEMORY_READ_INIT;
 
                     when CMD_MEASURE =>
-                        ready  <= '0';
+                        state  <= STATE_MEASUREMENT;
                         opcode <= OPCODE_MEASUREMENT_INIT;
 
                     when CMD_GET_STATE =>
                         -------------------------------------------------------
-                        -- Odeslání stavu zařízení:
-                        --                          0 - čekání na příkaz
-                        --                          1 - zařízení pracuje
+                        -- Odeslání stavu zařízení.
                         -------------------------------------------------------
                         if spi_ready_i = '1' then
-                            if ready = '1' then
-                                spi_data_o <= x"01";
-                            else
-                                spi_data_o <= x"00";
-                            end if;
+                            case state is
+                                when STATE_READ =>
+                                    spi_data_o <= SPI_DEV_STATE_READ;
+
+                                when STATE_ERASE =>
+                                    spi_data_o <= SPI_DEV_STATE_ERASE;
+
+                                when STATE_MEASUREMENT =>
+                                    spi_data_o <= SPI_DEV_STATE_MEASUREMENT;
+
+                                when others =>
+                                    spi_data_o <= SPI_DEV_STATE_READY;
+                            end case;
                             spi_data_vld_o <= '1';
                         end if;
 
@@ -288,7 +319,7 @@ begin
                         -------------------------------------------------------
                         -- CMD: Stop.
                         -------------------------------------------------------
-                        ready  <= '1';
+                        state  <= STATE_READY;
                         opcode <= OPCODE_NOP;
 
                 end case;
@@ -331,7 +362,7 @@ begin
                             ---------------------------------------------------
                             -- Jinak ukončit měření.
                             ---------------------------------------------------
-                            ready  <= '1';
+                            state  <= STATE_READY;
                             opcode <= OPCODE_NOP;
                         end if;
 
@@ -353,7 +384,7 @@ begin
                             sram_data_o      <= (others => '0');
                             opcode           <= OPCODE_SRAM_WRITE;
                         else
-                            ready  <= '1';
+                            state  <= STATE_READY;
                             opcode <= OPCODE_NOP;
                         end if;
 
