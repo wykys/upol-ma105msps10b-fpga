@@ -74,6 +74,9 @@ architecture rtl of top is
     signal adc_data  : std_logic_vector(adc_data_i'range);
     signal adc_ovrng : std_logic;
 
+    signal pulse_vld  : std_logic;
+    signal pulse_peak : std_logic_vector(adc_data_i'range);
+
 begin
 
     ---------------------------------------------------------------------------
@@ -82,7 +85,7 @@ begin
     -- ila_0_inst : entity work.ila_0
     --     port map
     --     (
-    --         clk  => clk,
+    --         clk    => clk,
     --         probe0 => adc_data_i
     --     );
 
@@ -164,6 +167,19 @@ begin
         );
 
     ---------------------------------------------------------------------------
+    -- Zpracování signálu.
+    ---------------------------------------------------------------------------
+    dsp_inst : entity work.dsp
+        port map(
+            clk_i          => clk_i,
+            adc_ovrng_i    => adc_ovrng,
+            adc_data_i     => adc_data,
+            pulse_peak_o   => pulse_peak,
+            pulse_length_o => open,
+            pulse_vld_o    => pulse_vld
+        );
+
+    ---------------------------------------------------------------------------
     -- Řídící logika.
     ---------------------------------------------------------------------------
     brain_inst : entity work.brain
@@ -186,6 +202,9 @@ begin
             -------------------------------------------------------------------
             adc_data_i  => adc_data,
             adc_ovrng_i => adc_ovrng,
+            -------------------------------------------------------------------
+            pulse_peak_i => pulse_peak,
+            pulse_vld_i  => pulse_vld,
             -------------------------------------------------------------------
             led_o => led_o
         );

@@ -71,6 +71,8 @@ proc create_report { reportName command } {
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 2
+set_param tcl.collectionResultDisplayLimit 0
+set_param xicom.use_bs_reader 1
 set_param synth.incrementalSynthesisCache ./.Xil/Vivado-5272-wpc/incrSyn
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
@@ -94,6 +96,11 @@ read_vhdl -library xil_defaultlib {
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_cmd.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/data_validator.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/trigger.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/maximum_seeker.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/pulse_length_measurement.vhdl
+  /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/dsp.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl
   /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl
