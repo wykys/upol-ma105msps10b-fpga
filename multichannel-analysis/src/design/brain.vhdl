@@ -351,7 +351,7 @@ begin
                         -------------------------------------------------------
                         -- Vyhodnocení hodnoty čítače amplitud.
                         -------------------------------------------------------
-                        if sram_data /= std_logic_vector(to_unsigned(1023, sram_data'length)) then
+                        if sram_data /= std_logic_vector(to_unsigned(65535, sram_data'length)) then
                             ---------------------------------------------------
                             -- Pokud nehrozí přetečeníp okračuj v měření.
                             ---------------------------------------------------
