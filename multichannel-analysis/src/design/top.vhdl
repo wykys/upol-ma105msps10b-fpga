@@ -91,6 +91,16 @@ begin
     --     );
 
     ---------------------------------------------------------------------------
+    -- Posunutí hodin z důvodu korektního časování čtení z ADC.
+    ---------------------------------------------------------------------------
+    clk_wiz_0_inst : entity work.clk_wiz_0
+        port map
+        (
+            clk_i => clk_i,
+            clk_o => clk
+        );
+
+    ---------------------------------------------------------------------------
     -- Resetovací obvod.
     ---------------------------------------------------------------------------
     rst_driver_inst : entity work.rst_driver
@@ -102,16 +112,6 @@ begin
             clk_i  => clk,
             nrst_i => nrst_i,
             rst_o  => rst
-        );
-
-    ---------------------------------------------------------------------------
-    -- Posunutí hodin z důvodu korektního časování čtení z ADC.
-    ---------------------------------------------------------------------------
-    clk_wiz_0_inst : entity work.clk_wiz_0
-        port map
-        (
-            clk_i => clk_i,
-            clk_o => clk
         );
 
     ---------------------------------------------------------------------------
@@ -173,7 +173,7 @@ begin
     ---------------------------------------------------------------------------
     dsp_inst : entity work.dsp
         port map(
-            clk_i          => clk_i,
+            clk_i          => clk,
             adc_ovrng_i    => adc_ovrng,
             adc_data_i     => adc_data,
             pulse_peak_o   => pulse_peak,

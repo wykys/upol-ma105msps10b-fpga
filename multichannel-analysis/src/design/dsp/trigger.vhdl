@@ -23,8 +23,8 @@ architecture rtl of trigger is
         return natural(((2.0 ** real(ADC_NUMBER_OF_BITS)) - 1.0) * (real(percent)/100.0));
     end set_threshold;
 
-    constant TRESHOLD_POSEDGE : natural := set_threshold(50); -- 12
-    constant TRESHOLD_NEGEDGE : natural := set_threshold(20); -- 9
+    constant TRESHOLD_POSEDGE : natural := set_threshold(4); -- 12
+    constant TRESHOLD_NEGEDGE : natural := set_threshold(3); -- 9
 begin
 
     clk       <= clk_i;
