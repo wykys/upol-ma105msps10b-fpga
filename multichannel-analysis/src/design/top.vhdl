@@ -75,8 +75,10 @@ architecture rtl of top is
     signal adc_data  : std_logic_vector(adc_data_i'range);
     signal adc_ovrng : std_logic;
 
-    signal pulse_vld  : std_logic;
-    signal pulse_peak : std_logic_vector(adc_data_i'range);
+    signal pulse_vld         : std_logic;
+    signal pulse_peak        : std_logic_vector(adc_data_i'range);
+    signal pulse_rising_lvl  : std_logic_vector(adc_data_i'range);
+    signal pulse_falling_lvl : std_logic_vector(adc_data_i'range);
 
 begin
 
@@ -173,12 +175,15 @@ begin
     ---------------------------------------------------------------------------
     dsp_inst : entity work.dsp
         port map(
-            clk_i          => clk,
-            adc_ovrng_i    => adc_ovrng,
-            adc_data_i     => adc_data,
-            pulse_peak_o   => pulse_peak,
-            pulse_length_o => open,
-            pulse_vld_o    => pulse_vld
+            clk_i               => clk,
+            rst_i               => rst,
+            adc_ovrng_i         => adc_ovrng,
+            adc_data_i          => adc_data,
+            pulse_rising_lvl_i  => pulse_rising_lvl,
+            pulse_falling_lvl_i => pulse_falling_lvl,
+            pulse_peak_o        => pulse_peak,
+            pulse_length_o      => open,
+            pulse_vld_o         => pulse_vld
         );
 
     ---------------------------------------------------------------------------
@@ -206,8 +211,10 @@ begin
             adc_data_i  => adc_data,
             adc_ovrng_i => adc_ovrng,
             -------------------------------------------------------------------
-            pulse_peak_i => pulse_peak,
-            pulse_vld_i  => pulse_vld,
+            pulse_peak_i        => pulse_peak,
+            pulse_vld_i         => pulse_vld,
+            pulse_rising_lvl_o  => pulse_rising_lvl,
+            pulse_falling_lvl_o => pulse_falling_lvl,
             -------------------------------------------------------------------
             led_o => led_o
         );

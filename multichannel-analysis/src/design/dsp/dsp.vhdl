@@ -13,10 +13,19 @@ entity dsp is
         -----------------------------------------------------------------------
         clk_i : in std_logic;
         -----------------------------------------------------------------------
+        -- RESET active in hight ----------------------------------------------
+        -----------------------------------------------------------------------
+        rst_i : in std_logic;
+        -----------------------------------------------------------------------
         -- ADC ----------------------------------------------------------------
         -----------------------------------------------------------------------
         adc_ovrng_i : in std_logic;
         adc_data_i  : in std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
+        -----------------------------------------------------------------------
+        -- SETTINGS SIGNALS ---------------------------------------------------
+        -----------------------------------------------------------------------
+        pulse_rising_lvl_i  : in std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
+        pulse_falling_lvl_i : in std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
         -----------------------------------------------------------------------
         -- OUTPUT SIGNALS -----------------------------------------------------
         -----------------------------------------------------------------------
@@ -37,9 +46,12 @@ begin
             ADC_NUMBER_OF_BITS => ADC_NUMBER_OF_BITS
         )
         port map(
-            clk_i      => clk_i,
-            adc_data_i => adc_data_i,
-            trigger_o  => trigger
+            clk_i               => clk_i,
+            rst_i               => rst_i,
+            adc_data_i          => adc_data_i,
+            pulse_rising_lvl_i  => pulse_rising_lvl_i,
+            pulse_falling_lvl_i => pulse_falling_lvl_i,
+            trigger_o           => trigger
         );
 
     maximum_seeker_inst : entity work.maximum_seeker
@@ -56,7 +68,7 @@ begin
     pulse_length_measurement_inst : entity work.pulse_length_measurement
         port map(
             clk_i          => clk_i,
-            rst_i          => '0',
+            rst_i          => rst_i,
             trigger_i      => trigger,
             pulse_length_o => pulse_length_o
         );

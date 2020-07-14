@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- Control
+-- Řídící logika multikanálového analyzátoru.
 -- wykys 2020
 -------------------------------------------------------------------------------
 
@@ -46,12 +46,14 @@ entity brain is
         -----------------------------------------------------------------------
         -- DSP ----------------------------------------------------------------
         -----------------------------------------------------------------------
-        pulse_vld_i  : in std_logic;
-        pulse_peak_i : in std_logic_vector(9 downto 0);
+        pulse_vld_i         : in std_logic;
+        pulse_peak_i        : in std_logic_vector(9 downto 0);
+        pulse_rising_lvl_o  : out std_logic_vector(9 downto 0);
+        pulse_falling_lvl_o : out std_logic_vector(9 downto 0);
         -----------------------------------------------------------------------
         -- LED ----------------------------------------------------------------
         -----------------------------------------------------------------------
-        led_o : out std_logic_vector(1 to 4) := (others => '0') -- Aktivní v H.
+        led_o : out std_logic_vector(1 to 4) -- Aktivní v H.
     );
 end entity brain;
 
@@ -202,7 +204,9 @@ begin
                 ---------------------------------------------------------------
                 -- Pokud je aktivní reset.
                 ---------------------------------------------------------------
-                cmd <= CMD_NOP;
+                cmd                 <= CMD_NOP;
+                pulse_rising_lvl_o  <= (others => '0');
+                pulse_falling_lvl_o <= (others => '0');
 
             elsif spi_new_data = '1' then
                 ---------------------------------------------------------------
@@ -241,6 +245,18 @@ begin
                         if spi_byte_order = SPI_BYTE_ORDER_CMD then
                             spi_new_cmd <= '1';
                             cmd         <= CMD_GET_STATE;
+                        end if;
+
+                    when SPI_CMD_SET_RISING_LEVEL =>
+                        if spi_byte_order = SPI_BYTE_ORDER_SECOND then
+                            pulse_rising_lvl_o(9 downto 8) <= spi_byte_first(1 downto 0);
+                            pulse_rising_lvl_o(7 downto 0) <= spi_byte_second;
+                        end if;
+
+                    when SPI_CMD_SET_FALLING_LEVEL =>
+                        if spi_byte_order = SPI_BYTE_ORDER_SECOND then
+                            pulse_falling_lvl_o(9 downto 8) <= spi_byte_first(1 downto 0);
+                            pulse_falling_lvl_o(7 downto 0) <= spi_byte_second;
                         end if;
 
                     when others =>
