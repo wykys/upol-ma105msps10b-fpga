@@ -60,6 +60,7 @@ begin
         )
         port map(
             clk_i      => clk_i,
+            rst_i      => rst_i,
             trigger_i  => trigger,
             adc_data_i => adc_data_i,
             peak_o     => pulse_peak_o
@@ -76,6 +77,7 @@ begin
     data_validator_inst : entity work.data_validator
         port map(
             clk_i     => clk_i,
+            rst_i     => rst_i,
             trigger_i => trigger,
             valid_o   => pulse_vld_o
         );

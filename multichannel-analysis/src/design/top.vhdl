@@ -85,12 +85,12 @@ begin
     ---------------------------------------------------------------------------
     -- Logický analyzátor.
     ---------------------------------------------------------------------------
-    -- ila_0_inst : entity work.ila_0
-    --     port map
-    --     (
-    --         clk    => clk,
-    --         probe0 => adc_data_i
-    --     );
+    ila_0_inst : entity work.ila_0
+        port map
+        (
+            clk    => clk,
+            probe0 => adc_data_i
+        );
 
     ---------------------------------------------------------------------------
     -- Posunutí hodin z důvodu korektního časování čtení z ADC.

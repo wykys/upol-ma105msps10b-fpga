@@ -1,3 +1,8 @@
+-------------------------------------------------------------------------------
+-- Hledání maxima pulzu.
+-- wykys 2020
+-------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -8,6 +13,7 @@ entity maximum_seeker is
     );
     port (
         clk_i      : in std_logic;
+        rst_i      : in std_logic;
         trigger_i  : in std_logic;
         adc_data_i : in std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
         peak_o     : out std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0)
@@ -15,60 +21,68 @@ entity maximum_seeker is
 end entity maximum_seeker;
 
 architecture rtl of maximum_seeker is
-    type state_t is (BEFORE_MAXIMUM, AFRET_MAXIMUM);
-    type max_t is record
-        b : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0); -- before maximum
-        v : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0); -- maximum value
-        a : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0); -- after maximum
-    end record;
+    signal trigger_old     : std_logic;
+    signal trigger_negedge : std_logic;
 
-    signal state : state_t := BEFORE_MAXIMUM;
-    signal max   : max_t   := (
-    b => (others => '0'),
-    v => (others => '0'),
-    a => (others => '0')
-    );
-
-    signal data     : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
-    signal data_old : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0) := (others => '0');
-
-    signal peak : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0) := (others => '0');
-
-    signal clk         : std_logic;
-    signal trigger     : std_logic;
-    signal trigger_old : std_logic;
+    signal max1 : std_logic_vector(adc_data_i'range);
+    signal max2 : std_logic_vector(adc_data_i'range);
 
 begin
 
-    clk     <= clk_i;
-    trigger <= trigger_i;
-    data    <= adc_data_i;
-    peak_o  <= peak;
-
-    process (clk)
-        variable b, v, a : integer;
+    ---------------------------------------------------------------------------
+    -- Detekce sestupné hrany trigger signálu.
+    ---------------------------------------------------------------------------
+    process (clk_i)
     begin
-        if rising_edge(clk) then
-            trigger_old <= trigger;
-            data_old <= data;
-            if trigger = '1' then
-                if data > max.v then
-                    max.v <= data;
-                    max.b <= data_old;
-                    state <= AFRET_MAXIMUM;
-                elsif state = AFRET_MAXIMUM then
-                    max.a <= data;
-                    state <= BEFORE_MAXIMUM;
+        if rising_edge(clk_i) then
+            if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset.
+                ---------------------------------------------------------------
+                trigger_old <= '0';
+            else
+                ---------------------------------------------------------------
+                -- Uložení předchozí hodnoty.
+                ---------------------------------------------------------------
+                trigger_old <= trigger_i;
+            end if;
+        end if;
+    end process;
+    trigger_negedge <= trigger_old and not trigger_i;
+
+    ---------------------------------------------------------------------------
+    -- Detekce maxima.
+    ---------------------------------------------------------------------------
+    process (clk_i)
+        variable sum : unsigned(ADC_NUMBER_OF_BITS downto 0);
+    begin
+        if rising_edge(clk_i) then
+            if rst_i = '1' then
+                ---------------------------------------------------------------
+                -- Reset.
+                ---------------------------------------------------------------
+                max1   <= (others => '0');
+                max2   <= (others => '0');
+                peak_o <= (others => '0');
+
+            elsif trigger_i = '1' then
+                ---------------------------------------------------------------
+                -- Hledání maxima.
+                ---------------------------------------------------------------
+                if adc_data_i > max1 then
+                    max2 <= max1;
+                    max1 <= adc_data_i;
                 end if;
-            elsif trigger_old = '1' and trigger = '0' then
-                b := to_integer(unsigned(max.b));
-                v := to_integer(unsigned(max.v));
-                a := to_integer(unsigned(max.a));
-                --peak  <= std_logic_vector(to_unsigned(((b + v + a) / 3), ADC_NUMBER_OF_BITS));
-                peak  <= std_logic_vector(to_unsigned(v, ADC_NUMBER_OF_BITS));
-                max.b <= (others => '0');
-                max.v <= (others => '0');
-                max.a <= (others => '0');
+
+            elsif trigger_negedge = '1' then
+                ---------------------------------------------------------------
+                -- Výpočet maxima.
+                ---------------------------------------------------------------
+                sum := unsigned('0' & max1) + unsigned('0' & max2);
+                sum := sum / 2;
+                peak_o <= std_logic_vector(sum(adc_data_i'range));
+                max1   <= (others => '0');
+                max2   <= (others => '0');
             end if;
         end if;
     end process;
