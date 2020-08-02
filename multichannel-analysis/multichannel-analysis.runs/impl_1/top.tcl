@@ -114,8 +114,6 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "Implementation" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -126,7 +124,6 @@ set rc [catch {
   set_param chipscope.maxJobs 2
   set_param tcl.collectionResultDisplayLimit 0
   set_param xicom.use_bs_reader 1
-  set_param synth.incrementalSynthesisCache ./.Xil/Vivado-22982-wpc/incrSyn
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7s15ftgb196-1IL
   set_property design_mode GateLvl [current_fileset]

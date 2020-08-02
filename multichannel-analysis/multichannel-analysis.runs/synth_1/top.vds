@@ -2,8 +2,8 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Fri Jul 17 01:40:03 2020
-# Process ID: 16734
+# Start of session at: Mon Aug  3 00:17:19 2020
+# Process ID: 17404
 # Current directory: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1
 # Command line: vivado -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file: /home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/top.vds
@@ -17,16 +17,16 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7s15'
 INFO: [Device 21-403] Loading part xc7s15ftgb196-1IL
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 16960
+INFO: [Synth 8-7075] Helper process launched with PID 17447
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:09 ; elapsed = 00:00:12 . Memory (MB): peak = 2108.750 ; gain = 0.000 ; free physical = 3154 ; free virtual = 10908
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 2111.719 ; gain = 0.000 ; free physical = 3179 ; free virtual = 11305
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'top' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:57]
-INFO: [Synth 8-638] synthesizing module 'ila_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-16734-wpc/realtime/ila_0_stub.vhdl:13]
-INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-16734-wpc/realtime/clk_wiz_0_stub.vhdl:13]
-INFO: [Synth 8-638] synthesizing module 'rst_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:30]
+INFO: [Synth 8-638] synthesizing module 'ila_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-17404-wpc/realtime/ila_0_stub.vhdl:13]
+INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/.Xil/Vivado-17404-wpc/realtime/clk_wiz_0_stub.vhdl:13]
+INFO: [Synth 8-638] synthesizing module 'rst_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:27]
 	Parameter RST_POWER_ON_CNT_NUMBER_OF_BITS bound to: 3 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'rst_driver' (1#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:30]
+INFO: [Synth 8-256] done synthesizing module 'rst_driver' (1#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/rst_driver.vhdl:27]
 INFO: [Synth 8-638] synthesizing module 'spi_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl:40]
 INFO: [Synth 8-256] done synthesizing module 'spi_driver' (2#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/spi_driver.vhdl:40]
 INFO: [Synth 8-638] synthesizing module 'adc_driver' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/adc_driver.vhdl:36]
@@ -36,7 +36,7 @@ INFO: [Synth 8-638] synthesizing module 'sram_driver' [/home/wykys/projects/upol
 	Parameter RAM_DATA_NUMBER_OF_BITS bound to: 16 - type: integer 
 	Parameter RAM_ADDRESS_NUMBER_OF_BITS bound to: 17 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'sram_driver' (4#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/sram_driver.vhdl:48]
-INFO: [Synth 8-638] synthesizing module 'dsp' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/dsp.vhdl:38]
+INFO: [Synth 8-638] synthesizing module 'dsp' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/dsp.vhdl:36]
 	Parameter ADC_NUMBER_OF_BITS bound to: 10 - type: integer 
 	Parameter PULSE_LENGTH_NUMBER_OF_BITS bound to: 16 - type: integer 
 INFO: [Synth 8-638] synthesizing module 'trigger' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/trigger.vhdl:26]
@@ -50,25 +50,25 @@ INFO: [Synth 8-638] synthesizing module 'pulse_length_measurement' [/home/wykys/
 INFO: [Synth 8-256] done synthesizing module 'pulse_length_measurement' (7#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/pulse_length_measurement.vhdl:17]
 INFO: [Synth 8-638] synthesizing module 'data_validator' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/data_validator.vhdl:21]
 INFO: [Synth 8-256] done synthesizing module 'data_validator' (8#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/data_validator.vhdl:21]
-INFO: [Synth 8-256] done synthesizing module 'dsp' (9#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/dsp.vhdl:38]
+INFO: [Synth 8-256] done synthesizing module 'dsp' (9#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/dsp/dsp.vhdl:36]
 INFO: [Synth 8-638] synthesizing module 'brain' [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl:60]
 INFO: [Synth 8-256] done synthesizing module 'brain' (10#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/brain.vhdl:60]
 INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'adc_driver_inst'. This will prevent further optimization [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:142]
 INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'ila_0_inst'. This will prevent further optimization [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:88]
 INFO: [Synth 8-256] done synthesizing module 'top' (11#1) [/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/src/design/top.vhdl:57]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:14 . Memory (MB): peak = 2108.750 ; gain = 0.000 ; free physical = 3186 ; free virtual = 10941
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 2111.719 ; gain = 0.000 ; free physical = 3962 ; free virtual = 12018
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 2108.750 ; gain = 0.000 ; free physical = 3181 ; free virtual = 10936
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 2111.719 ; gain = 0.000 ; free physical = 3959 ; free virtual = 12014
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 2108.750 ; gain = 0.000 ; free physical = 3181 ; free virtual = 10936
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:09 . Memory (MB): peak = 2111.719 ; gain = 0.000 ; free physical = 3959 ; free virtual = 12014
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2108.750 ; gain = 0.000 ; free physical = 3174 ; free virtual = 10929
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2111.719 ; gain = 0.000 ; free physical = 3952 ; free virtual = 12007
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -112,20 +112,20 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2212.340 ; gain = 0.000 ; free physical = 3091 ; free virtual = 10846
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2213.309 ; gain = 0.000 ; free physical = 3892 ; free virtual = 11927
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2212.340 ; gain = 0.000 ; free physical = 3092 ; free virtual = 10846
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2213.309 ; gain = 0.000 ; free physical = 3892 ; free virtual = 11927
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:25 ; elapsed = 00:00:31 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3157 ; free virtual = 10912
+Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:16 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3956 ; free virtual = 11994
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7s15ftgb196-1IL
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:25 ; elapsed = 00:00:31 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3157 ; free virtual = 10912
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:16 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3956 ; free virtual = 11994
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -135,7 +135,7 @@ Applied set_property CLOCK_BUFFER_TYPE = NONE for clk_i. (constraint file  /home
 Applied set_property DONT_TOUCH = true for ila_0_inst. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for clk_wiz_0_inst. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:31 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3157 ; free virtual = 10912
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:16 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3956 ; free virtual = 11994
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'opcode_reg' in module 'sram_driver'
 INFO: [Synth 8-802] inferred FSM for state register 'spi_byte_order_reg' in module 'brain'
@@ -158,7 +158,7 @@ INFO: [Synth 8-3354] encoded FSM with state register 'opcode_reg' using encoding
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'spi_byte_order_reg' using encoding 'one-hot' in module 'brain'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:27 ; elapsed = 00:00:33 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3147 ; free virtual = 10903
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:17 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3951 ; free virtual = 11988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -167,12 +167,12 @@ Detailed RTL Component Info :
 +---Adders : 
 	   2 Input   17 Bit       Adders := 1     
 	   2 Input   16 Bit       Adders := 1     
-	   4 Input   12 Bit       Adders := 1     
+	   2 Input   11 Bit       Adders := 1     
 	   2 Input    3 Bit       Adders := 2     
 +---Registers : 
 	               17 Bit    Registers := 4     
 	               16 Bit    Registers := 4     
-	               10 Bit    Registers := 10    
+	               10 Bit    Registers := 8     
 	                8 Bit    Registers := 7     
 	                7 Bit    Registers := 1     
 	                4 Bit    Registers := 2     
@@ -217,26 +217,26 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:31 ; elapsed = 00:00:39 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3132 ; free virtual = 10892
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:19 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3962 ; free virtual = 11995
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-565] redefining clock 'clk_i'
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:45 ; elapsed = 00:01:09 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3025 ; free virtual = 10784
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:22 ; elapsed = 00:00:26 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3821 ; free virtual = 11868
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:01:17 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3010 ; free virtual = 10770
+Finished Timing Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3812 ; free virtual = 11861
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:50 ; elapsed = 00:01:19 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3010 ; free virtual = 10770
+Finished Technology Mapping : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3815 ; free virtual = 11859
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -254,37 +254,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished IO Insertion : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -306,12 +306,12 @@ Report Cell Usage:
 |2     |ila     |     1|
 |3     |CARRY4  |    17|
 |4     |LUT1    |     3|
-|5     |LUT2    |    58|
-|6     |LUT3    |    30|
-|7     |LUT4    |    79|
-|8     |LUT5    |    26|
-|9     |LUT6    |    53|
-|10    |FDRE    |   323|
+|5     |LUT2    |    68|
+|6     |LUT3    |    21|
+|7     |LUT4    |    76|
+|8     |LUT5    |    17|
+|9     |LUT6    |    44|
+|10    |FDRE    |   303|
 |11    |FDSE    |    20|
 |12    |IBUF    |    15|
 |13    |IOBUF   |    16|
@@ -319,18 +319,18 @@ Report Cell Usage:
 |15    |OBUFT   |     1|
 +------+--------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:56 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3008 ; free virtual = 10768
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3822 ; free virtual = 11863
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:53 ; elapsed = 00:01:24 . Memory (MB): peak = 2212.340 ; gain = 0.000 ; free physical = 3061 ; free virtual = 10821
-Synthesis Optimization Complete : Time (s): cpu = 00:00:57 ; elapsed = 00:01:28 . Memory (MB): peak = 2212.340 ; gain = 103.590 ; free physical = 3061 ; free virtual = 10821
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:24 ; elapsed = 00:00:28 . Memory (MB): peak = 2213.309 ; gain = 0.000 ; free physical = 3876 ; free virtual = 11916
+Synthesis Optimization Complete : Time (s): cpu = 00:00:26 ; elapsed = 00:00:31 . Memory (MB): peak = 2213.309 ; gain = 101.590 ; free physical = 3876 ; free virtual = 11916
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2212.340 ; gain = 0.000 ; free physical = 3132 ; free virtual = 10892
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2213.309 ; gain = 0.000 ; free physical = 3948 ; free virtual = 11988
 INFO: [Netlist 29-17] Analyzing 33 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2212.340 ; gain = 0.000 ; free physical = 3078 ; free virtual = 10839
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2213.309 ; gain = 0.000 ; free physical = 3900 ; free virtual = 11936
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 16 instances were transformed.
   IOBUF => IOBUF (IBUF, OBUFT): 16 instances
@@ -338,9 +338,9 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 INFO: [Common 17-83] Releasing license: Synthesis
 51 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:14 ; elapsed = 00:01:39 . Memory (MB): peak = 2212.340 ; gain = 103.812 ; free physical = 3215 ; free virtual = 10975
+synth_design: Time (s): cpu = 00:00:36 ; elapsed = 00:00:37 . Memory (MB): peak = 2213.309 ; gain = 101.812 ; free physical = 4039 ; free virtual = 12075
 INFO: [Common 17-600] The following parameters have non-default value.
 tcl.collectionResultDisplayLimit
 INFO: [Common 17-1381] The checkpoint '/home/wykys/projects/upol-ma105msps10b-fpga/multichannel-analysis/multichannel-analysis.runs/synth_1/top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Jul 17 01:42:48 2020...
+INFO: [Common 17-206] Exiting Vivado at Mon Aug  3 00:18:07 2020...

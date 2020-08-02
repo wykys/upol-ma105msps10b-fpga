@@ -26,12 +26,6 @@ architecture rtl of maximum_seeker is
 
     signal max1 : std_logic_vector(adc_data_i'range);
     signal max2 : std_logic_vector(adc_data_i'range);
-    signal max3 : std_logic_vector(adc_data_i'range);
-    signal max4 : std_logic_vector(adc_data_i'range);
-    signal max5 : std_logic_vector(adc_data_i'range);
-    signal max6 : std_logic_vector(adc_data_i'range);
-    signal max7 : std_logic_vector(adc_data_i'range);
-    signal max8 : std_logic_vector(adc_data_i'range);
 
 begin
 
@@ -60,7 +54,7 @@ begin
     -- Detekce maxima.
     ---------------------------------------------------------------------------
     process (clk_i)
-        variable sum : unsigned(ADC_NUMBER_OF_BITS + 6 downto 0);
+        variable sum : unsigned(ADC_NUMBER_OF_BITS downto 0);
     begin
         if rising_edge(clk_i) then
             if rst_i = '1' then
@@ -70,24 +64,12 @@ begin
                 peak_o <= (others => '0');
                 max1   <= (others => '0');
                 max2   <= (others => '0');
-                max3   <= (others => '0');
-                max4   <= (others => '0');
-                max5   <= (others => '0');
-                max6   <= (others => '0');
-                max7   <= (others => '0');
-                max8   <= (others => '0');
 
             elsif trigger_i = '1' then
                 ---------------------------------------------------------------
                 -- Hledání maxima.
                 ---------------------------------------------------------------
                 if adc_data_i > max1 then
-                    max8 <= max7;
-                    max7 <= max6;
-                    max6 <= max5;
-                    max5 <= max4;
-                    max4 <= max3;
-                    max3 <= max2;
                     max2 <= max1;
                     max1 <= adc_data_i;
                 end if;
@@ -96,17 +78,11 @@ begin
                 ---------------------------------------------------------------
                 -- Výpočet maxima.
                 ---------------------------------------------------------------
-                sum := unsigned("0000000" & max1) + unsigned("0000000" & max2) + unsigned("0000000" & max3) + unsigned("0000000" & max4);
-                sum := sum / 4;
+                sum := unsigned("0" & max1) + unsigned("0" & max2);
+                sum := sum / 2;
                 peak_o <= std_logic_vector(sum(adc_data_i'range));
                 max1   <= (others => '0');
                 max2   <= (others => '0');
-                max3   <= (others => '0');
-                max4   <= (others => '0');
-                max5   <= (others => '0');
-                max6   <= (others => '0');
-                max7   <= (others => '0');
-                max8   <= (others => '0');
             end if;
         end if;
     end process;
