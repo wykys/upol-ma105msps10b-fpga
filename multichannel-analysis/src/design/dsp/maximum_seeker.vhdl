@@ -24,8 +24,8 @@ architecture rtl of maximum_seeker is
     signal trigger_old     : std_logic;
     signal trigger_negedge : std_logic;
 
-    signal max1 : std_logic_vector(adc_data_i'range);
-    signal max2 : std_logic_vector(adc_data_i'range);
+    signal max1 : unsigned(adc_data_i'range);
+    signal max2 : unsigned(adc_data_i'range);
 
 begin
 
@@ -69,9 +69,9 @@ begin
                 ---------------------------------------------------------------
                 -- Hledání maxima.
                 ---------------------------------------------------------------
-                if adc_data_i > max1 then
+                if unsigned(adc_data_i) > max1 then
                     max2 <= max1;
-                    max1 <= adc_data_i;
+                    max1 <= unsigned(adc_data_i);
                 end if;
 
             elsif trigger_negedge = '1' then
@@ -79,8 +79,9 @@ begin
                 -- Výpočet maxima.
                 ---------------------------------------------------------------
                 sum := unsigned("0" & max1) + unsigned("0" & max2);
-                sum := sum / 2;
-                peak_o <= std_logic_vector(sum(adc_data_i'range));
+                -- sum := sum / 2;
+                -- peak_o <= std_logic_vector(sum(adc_data_i'range));
+                peak_o <= std_logic_vector(sum(10 downto 1));
                 max1   <= (others => '0');
                 max2   <= (others => '0');
             end if;

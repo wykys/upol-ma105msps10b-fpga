@@ -25,16 +25,16 @@ end entity trigger;
 
 architecture rtl of trigger is
     signal trigger          : std_logic;
-    signal treshold_posedge : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
-    signal treshold_negedge : std_logic_vector(ADC_NUMBER_OF_BITS - 1 downto 0);
+    signal treshold_posedge : unsigned(adc_data_i'range);
+    signal treshold_negedge : unsigned(adc_data_i'range);
 
     ---------------------------------------------------------------------------
     -- Funkce přepočítá procentuální hodnotu prahu
     -- na odpovídající binární hodnotu.
     ---------------------------------------------------------------------------
-    function set_threshold (percent : natural) return std_logic_vector is
+    function set_threshold (percent : natural) return unsigned is
     begin
-        return std_logic_vector(to_unsigned(natural(((2.0 ** real(ADC_NUMBER_OF_BITS)) - 1.0) * (real(percent) / 100.0)), ADC_NUMBER_OF_BITS));
+        return to_unsigned(natural(((2.0 ** real(ADC_NUMBER_OF_BITS)) - 1.0) * (real(percent) / 100.0)), ADC_NUMBER_OF_BITS);
     end set_threshold;
 begin
 
@@ -55,8 +55,8 @@ begin
                 ---------------------------------------------------------------
                 -- Jinak aktualizuji komparační úrovně.
                 ---------------------------------------------------------------
-                treshold_posedge <= pulse_rising_lvl_i;
-                treshold_negedge <= pulse_falling_lvl_i;
+                treshold_posedge <= unsigned(pulse_rising_lvl_i);
+                treshold_negedge <= unsigned(pulse_falling_lvl_i);
             end if;
         end if;
     end process;
@@ -73,7 +73,7 @@ begin
                 ---------------------------------------------------------------
                 trigger <= '0';
 
-            elsif adc_data_i > treshold_posedge then
+            elsif unsigned(adc_data_i) > treshold_posedge then
                 ---------------------------------------------------------------
                 -- Pokud hodnota vzorku z ADC překročí práh
                 -- pro nástupnou hranu,
@@ -81,7 +81,7 @@ begin
                 ---------------------------------------------------------------
                 trigger <= '1';
 
-            elsif adc_data_i < treshold_negedge then
+            elsif unsigned(adc_data_i) < treshold_negedge then
                 ---------------------------------------------------------------
                 -- Pokud hodnota vzorku z ADC klesne pod práh
                 -- pro sestupnou hranu,
